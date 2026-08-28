@@ -332,3 +332,41 @@ def test_no_tile_label_opts_out_of_the_label_voice():
             for nc in re.findall(r'<span class="nc">(.*?)</span>', inner):
                 assert not re.fullmatch(r"[a-z]{4,}", nc.strip()), (
                     f"{p.name}: tile label opts a plain word out of caps: {nc!r}")
+
+
+def test_no_regenerable_build_output_is_tracked():
+    """The repo tracks the six 1080p60 mp4s the site serves, and nothing else
+    that ./build-media.sh can rebuild.
+
+    The gitignore was copied from a repo where `media/` sat at the root. Here it
+    is `msa-lab/media/`, and a pattern containing a slash is anchored to the
+    directory holding the gitignore - so every rule was dead from the first
+    commit. 444 MB went in unnoticed: 6 wav files at 252 MB, 2447 Text-cache
+    entries, 766 partial movies, 389 low-quality proofs. `git status` was clean
+    throughout, because the files were tracked rather than untracked.
+    """
+    import subprocess
+    out = subprocess.run(["git", "ls-files"], cwd=REPO, capture_output=True,
+                         text=True, check=True).stdout.split()
+    junk = [f for f in out if any(
+        pat in f for pat in ("/480p15/", "/partial_movie_files/",
+                             "/media/voiceovers/", "/media/texts/",
+                             "/media/images/", "/media/Tex/"))
+        or f.endswith((".wav", ".srt"))]
+    assert junk == [], f"{len(junk)} regenerable files tracked, e.g. {junk[:4]}"
+
+
+def test_every_asset_the_site_serves_is_tracked():
+    """The other half of the same claim: untracking the build output must not
+    take an asset a page references with it."""
+    import subprocess
+    tracked = set(subprocess.run(["git", "ls-files"], cwd=REPO,
+                                 capture_output=True, text=True,
+                                 check=True).stdout.split())
+    missing = []
+    for p in sorted(REPO.glob("level-0*.html")) + [REPO / "index.html"]:
+        for ref in re.findall(r'(?:src|href)="((?:msa-lab|posters|captions|'
+                              r'vendor|fonts)/[^"]+)"', p.read_text()):
+            if ref not in tracked:
+                missing.append(f"{p.name} -> {ref}")
+    assert missing == [], f"referenced but untracked: {missing[:4]}"
