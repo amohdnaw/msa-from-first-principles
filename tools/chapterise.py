@@ -596,6 +596,158 @@ def chapter_02(K):
     ]
 
 
+def chapter_03(K):
+    from msalab.anova import (
+        AT_WORST, AT_ZERO, ANOVA_DRIFT_PCT, ANOVA_ZERO_BIAS_PCT,
+        BAD_INTERACTION, CLEAN_ANOVA, CLEAN_GAP_PCT, CLEAN_XBAR, D2_TRIALS,
+        DIRTY, DIRTY_ANOVA, DIRTY_TRUTH, DIRTY_XBAR, F_INTER_CLEAN,
+        F_INTER_DIRTY, IDENT_RESIDUAL, INTERACTION_SHARE, OPERATORS,
+        PARTS as A_PARTS, POOL_ALPHA, POOL_COST_PCT, P_INTER_CLEAN,
+        P_INTER_DIRTY, SWEEP, TRIALS, XBAR_DRIFT_PCT,
+    )
+    ss = DIRTY["table"]["ss"]
+    shares = {k: ss[k] / ss["total"] * 100
+              for k in ("part", "operator", "interaction", "repeat")}
+    return [
+        ("s1", "3.1", "One study, two arithmetics", [
+            para(f"{A_PARTS} parts, {OPERATORS} operators, {TRIALS} trials each: "
+                 "sixty numbers. Average-and-range reduces them with ranges and a "
+                 "table of constants. ANOVA reduces them with sums of squares and "
+                 "nothing looked up.",
+                 note("the constant, earned", text="Average-and-range needs "
+                      + tex("d_2") + f", which is {D2_TRIALS:.4f} for three "
+                      "readings. Simulated here, then checked against the printed "
+                      "table at five subgroup sizes before anything rests on it."),
+                 lead=True),
+            para("On a well-behaved study they land close together, and that is the "
+                 "honest starting point rather than a concession. The older method "
+                 "is not wrong and it is far easier by hand, which is exactly why "
+                 "it outlived the arithmetic that replaced it.",
+                 datanote(("ANOVA", f"{CLEAN_ANOVA:.2f} µm"),
+                          ("average-and-range", f"{CLEAN_XBAR:.2f} µm"),
+                          ("gap on this one study", f"{CLEAN_GAP_PCT:.1f} %"),
+                          k="no interaction present")),
+            K["fig"]("Level03.mp4"),
+        ]),
+        ("s2", "3.2", "The term that only one of them has", [
+            para("Level 2 assumed something without saying so: that each operator's "
+                 "offset is the same on every part. Operator A reads low, and reads "
+                 "low by the same amount on part one and part ten.",
+                 lead=True),
+            para("Suppose A reads low on the small parts and high on the large ones. "
+                 "That is a real and common failure - a fixture that locates some "
+                 "geometries badly, an operator who interpolates a scale differently "
+                 "near the ends - and it has a name: the part-by-operator "
+                 "interaction.",
+                 note("what it is not", text="Not extra repeatability. It is "
+                      "perfectly reproducible: measure that part again and the same "
+                      "operator makes the same error.")),
+            K["fig"]("l03_1_parallel_or_not.png"),
+            para("Non-parallel lines <em>are</em> the interaction. Nothing else in "
+                 "the study shows it, and it is a difference of differences - which "
+                 "is why it needs every operator to see every part, and more than "
+                 "one trial. With a single trial the interaction and the repeat "
+                 "error occupy the same cells and it is not merely imprecise, it is "
+                 "unidentifiable.",
+                 datanote(("clean study", f"F {F_INTER_CLEAN:.2f}, p {P_INTER_CLEAN:.3f}"),
+                          ("with an interaction", f"F {F_INTER_DIRTY:.2f}, p < 0.001"),
+                          ("pool below", f"p > {POOL_ALPHA}"),
+                          k="the interaction test")),
+        ]),
+        ("s3", "3.3", "Four terms, and no remainder", [
+            para("What ANOVA gives you that a table of constants cannot is an "
+                 "identity. The total variation in all sixty numbers splits into "
+                 "exactly four pieces.", lead=True),
+            f'{P}<div class="eq"><div class="eq-body" data-tex="SS_{{total}} = '
+            f'SS_{{part}} + SS_{{oper}} + SS_{{part \\times oper}} + '
+            f'SS_{{repeat}}"></div><div class="eq-num">(3.1)</div></div>',
+            para("And nothing is left over - not approximately. On the study with an "
+                 "interaction the remainder is "
+                 f"{IDENT_RESIDUAL:.1e}, which is floating-point zero. That is what "
+                 "makes this a decomposition rather than a convention, and it is the "
+                 "statement average-and-range has no way to make.",
+                 datanote(("parts", f"{shares['part']:.1f} %"),
+                          ("operators", f"{shares['operator']:.1f} %"),
+                          ("interaction", f"{shares['interaction']:.1f} %"),
+                          ("repeat", f"{shares['repeat']:.1f} %"),
+                          k="the total, split")),
+            para("The variance components come from inverting the expected mean "
+                 "squares, which means a component is a difference of two mean "
+                 "squares - so it can come out negative, exactly as Level 2's "
+                 "reproducibility could. Three places can hit that boundary here "
+                 "instead of one.",
+                 note("the check that matters", text="Feeding the components back "
+                      "must reproduce the mean squares to floating point. A "
+                      "percentage test cannot catch a mis-inversion; that algebraic "
+                      "one catches three different ones.")),
+        ]),
+        ("s4", "3.4", "It does not misplace the interaction", [
+            para("So where does the interaction go in the older arithmetic? The "
+                 "tempting answer is that it gets folded into repeatability and "
+                 "makes the gauge look noisier than it is. That is wrong, and the "
+                 "truth is worse.",
+                 lead=True),
+            para("Repeatability comes from ranges taken <em>inside</em> a "
+                 "part-operator cell. The interaction is constant inside that cell, "
+                 "so the range is blind to it. Reproducibility comes from the spread "
+                 "of the operator averages, and the interaction averages away across "
+                 "the parts. There is nowhere for it to enter.",
+                 note("mechanically", text="Change the interaction from zero to "
+                      "four microns and the repeatability estimate does not move at "
+                      "all. A test asserts exactly that.")),
+            para("It is omitted. So the gauge comes out <em>smaller</em> than it is - "
+                 "the method flatters the instrument, and nobody reading the report "
+                 "has any way to tell.",
+                 datanote(("the true gauge", f"{DIRTY_TRUTH:.2f} µm"),
+                          ("interaction share of it", f"{INTERACTION_SHARE:.0f} %"),
+                          ("average-and-range says", f"{DIRTY_XBAR:.2f} µm"),
+                          k="a gauge that looks better than it is")),
+            K["lab"],
+        ]),
+        ("s5", "3.5", "Three hundred studies, because one settles nothing", [
+            para("On the single seeded study above, ANOVA reports "
+                 f"{DIRTY_ANOVA:.2f}&nbsp;µm against a truth of "
+                 f"{DIRTY_TRUTH:.2f} - it <em>overshoots</em> by more than "
+                 "average-and-range undershoots. One study does not settle which "
+                 "method is better, and this is the fourth time this curriculum has "
+                 "had to say so.",
+                 note("kept on purpose", text="A test asserts the seeded study "
+                      "reverses the ranking. Reseeding until it agreed with the "
+                      "conclusion would be the dishonest fix."),
+                 lead=True),
+            K["fig"]("l03_2_what_omitting_it_costs.png"),
+            para("Averaged over three hundred studies at each interaction strength "
+                 "the picture is unambiguous, and it is a picture about direction "
+                 "rather than about size. ANOVA moves "
+                 f"{ANOVA_DRIFT_PCT:.1f}&nbsp;% across the whole sweep; "
+                 f"average-and-range moves {XBAR_DRIFT_PCT:.1f}&nbsp;%, all of it "
+                 "downward.",
+                 datanote(*[(f"interaction {r['interaction']:.1f} " + nc("µm"),
+                             f"{r['xbar_err']:+.0f} %")
+                            for r in SWEEP],
+                          k=nc("X\u0304") + "–R error against the truth")),
+            para("ANOVA is not unbiased either, and saying so matters. With no "
+                 f"interaction at all it sits {ANOVA_ZERO_BIAS_PCT:.1f}&nbsp;% low, "
+                 "because an operator component estimated on two degrees of freedom "
+                 "and then square-rooted comes out short. It is not "
+                 "<em>systematically</em> wrong as the interaction grows, which is a "
+                 "weaker and more defensible claim than being right.",
+                 note("and the convention", text="AIAG pools the interaction into "
+                      f"repeatability when p > {POOL_ALPHA}. Pooling a real one "
+                      f"understates the gauge by {POOL_COST_PCT:.1f} % on this "
+                      "study - a decision with a price, not a tidy-up.")),
+            para("Which brings the question this has been building towards. There "
+                 "are four variances now, and a verdict is not a variance. A verdict "
+                 "is a percentage, and a percentage needs a denominator. Choosing it "
+                 "is not arithmetic - it is a decision about what the gauge is for, "
+                 "and the two usual choices disagree with each other on purpose.",
+                 note("the seam ahead", text="%GRR against study variation, or "
+                      "against tolerance. Same gauge, two verdicts.")),
+            K["sys"],
+        ]),
+    ]
+
+
 CHAPTERS = {
     "level-01.html": {
         "number": 1, "word": "one",
@@ -632,6 +784,23 @@ CHAPTERS = {
                 ("2.5", "s5", "Wrong in both directions at once",
                  "uncorrected too high, clamped too low, 47 % pushed onto zero")],
         "sections": chapter_02,
+    },
+    "level-03.html": {
+        "number": 3, "word": "three",
+        "before": "Level 2 \u2014 repeatability and reproducibility",
+        "after": "Level 4 \u2014 %GRR, ndc, and against what",
+        "estimate": "5 sections \u00b7 1 act \u00b7 1 interactive \u00b7 ~9 min read",
+        "toc": [("3.1", "s1", "One study, two arithmetics",
+                 "ranges and a table, or sums of squares and nothing looked up"),
+                ("3.2", "s2", "The term that only one of them has",
+                 "non-parallel lines are the interaction, and it needs replication"),
+                ("3.3", "s3", "Four terms, and no remainder",
+                 tex(r"SS_{total} = SS_{part} + SS_{oper} + SS_{p \times o} + SS_{rep}")),
+                ("3.4", "s4", "It does not misplace the interaction",
+                 "it omits it, so the gauge comes out looking better than it is"),
+                ("3.5", "s5", "Three hundred studies, because one settles nothing",
+                 "43 % too small at the far end, and ANOVA's own bias named")],
+        "sections": chapter_03,
     },
 }
 

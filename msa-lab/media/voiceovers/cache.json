@@ -504,5 +504,181 @@
     },
     "original_audio": "three-operators-give-2-degrees-of-freedom-on-the-b1168904.mp3",
     "final_audio": "three-operators-give-2-degrees-of-freedom-on-the-b1168904.mp3"
+  },
+  {
+    "input_text": "Ten parts, three operators, three trials each. Sixty numbers, and two completely different ways to reduce them.",
+    "input_data": {
+      "input_text": "Ten parts, three operators, three trials each. Sixty numbers, and two completely different ways to reduce them.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "ten-parts-three-operators-three-trials-each-sixty-26ab2f7a.mp3",
+    "final_audio": "ten-parts-three-operators-three-trials-each-sixty-26ab2f7a.mp3"
+  },
+  {
+    "input_text": "One reduces them with ranges and a printed table. The other with sums of squares and nothing looked up.",
+    "input_data": {
+      "input_text": "One reduces them with ranges and a printed table. The other with sums of squares and nothing looked up.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "one-reduces-them-with-ranges-and-a-printed-table-adafd696.mp3",
+    "final_audio": "one-reduces-them-with-ranges-and-a-printed-table-adafd696.mp3"
+  },
+  {
+    "input_text": "On a well-behaved study they land in the same place. Which is exactly why the older method survived in the plants for decades - it is not wrong, and it is much easier by hand.",
+    "input_data": {
+      "input_text": "On a well-behaved study they land in the same place. Which is exactly why the older method survived in the plants for decades - it is not wrong, and it is much easier by hand.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "on-a-well-behaved-study-they-land-in-the-same-9a403b13.mp3",
+    "final_audio": "on-a-well-behaved-study-they-land-in-the-same-9a403b13.mp3"
+  },
+  {
+    "input_text": "Here are the three operators again, with each part's own average taken out, so what is left is the operator pattern.",
+    "input_data": {
+      "input_text": "Here are the three operators again, with each part's own average taken out, so what is left is the operator pattern.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "here-are-the-three-operators-again-with-each-part-239b3c36.mp3",
+    "final_audio": "here-are-the-three-operators-again-with-each-part-239b3c36.mp3"
+  },
+  {
+    "input_text": "With no interaction the lines are parallel. Each operator has an offset and keeps it.",
+    "input_data": {
+      "input_text": "With no interaction the lines are parallel. Each operator has an offset and keeps it.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "with-no-interaction-the-lines-are-parallel-each-7b25bbcd.mp3",
+    "final_audio": "with-no-interaction-the-lines-are-parallel-each-7b25bbcd.mp3"
+  },
+  {
+    "input_text": "Now turn the interaction up. The offsets stop being constant: an operator who reads low on one part reads high on another, and the lines cross. That crossing is the whole of it. There is nothing else in the study that shows it, and the F test goes with it.",
+    "input_data": {
+      "input_text": "Now turn the interaction up. The offsets stop being constant: an operator who reads low on one part reads high on another, and the lines cross. That crossing is the whole of it. There is nothing else in the study that shows it, and the F test goes with it.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "now-turn-the-interaction-up-the-offsets-stop-being-f96143bf.mp3",
+    "final_audio": "now-turn-the-interaction-up-the-offsets-stop-being-f96143bf.mp3"
+  },
+  {
+    "input_text": "The other thing ANOVA gives you is an identity. Take the total variation in all sixty numbers.",
+    "input_data": {
+      "input_text": "The other thing ANOVA gives you is an identity. Take the total variation in all sixty numbers.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "the-other-thing-anova-gives-you-is-an-identity-dd7eb755.mp3",
+    "final_audio": "the-other-thing-anova-gives-you-is-an-identity-dd7eb755.mp3"
+  },
+  {
+    "input_text": "It splits into exactly four pieces: the parts differing from each other, the operators differing from each other, the interaction between them, and the repeat error.",
+    "input_data": {
+      "input_text": "It splits into exactly four pieces: the parts differing from each other, the operators differing from each other, the interaction between them, and the repeat error.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "it-splits-into-exactly-four-pieces-the-parts-935fb114.mp3",
+    "final_audio": "it-splits-into-exactly-four-pieces-the-parts-935fb114.mp3"
+  },
+  {
+    "input_text": "And nothing is left over. Not approximately - the remainder is zero to floating point. That identity is what makes this a decomposition rather than a convention, and average-and-range has no such statement to make.",
+    "input_data": {
+      "input_text": "And nothing is left over. Not approximately - the remainder is zero to floating point. That identity is what makes this a decomposition rather than a convention, and average-and-range has no such statement to make.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "and-nothing-is-left-over-not-approximately-the-6062918b.mp3",
+    "final_audio": "and-nothing-is-left-over-not-approximately-the-6062918b.mp3"
+  },
+  {
+    "input_text": "So if the older method has no term for it, where does the interaction end up? The answer is that it does not end up anywhere.",
+    "input_data": {
+      "input_text": "So if the older method has no term for it, where does the interaction end up? The answer is that it does not end up anywhere.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "so-if-the-older-method-has-no-term-for-it-where-8f181024.mp3",
+    "final_audio": "so-if-the-older-method-has-no-term-for-it-where-8f181024.mp3"
+  },
+  {
+    "input_text": "The white line is the truth, and it climbs as the interaction grows. ANOVA follows it. The older method does not move, because there is no term in its arithmetic for the thing that is changing.",
+    "input_data": {
+      "input_text": "The white line is the truth, and it climbs as the interaction grows. ANOVA follows it. The older method does not move, because there is no term in its arithmetic for the thing that is changing.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "the-white-line-is-the-truth-and-it-climbs-as-the-948ed6e2.mp3",
+    "final_audio": "the-white-line-is-the-truth-and-it-climbs-as-the-948ed6e2.mp3"
+  },
+  {
+    "input_text": "Which means the gauge comes out looking better than it is. Not noisier. Better. That is the failure mode nobody warns you about.",
+    "input_data": {
+      "input_text": "Which means the gauge comes out looking better than it is. Not noisier. Better. That is the failure mode nobody warns you about.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "which-means-the-gauge-comes-out-looking-better-eaaee439.mp3",
+    "final_audio": "which-means-the-gauge-comes-out-looking-better-eaaee439.mp3"
+  },
+  {
+    "input_text": "One study cannot settle this - on the study we just watched, ANOVA actually overshot. So here is the comparison done properly: three hundred studies at each interaction strength.",
+    "input_data": {
+      "input_text": "One study cannot settle this - on the study we just watched, ANOVA actually overshot. So here is the comparison done properly: three hundred studies at each interaction strength.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "one-study-cannot-settle-this-on-the-study-we-just-b83aa26a.mp3",
+    "final_audio": "one-study-cannot-settle-this-on-the-study-we-just-b83aa26a.mp3"
+  },
+  {
+    "input_text": "ANOVA stays within a few percent of the truth the whole way.",
+    "input_data": {
+      "input_text": "ANOVA stays within a few percent of the truth the whole way.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "anova-stays-within-a-few-percent-of-the-truth-the-45e0b307.mp3",
+    "final_audio": "anova-stays-within-a-few-percent-of-the-truth-the-45e0b307.mp3"
+  },
+  {
+    "input_text": "Average-and-range walks away from it, and by the time the interaction matches the operator term it is reporting a gauge forty three percent too small.",
+    "input_data": {
+      "input_text": "Average-and-range walks away from it, and by the time the interaction matches the operator term it is reporting a gauge forty three percent too small.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "average-and-range-walks-away-from-it-and-by-the-e9149913.mp3",
+    "final_audio": "average-and-range-walks-away-from-it-and-by-the-e9149913.mp3"
+  },
+  {
+    "input_text": "So the decomposition has four terms and one of them is invisible to the older arithmetic. Which leaves the question this has been building to. We have variances. A verdict needs a percentage, and a percentage needs a denominator. That is level four.",
+    "input_data": {
+      "input_text": "So the decomposition has four terms and one of them is invisible to the older arithmetic. Which leaves the question this has been building to. We have variances. A verdict needs a percentage, and a percentage needs a denominator. That is level four.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "so-the-decomposition-has-four-terms-and-one-of-56fd081e.mp3",
+    "final_audio": "so-the-decomposition-has-four-terms-and-one-of-56fd081e.mp3"
   }
 ]
