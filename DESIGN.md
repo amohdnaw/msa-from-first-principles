@@ -103,6 +103,25 @@ band, so `ndc` is only ever pass or fail.
   clean-up passes and it will bite harder here, where `σ_repeat`, `σ_reproduce`, `ndc`,
   `d2*` and `K1`/`K2` all appear in labels.
 
+  **Extended 2026-08-28, on measurement, while building Level 1.** The rule as inherited
+  named Greek and case-sensitive Latin. It missed a whole class: **the micro sign.** `µ`
+  is U+00B5, not Greek mu, so a Greek-range check passes it — but `text-transform:
+  uppercase` maps it to **U+039C GREEK CAPITAL MU**, so a units label reading `µm`
+  renders `ΜM`. On a site whose every quantity is in microns that is not a cosmetic
+  defect. Verified by reading back what the browser rendered rather than by inspecting
+  the source. Level 1 also mangled `s`, `c4` and `m` — a sample standard deviation, a
+  derived constant and a repeat count, all renamed by a text transform.
+
+  Two consequences, both load-bearing:
+  1. **Units belong in the label, not the value.** `<dd>5.839</dd>` under
+     `<dt>observed spread <span class="nc">µm</span></dt>`, never `5.839 µm` in the
+     value. It follows the two-voice rule, and at tile width it also stops the unit
+     wrapping onto its own line.
+  2. **A checker for this cannot use a naive word scan.** The article “a” and the
+     possessive “’s” both look exactly like a bare single-letter variable, and they
+     produced four false positives out of ten hits on the first sweep. Strip `a`, `an`
+     and `’s` before testing, or the check trains you to ignore it.
+
 ## Identity
 
 The wordmark is `Ammar Nawawi / MSA` in the mono voice — the same primary name and the
