@@ -391,6 +391,23 @@
 <style>
   .lab-grid-tiles{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0 0 }
   .lab-grid-tiles .tile{ margin:0 }
+
+  /* ---------- narrow-viewport lab fixes, added 2026-08-28 ----------
+     A `1fr` grid track has `min-width: auto`, so it cannot shrink below its
+     content's min-content width. Level 2's tile labels are longer than Level 1's,
+     and that alone pushed the lab column to 334 px inside a 270 px container -
+     39 px of horizontal overflow at 320 px wide, on a page whose CSS was
+     byte-identical to one that passed. min-width:0 is the fix, and it belongs
+     here rather than in one level's markup because every future lab inherits it. */
+  .lab-grid > *{ min-width:0 }
+  .lab-grid-tiles{ min-width:0 }
+  .lab-grid-tiles .tile dt{ overflow-wrap:anywhere }
+  .lab-ctl label{ overflow-wrap:anywhere }
+  /* KaTeX output is inline-block and never breaks, so a formula in a contents
+     entry runs off the edge instead of wrapping. */
+  .toc span.tex{ max-width:100%; overflow-x:auto }
+  /* and an inline code span with a long path does the same */
+  code{ overflow-wrap:anywhere }
 </style>
 <body>
 
@@ -399,7 +416,7 @@
     <a class="wordmark" href="index.html">Ammar Nawawi <span>/ MSA</span></a>
     <div class="rail">
       <a href="level-01.html" title="Level 1 — Measurement as a process" aria-current="page">01</a>
-      <span class="soon" title="Level 2 — Repeatability and reproducibility — not written yet">02</span>
+      <a href="level-02.html" title="Level 2 — Repeatability and reproducibility">02</a>
       <span class="soon" title="Level 3 — Gage R&amp;R by ANOVA — not written yet">03</span>
       <span class="soon" title="Level 4 — %GRR, ndc, and against what — not written yet">04</span>
       <span class="soon" title="Level 5 — Bias, linearity, stability — not written yet">05</span>
@@ -553,9 +570,9 @@
         </div>
       </div>
     </section>
-    <a class="next" href="index.html">
-      <span class="m">Ammar / MSA</span>
-      <span>Back to the curriculum &rarr;</span>
+    <a class="next" href="level-02.html">
+      <span class="m">Level 2</span>
+      <span>Repeatability and reproducibility &rarr;</span>
     </a>
   </main>
 </div>

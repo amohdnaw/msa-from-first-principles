@@ -453,6 +453,149 @@ def chapter_01(K):
     ]
 
 
+def chapter_02(K):
+    from msalab.reproducibility import (
+        CLAMPED_UNDER_PCT, CORRECTED_MEAN, FIX_RATIO, GAUGE_EXACT,
+        HALVE_REPEAT_PCT, HALVE_REPRODUCE_PCT, NAIVE_MEAN, NAIVE_OVER_PCT,
+        NEGATIVE_PCT, NOISY_BORROWED_PCT, NOISY_EXPECTED_NAIVE, NOISY_NAIVE,
+        NOISY_REPEAT, NOISY_REPRODUCE, OPERATORS, PARTS as RR_PARTS,
+        REPEAT_DF, REPEAT_ERR_PCT, REPRODUCE_DF, REPRODUCE_ERR_PCT,
+        SIGMA_REPEAT, SIGMA_REPRODUCE, TRIALS,
+    )
+    rep_share = SIGMA_REPEAT ** 2 / (SIGMA_REPEAT ** 2 + SIGMA_REPRODUCE ** 2) * 100
+    return [
+        ("s1", "2.1", "Two questions, one word", [
+            para("Level 1 finished with a gauge that has a size, measured by reading "
+                 "one part over and over. That is one question, and it is not the "
+                 "only one. Hand the same part to somebody else.",
+                 note("what carried over", text="Same bores, same bench "
+                      "micrometer. The part spread is unchanged, so the two levels "
+                      "are describing one process."),
+                 lead=True),
+            para("Repeatability is one operator disagreeing with themselves. "
+                 "Reproducibility is operators disagreeing with each other. The "
+                 "plant calls the pair one word, and the word hides the fact that "
+                 "they are rarely the same size and never have the same fix."),
+            K["fig"]("Level02.mp4"),
+        ]),
+        ("s2", "2.2", "The offset has to persist", [
+            para("A difference between two operators on one part is not evidence of "
+                 "anything: it could be repeatability wearing a costume. What makes "
+                 "reproducibility a separate term is that the offset travels with "
+                 "the person across every part they touch.",
+                 lead=True),
+            K["fig"]("l02_1_two_distances.png"),
+            para("Three lines, roughly parallel. Operator A reads low on all ten "
+                 "parts, which is a property of A rather than of any part. That is "
+                 "the whole justification for giving it its own term - and the "
+                 "moment those lines stop being parallel there is a third thing to "
+                 "account for, which is Level 3.",
+                 datanote(("repeatability", f"{SIGMA_REPEAT} µm"),
+                          ("reproducibility", f"{SIGMA_REPRODUCE} µm"),
+                          ("the gauge term", f"{GAUGE_EXACT:.2f} µm"),
+                          (nc("repeat") + " share of variance", f"{rep_share:.0f} %"),
+                          k="the split")),
+        ]),
+        ("s3", "2.3", "The same law, and the fix that follows from it", [
+            para("The two terms combine the way everything in this subject "
+                 "combines. Level 1's gauge term was never atomic.", lead=True),
+            f'{P}<div class="eq"><div class="eq-body" data-tex="\\sigma_{{gauge}}^2 = '
+            f'\\sigma_{{repeat}}^2 + \\sigma_{{reprod}}^2"></div>'
+            f'<div class="eq-num">(2.1)</div></div>',
+            para("Squaring is again what decides everything. The larger term "
+                 "dominates the sum, so improving the smaller one is nearly free of "
+                 "consequence. On this gauge reproducibility carries "
+                 f"{100 - rep_share:.0f}&nbsp;% of the variance, and the two "
+                 "candidate projects are not comparable:",
+                 datanote(("halve repeatability", f"{HALVE_REPEAT_PCT:.1f} % better"),
+                          ("halve reproducibility", f"{HALVE_REPRODUCE_PCT:.1f} % better"),
+                          ("ratio", f"{FIX_RATIO:.1f}x"),
+                          k="two projects, same effort")),
+            para("Which is why “fix the gauge” is not advice. Recalibrating the "
+                 "instrument attacks repeatability; training, a written method and a "
+                 "fixture attack reproducibility. Aim the wrong one and the study "
+                 "will be repeated in six months with the same answer.",
+                 note("and it reverses", text="Nothing here is a fact about "
+                      "reproducibility. Make repeatability the larger term and the "
+                      "arithmetic recommends the opposite project.")),
+        ]),
+        ("s4", "2.4", "The operator spread is not the operator effect", [
+            para("Now try to measure the split, and the second half turns out to be "
+                 "much harder than the first. Repeatability is easy: every "
+                 "part-operator cell contributes readings, so it arrives with "
+                 f"{REPEAT_DF} degrees of freedom and about "
+                 f"{REPEAT_ERR_PCT:.0f}&nbsp;% of error.",
+                 lead=True),
+            para("Reproducibility looks equally easy - take the spread of the "
+                 "operator averages - and it is a trap. Each average is itself made "
+                 "of noisy readings, so its spread carries repeatability inside it. "
+                 "The quantity that estimator actually targets is not the one you "
+                 "wanted:",
+                 note("the shape of the error", text="It enters divided by the "
+                      "number of readings behind each average, so a bigger study "
+                      "borrows less. It never borrows nothing.")),
+            f'{P}<div class="eq"><div class="eq-body" data-tex="\\sigma^2_{{\\text{{op '
+            f'means}}}} = \\sigma_{{reprod}}^2 + \\frac{{\\sigma_{{repeat}}^2}}'
+            f'{{parts \\times trials}}"></div><div class="eq-num">(2.2)</div></div>',
+            para(f"On a gauge whose repeatability dominates - {NOISY_REPEAT}&nbsp;µm "
+                 f"against {NOISY_REPRODUCE} - that borrowed term is most of the "
+                 f"answer. The naive estimator targets "
+                 f"{NOISY_EXPECTED_NAIVE:.3f}&nbsp;µm when the truth is "
+                 f"{NOISY_REPRODUCE}: it overstates by "
+                 f"{(NOISY_EXPECTED_NAIVE/NOISY_REPRODUCE-1)*100:.0f}&nbsp;%, and "
+                 f"{NOISY_BORROWED_PCT:.0f}&nbsp;% of what it reports is the "
+                 f"instrument rather than the people.",
+                 datanote(("the truth", f"{NOISY_REPRODUCE} µm"),
+                          ("what the naive estimator targets", f"{NOISY_EXPECTED_NAIVE:.3f} µm"),
+                          ("of that, borrowed repeatability", f"{NOISY_BORROWED_PCT:.0f} %"),
+                          k="a number about the wrong thing")),
+            para(f"One study cannot show you this. With {OPERATORS} operators the "
+                 f"estimate has {REPRODUCE_DF} degrees of freedom and about "
+                 f"{REPRODUCE_ERR_PCT:.0f}&nbsp;% of error, so the seeded study here "
+                 f"reported {NOISY_NAIVE:.3f} - below the truth, in the opposite "
+                 f"direction to the bias. Averaged over four thousand studies the "
+                 f"bias appears exactly as the algebra says.",
+                 datanote(("one study said", f"{NOISY_NAIVE:.3f} µm"),
+                          ("4000 studies, uncorrected", f"{NAIVE_MEAN:.3f} µm"),
+                          ("against the truth", f"{NAIVE_OVER_PCT:+.0f} %"),
+                          k="why one study is not evidence")),
+            K["fig"]("l02_2_the_operator_term.png"),
+        ]),
+        ("s5", "2.5", "Wrong in both directions at once", [
+            para("The correction subtracts one estimate from another, and the result "
+                 "is not obliged to be a variance. It can come out negative, which "
+                 "is not a coding error: it is an estimator meeting a boundary.",
+                 lead=True),
+            para(f"On that noisy gauge it happens {NEGATIVE_PCT:.0f}&nbsp;% of the "
+                 f"time. The convention is to report zero - no operator effect - "
+                 f"which reads as a finding and is really a shrug.",
+                 note("what zero means here", text="Not “the operators agree”. "
+                      "“This study cannot tell.” Those are different sentences and "
+                      "only one of them is true.")),
+            para("And clamping is not neutral. Truncating one side of a "
+                 "distribution moves its mean, so the corrected number runs low "
+                 "while the uncorrected one runs high. The same study is wrong in "
+                 "both directions, and picking whichever looks reasonable is not a "
+                 "method.",
+                 datanote(("uncorrected, over 4000 studies", f"{NAIVE_OVER_PCT:+.0f} %"),
+                          ("clamped", f"{-CLAMPED_UNDER_PCT:+.0f} %"),
+                          ("clamped at zero", f"{NEGATIVE_PCT:.0f} % of studies"),
+                          k="the two errors")),
+            K["lab"],
+            para("So the gauge is split, and the operator half is the half a "
+                 "standard study struggles to see. Worse, everything in this level "
+                 "assumed the operator offsets are parallel - that A reads low by "
+                 "the same amount on every part. Suppose A reads low on the small "
+                 "parts and high on the large ones. Nothing here has a term for "
+                 "that, and average-and-range never will.",
+                 note("the seam ahead", text="An interaction: operators "
+                      "disagreeing about particular parts. It needs ANOVA, and it "
+                      "is often the reason a gauge fails.")),
+            K["sys"],
+        ]),
+    ]
+
+
 CHAPTERS = {
     "level-01.html": {
         "number": 1, "word": "one",
@@ -471,6 +614,24 @@ CHAPTERS = {
                 ("1.5", "s5", "You cannot measure your way out",
                  "averaging divides the gauge term and never touches the parts")],
         "sections": chapter_01,
+    },
+    "level-02.html": {
+        "number": 2, "word": "two",
+        "before": "Level 1 \u2014 measurement as a process",
+        "after": "Level 3 \u2014 Gage R&R by ANOVA",
+        "estimate": "5 sections \u00b7 1 act \u00b7 1 interactive \u00b7 ~9 min read",
+        "toc": [("2.1", "s1", "Two questions, one word",
+                 "one operator disagreeing with themselves, or with each other"),
+                ("2.2", "s2", "The offset has to persist",
+                 "an offset that travels with the person, across every part"),
+                ("2.3", "s3", "The same law, and the fix that follows",
+                 tex(r"\sigma_{gauge}^2 = \sigma_{repeat}^2 + \sigma_{reprod}^2")
+                 + " \u2014 and why one project is worth 3.7 of the other"),
+                ("2.4", "s4", "The operator spread is not the operator effect",
+                 "the estimator borrows repeatability, and mostly reports it"),
+                ("2.5", "s5", "Wrong in both directions at once",
+                 "uncorrected too high, clamped too low, 47 % pushed onto zero")],
+        "sections": chapter_02,
     },
 }
 

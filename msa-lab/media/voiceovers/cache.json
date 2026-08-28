@@ -218,5 +218,291 @@
     },
     "original_audio": "five-repeats-gets-you-within-one-percent-of-the-416d2365.mp3",
     "final_audio": "five-repeats-gets-you-within-one-percent-of-the-416d2365.mp3"
+  },
+  {
+    "input_text": "Level one left us with a gauge that has a size. Ask how it was measured and there are two different questions hiding in the answer.",
+    "input_data": {
+      "input_text": "Level one left us with a gauge that has a size. Ask how it was measured and there are two different questions hiding in the answer.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "level-one-left-us-with-a-gauge-that-has-a-size-ask-44d1006c.mp3",
+    "final_audio": "level-one-left-us-with-a-gauge-that-has-a-size-ask-44d1006c.mp3"
+  },
+  {
+    "input_text": "Here is one part, and three operators who are each going to measure it three times.",
+    "input_data": {
+      "input_text": "Here is one part, and three operators who are each going to measure it three times.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "here-is-one-part-and-three-operators-who-are-each-0e29ebde.mp3",
+    "final_audio": "here-is-one-part-and-three-operators-who-are-each-0e29ebde.mp3"
+  },
+  {
+    "input_text": "Operator A goes first. Three readings of one part, and they do not agree. That disagreement is repeatability - one person, one part, one gauge, again.",
+    "input_data": {
+      "input_text": "Operator A goes first. Three readings of one part, and they do not agree. That disagreement is repeatability - one person, one part, one gauge, again.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "operator-a-goes-first-three-readings-of-one-part-5b54ac3f.mp3",
+    "final_audio": "operator-a-goes-first-three-readings-of-one-part-5b54ac3f.mp3"
+  },
+  {
+    "input_text": "Call it the width of one operator's own answer.",
+    "input_data": {
+      "input_text": "Call it the width of one operator's own answer.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "call-it-the-width-of-one-operator-s-own-answer-8b508e54.mp3",
+    "final_audio": "call-it-the-width-of-one-operator-s-own-answer-8b508e54.mp3"
+  },
+  {
+    "input_text": "Now hand the same part to two other operators.",
+    "input_data": {
+      "input_text": "Now hand the same part to two other operators.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "now-hand-the-same-part-to-two-other-operators-d7518e07.mp3",
+    "final_audio": "now-hand-the-same-part-to-two-other-operators-d7518e07.mp3"
+  },
+  {
+    "input_text": "Each operator has an average, and the averages are not the same. That is a second distance, and it is a different thing: reproducibility.",
+    "input_data": {
+      "input_text": "Each operator has an average, and the averages are not the same. That is a second distance, and it is a different thing: reproducibility.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "each-operator-has-an-average-and-the-averages-are-6c61e74b.mp3",
+    "final_audio": "each-operator-has-an-average-and-the-averages-are-6c61e74b.mp3"
+  },
+  {
+    "input_text": "One word, R and R, covers both. They are not the same size and they do not have the same fix.",
+    "input_data": {
+      "input_text": "One word, R and R, covers both. They are not the same size and they do not have the same fix.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "one-word-r-and-r-covers-both-they-are-not-the-same-cd6baffb.mp3",
+    "final_audio": "one-word-r-and-r-covers-both-they-are-not-the-same-cd6baffb.mp3"
+  },
+  {
+    "input_text": "Whether that second distance is real depends on one thing: does it persist? Measure every part with every operator.",
+    "input_data": {
+      "input_text": "Whether that second distance is real depends on one thing: does it persist? Measure every part with every operator.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "whether-that-second-distance-is-real-depends-on-dbc0d847.mp3",
+    "final_audio": "whether-that-second-distance-is-real-depends-on-dbc0d847.mp3"
+  },
+  {
+    "input_text": "Operator A reads low on every part.",
+    "input_data": {
+      "input_text": "Operator A reads low on every part.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "operator-a-reads-low-on-every-part-f2b6ebf8.mp3",
+    "final_audio": "operator-a-reads-low-on-every-part-f2b6ebf8.mp3"
+  },
+  {
+    "input_text": "B reads higher.",
+    "input_data": {
+      "input_text": "B reads higher.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "b-reads-higher-63187d86.mp3",
+    "final_audio": "b-reads-higher-63187d86.mp3"
+  },
+  {
+    "input_text": "C sits close to B. The gaps hold across all ten parts, so they belong to the operators.",
+    "input_data": {
+      "input_text": "C sits close to B. The gaps hold across all ten parts, so they belong to the operators.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "c-sits-close-to-b-the-gaps-hold-across-all-ten-e479c977.mp3",
+    "final_audio": "c-sits-close-to-b-the-gaps-hold-across-all-ten-e479c977.mp3"
+  },
+  {
+    "input_text": "Roughly parallel lines. An offset that travels with the person is reproducibility; if these lines crossed each other the story would be different, and that is level three.",
+    "input_data": {
+      "input_text": "Roughly parallel lines. An offset that travels with the person is reproducibility; if these lines crossed each other the story would be different, and that is level three.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "roughly-parallel-lines-an-offset-that-travels-with-468163f5.mp3",
+    "final_audio": "roughly-parallel-lines-an-offset-that-travels-with-468163f5.mp3"
+  },
+  {
+    "input_text": "Level one called the whole thing the gauge term.",
+    "input_data": {
+      "input_text": "Level one called the whole thing the gauge term.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "level-one-called-the-whole-thing-the-gauge-term-2695641a.mp3",
+    "final_audio": "level-one-called-the-whole-thing-the-gauge-term-2695641a.mp3"
+  },
+  {
+    "input_text": "It splits the same way everything in this subject splits. Variances add.",
+    "input_data": {
+      "input_text": "It splits the same way everything in this subject splits. Variances add.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "it-splits-the-same-way-everything-in-this-subject-3bcfb3c3.mp3",
+    "final_audio": "it-splits-the-same-way-everything-in-this-subject-3bcfb3c3.mp3"
+  },
+  {
+    "input_text": "Now improve one of them and watch what the gauge does.",
+    "input_data": {
+      "input_text": "Now improve one of them and watch what the gauge does.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "now-improve-one-of-them-and-watch-what-the-gauge-d6ed876b.mp3",
+    "final_audio": "now-improve-one-of-them-and-watch-what-the-gauge-d6ed876b.mp3"
+  },
+  {
+    "input_text": "Halve the repeatability and the gauge improves by nine percent. Halve the reproducibility instead and it improves by thirty five. Same effort, nearly four times the return, and the only thing that decided it was which term was bigger to begin with.",
+    "input_data": {
+      "input_text": "Halve the repeatability and the gauge improves by nine percent. Halve the reproducibility instead and it improves by thirty five. Same effort, nearly four times the return, and the only thing that decided it was which term was bigger to begin with.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "halve-the-repeatability-and-the-gauge-improves-by-e96f9b05.mp3",
+    "final_audio": "halve-the-repeatability-and-the-gauge-improves-by-e96f9b05.mp3"
+  },
+  {
+    "input_text": "Which is why telling somebody to fix the gauge is not advice.",
+    "input_data": {
+      "input_text": "Which is why telling somebody to fix the gauge is not advice.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "which-is-why-telling-somebody-to-fix-the-gauge-is-3727b0b7.mp3",
+    "final_audio": "which-is-why-telling-somebody-to-fix-the-gauge-is-3727b0b7.mp3"
+  },
+  {
+    "input_text": "There is a trap in measuring the operator term. Each operator's average is itself made of noisy readings, so the spread of those averages carries repeatability inside it.",
+    "input_data": {
+      "input_text": "There is a trap in measuring the operator term. Each operator's average is itself made of noisy readings, so the spread of those averages carries repeatability inside it.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "there-is-a-trap-in-measuring-the-operator-term-a42f5e30.mp3",
+    "final_audio": "there-is-a-trap-in-measuring-the-operator-term-a42f5e30.mp3"
+  },
+  {
+    "input_text": "On a gauge whose repeatability is large, this matters a lot. The real operator term here is four tenths of a micron.",
+    "input_data": {
+      "input_text": "On a gauge whose repeatability is large, this matters a lot. The real operator term here is four tenths of a micron.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "on-a-gauge-whose-repeatability-is-large-this-eb536225.mp3",
+    "final_audio": "on-a-gauge-whose-repeatability-is-large-this-eb536225.mp3"
+  },
+  {
+    "input_text": "With only a handful of readings behind each average, the spread of the averages is nearly double the truth. Almost all of what it is reporting is the instrument, not the people.",
+    "input_data": {
+      "input_text": "With only a handful of readings behind each average, the spread of the averages is nearly double the truth. Almost all of what it is reporting is the instrument, not the people.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "with-only-a-handful-of-readings-behind-each-74fea689.mp3",
+    "final_audio": "with-only-a-handful-of-readings-behind-each-74fea689.mp3"
+  },
+  {
+    "input_text": "Grow the study and the borrowed part shrinks, because it enters divided by the number of readings. It never quite vanishes.",
+    "input_data": {
+      "input_text": "Grow the study and the borrowed part shrinks, because it enters divided by the number of readings. It never quite vanishes.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "grow-the-study-and-the-borrowed-part-shrinks-daca41d3.mp3",
+    "final_audio": "grow-the-study-and-the-borrowed-part-shrinks-daca41d3.mp3"
+  },
+  {
+    "input_text": "So the honest estimate subtracts the borrowed term. That subtraction is not a refinement. On this gauge two thirds of the naive number was never about the operators at all.",
+    "input_data": {
+      "input_text": "So the honest estimate subtracts the borrowed term. That subtraction is not a refinement. On this gauge two thirds of the naive number was never about the operators at all.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "so-the-honest-estimate-subtracts-the-borrowed-term-40bf8153.mp3",
+    "final_audio": "so-the-honest-estimate-subtracts-the-borrowed-term-40bf8153.mp3"
+  },
+  {
+    "input_text": "Subtracting one estimate from another has a consequence. The answer is not guaranteed to be a variance.",
+    "input_data": {
+      "input_text": "Subtracting one estimate from another has a consequence. The answer is not guaranteed to be a variance.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "subtracting-one-estimate-from-another-has-a-affc7517.mp3",
+    "final_audio": "subtracting-one-estimate-from-another-has-a-affc7517.mp3"
+  },
+  {
+    "input_text": "Run study after study on that same noisy gauge. Every time the subtraction lands below zero, the result is reported as zero - no operator effect at all.",
+    "input_data": {
+      "input_text": "Run study after study on that same noisy gauge. Every time the subtraction lands below zero, the result is reported as zero - no operator effect at all.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "run-study-after-study-on-that-same-noisy-gauge-2e3b76f4.mp3",
+    "final_audio": "run-study-after-study-on-that-same-noisy-gauge-2e3b76f4.mp3"
+  },
+  {
+    "input_text": "On this gauge it happens about 47 percent of the time. And because zero is a floor and not a correction, the reported number now runs low - the uncorrected one ran high. The same study is wrong in both directions.",
+    "input_data": {
+      "input_text": "On this gauge it happens about 47 percent of the time. And because zero is a floor and not a correction, the reported number now runs low - the uncorrected one ran high. The same study is wrong in both directions.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "on-this-gauge-it-happens-about-47-percent-of-the-3bd94d0e.mp3",
+    "final_audio": "on-this-gauge-it-happens-about-47-percent-of-the-3bd94d0e.mp3"
+  },
+  {
+    "input_text": "Three operators give 2 degrees of freedom on the operator term, which is about fifty percent of error. So we have split the gauge, and we still cannot see whether the operators disagree about particular parts. That is the next level.",
+    "input_data": {
+      "input_text": "Three operators give 2 degrees of freedom on the operator term, which is about fifty percent of error. So we have split the gauge, and we still cannot see whether the operators disagree about particular parts. That is the next level.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "three-operators-give-2-degrees-of-freedom-on-the-b1168904.mp3",
+    "final_audio": "three-operators-give-2-degrees-of-freedom-on-the-b1168904.mp3"
   }
 ]
