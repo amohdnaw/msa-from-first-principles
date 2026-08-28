@@ -407,6 +407,15 @@
   .lab-grid > *{ min-width:0 }
   .lab-grid-tiles{ min-width:0 }
   .lab-grid-tiles .tile dt{ overflow-wrap:anywhere }
+  .lab-grid-tiles > *{ min-width:0 }
+  /* Two readout tiles side by side need about 284 px including the gap, and a
+     320 px viewport leaves 272 px of content width - so the two-column grid
+     overflowed by 9 px the moment Level 5's labels grew longer than Level 4's.
+     Below 400 px they stack; two readouts in 130 px each were unreadable
+     anyway. Found by the sweep, not by eye. */
+  @media(max-width:400px){
+    .lab-grid-tiles{ grid-template-columns:1fr }
+  }
   .lab-ctl label{ overflow-wrap:anywhere }
   /* KaTeX output is inline-block and never breaks, so a formula in a contents
      entry runs off the edge instead of wrapping. */
@@ -425,7 +434,7 @@
       <a href="level-03.html" title="Level 3 — Gage R&amp;R by ANOVA">03</a>
       <a href="level-04.html" title="Level 4 — %GRR, ndc, and against what">04</a>
       <a href="level-05.html" title="Level 5 — Bias, linearity, stability">05</a>
-      <span class="soon" title="Level 6 — Attribute agreement — not written yet">06</span>
+      <a href="level-06.html" title="Level 6 — Attribute agreement">06</a>
       <span class="soon" title="Level 7 — The handshake back — not written yet">07</span>
     </div>
   </div>

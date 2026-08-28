@@ -1087,5 +1087,236 @@
     },
     "original_audio": "so-five-levels-in-the-honest-summary-is-this-r-and-67cf479f.mp3",
     "final_audio": "so-five-levels-in-the-honest-summary-is-this-r-and-67cf479f.mp3"
+  },
+  {
+    "input_text": "Five levels of arithmetic, all of it one spread divided by another. Now the gauge says pass, and nothing else. There is no reading to subtract.",
+    "input_data": {
+      "input_text": "Five levels of arithmetic, all of it one spread divided by another. Now the gauge says pass, and nothing else. There is no reading to subtract.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "five-levels-of-arithmetic-all-of-it-one-spread-043002ce.mp3",
+    "final_audio": "five-levels-of-arithmetic-all-of-it-one-spread-043002ce.mp3"
+  },
+  {
+    "input_text": "But the three questions do not go away. Does one appraiser agree with himself. Do two agree with each other. Does either of them agree with the truth. Only now the answers have to be built out of counts.",
+    "input_data": {
+      "input_text": "But the three questions do not go away. Does one appraiser agree with himself. Do two agree with each other. Does either of them agree with the truth. Only now the answers have to be built out of counts.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "but-the-three-questions-do-not-go-away-does-one-0f085c89.mp3",
+    "final_audio": "but-the-three-questions-do-not-go-away-does-one-0f085c89.mp3"
+  },
+  {
+    "input_text": "So hire an appraiser who does not look at the parts at all. He passes every one.",
+    "input_data": {
+      "input_text": "So hire an appraiser who does not look at the parts at all. He passes every one.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "so-hire-an-appraiser-who-does-not-look-at-the-5bc63066.mp3",
+    "final_audio": "so-hire-an-appraiser-who-does-not-look-at-the-5bc63066.mp3"
+  },
+  {
+    "input_text": "Against himself he is perfect - he never contradicts himself, because he never decides anything. Against a colleague with the same habit, also perfect. And against the truth he scores ninety nine point nine percent, because that is how many parts were good.",
+    "input_data": {
+      "input_text": "Against himself he is perfect - he never contradicts himself, because he never decides anything. Against a colleague with the same habit, also perfect. And against the truth he scores ninety nine point nine percent, because that is how many parts were good.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "against-himself-he-is-perfect-he-never-contradicts-8741b447.mp3",
+    "final_audio": "against-himself-he-is-perfect-he-never-contradicts-8741b447.mp3"
+  },
+  {
+    "input_text": "And he missed one hundred percent of the bad parts. Percent agreement cannot see him. Nothing about the gauge, and nothing about him, entered that number - only the base rate of the process.",
+    "input_data": {
+      "input_text": "And he missed one hundred percent of the bad parts. Percent agreement cannot see him. Nothing about the gauge, and nothing about him, entered that number - only the base rate of the process.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "and-he-missed-one-hundred-percent-of-the-bad-parts-e8de955e.mp3",
+    "final_audio": "and-he-missed-one-hundred-percent-of-the-bad-parts-e8de955e.mp3"
+  },
+  {
+    "input_text": "The fix is old and well known. Subtract the agreement two people would reach by chance, and report only what is left over. That is Cohen's kappa, and it sees straight through the appraiser who never looks - it cannot even be computed for him, because chance explains everything he did.",
+    "input_data": {
+      "input_text": "The fix is old and well known. Subtract the agreement two people would reach by chance, and report only what is left over. That is Cohen's kappa, and it sees straight through the appraiser who never looks - it cannot even be computed for him, because chance explains everything he did.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "the-fix-is-old-and-well-known-subtract-the-a3568336.mp3",
+    "final_audio": "the-fix-is-old-and-well-known-subtract-the-a3568336.mp3"
+  },
+  {
+    "input_text": "Now hold the percent agreement still. Ninety percent, every table, no exceptions.",
+    "input_data": {
+      "input_text": "Now hold the percent agreement still. Ninety percent, every table, no exceptions.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "now-hold-the-percent-agreement-still-ninety-c3fbb5d4.mp3",
+    "final_audio": "now-hold-the-percent-agreement-still-ninety-c3fbb5d4.mp3"
+  },
+  {
+    "input_text": "And move only one thing: how lopsided the stream is. As the agreement piles into the pass cell, kappa falls from point eight to point one. Same percent agreement throughout. The trouble is which end a good process lives at - it lives at the right-hand end, so being capable depresses kappa all by itself.",
+    "input_data": {
+      "input_text": "And move only one thing: how lopsided the stream is. As the agreement piles into the pass cell, kappa falls from point eight to point one. Same percent agreement throughout. The trouble is which end a good process lives at - it lives at the right-hand end, so being capable depresses kappa all by itself.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "and-move-only-one-thing-how-lopsided-the-stream-is-e8dc7123.mp3",
+    "final_audio": "and-move-only-one-thing-how-lopsided-the-stream-is-e8dc7123.mp3"
+  },
+  {
+    "input_text": "Which raises the question of where kappa comes from at all. And the answer is the whole of this level.",
+    "input_data": {
+      "input_text": "Which raises the question of where kappa comes from at all. And the answer is the whole of this level.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "which-raises-the-question-of-where-kappa-comes-605ed783.mp3",
+    "final_audio": "which-raises-the-question-of-where-kappa-comes-605ed783.mp3"
+  },
+  {
+    "input_text": "Behind every go/no-go gauge there is a real dimension and a real instrument. The appraiser has no number, but the thing in his hand does, and it is the gauge Levels two to five built. So sweep that gauge's sigma.",
+    "input_data": {
+      "input_text": "Behind every go/no-go gauge there is a real dimension and a real instrument. The appraiser has no number, but the thing in his hand does, and it is the gauge Levels two to five built. So sweep that gauge's sigma.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "behind-every-go-no-go-gauge-there-is-a-real-13210b2b.mp3",
+    "final_audio": "behind-every-go-no-go-gauge-there-is-a-real-13210b2b.mp3"
+  },
+  {
+    "input_text": "Every number an attribute study reports moves, and all of them move together, because all of them are functions of one sigma. Agreement stays high and comfortable. Kappa falls off a cliff. The miss rate climbs. Nobody chose any of it.",
+    "input_data": {
+      "input_text": "Every number an attribute study reports moves, and all of them move together, because all of them are functions of one sigma. Agreement stays high and comfortable. Kappa falls off a cliff. The miss rate climbs. Nobody chose any of it.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "every-number-an-attribute-study-reports-moves-and-3f894905.mp3",
+    "final_audio": "every-number-an-attribute-study-reports-moves-and-3f894905.mp3"
+  },
+  {
+    "input_text": "And here is where our own gauge sits. Ninety nine and a half percent agreement, which reads like a pass. Kappa nought point three four, which every published guideline calls unacceptable. Those are the same gauge, on the same day, measured two ways.",
+    "input_data": {
+      "input_text": "And here is where our own gauge sits. Ninety nine and a half percent agreement, which reads like a pass. Kappa nought point three four, which every published guideline calls unacceptable. Those are the same gauge, on the same day, measured two ways.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "and-here-is-where-our-own-gauge-sits-ninety-nine-01ec1da8.mp3",
+    "final_audio": "and-here-is-where-our-own-gauge-sits-ninety-nine-01ec1da8.mp3"
+  },
+  {
+    "input_text": "Which tells you where the disagreements have to be. A part far inside the limit is never failed. A part far outside is never passed.",
+    "input_data": {
+      "input_text": "Which tells you where the disagreements have to be. A part far inside the limit is never failed. A part far outside is never passed.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "which-tells-you-where-the-disagreements-have-to-be-be8135f8.mp3",
+    "final_audio": "which-tells-you-where-the-disagreements-have-to-be-be8135f8.mp3"
+  },
+  {
+    "input_text": "Here is where the parts are, and here are the limits.",
+    "input_data": {
+      "input_text": "Here is where the parts are, and here are the limits.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "here-is-where-the-parts-are-and-here-are-the-1524522b.mp3",
+    "final_audio": "here-is-where-the-parts-are-and-here-are-the-1524522b.mp3"
+  },
+  {
+    "input_text": "And here is where the disagreements are - a spike at each limit, and nothing anywhere else. Widen the gauge and the spikes widen with it. The band belongs to the instrument, not to the person holding it.",
+    "input_data": {
+      "input_text": "And here is where the disagreements are - a spike at each limit, and nothing anywhere else. Widen the gauge and the spikes widen with it. The band belongs to the instrument, not to the person holding it.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "and-here-is-where-the-disagreements-are-a-spike-at-a425fb72.mp3",
+    "final_audio": "and-here-is-where-the-disagreements-are-a-spike-at-a425fb72.mp3"
+  },
+  {
+    "input_text": "Bring it back to our own gauge, and look at the size of it.",
+    "input_data": {
+      "input_text": "Bring it back to our own gauge, and look at the size of it.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "bring-it-back-to-our-own-gauge-and-look-at-the-6d2335ea.mp3",
+    "final_audio": "bring-it-back-to-our-own-gauge-and-look-at-the-6d2335ea.mp3"
+  },
+  {
+    "input_text": "Six percent of everything this plant makes sits in that band, and it produces ninety nine percent of every disagreement the study will ever record. Which is why retraining the appraiser does so little.",
+    "input_data": {
+      "input_text": "Six percent of everything this plant makes sits in that band, and it produces ninety nine percent of every disagreement the study will ever record. Which is why retraining the appraiser does so little.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "six-percent-of-everything-this-plant-makes-sits-in-f4ace49c.mp3",
+    "final_audio": "six-percent-of-everything-this-plant-makes-sits-in-f4ace49c.mp3"
+  },
+  {
+    "input_text": "One more bill to pay. A count carries less information than a measurement, and the arithmetic charges for it.",
+    "input_data": {
+      "input_text": "One more bill to pay. A count carries less information than a measurement, and the arithmetic charges for it.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "one-more-bill-to-pay-a-count-carries-less-7bdb0ba1.mp3",
+    "final_audio": "one-more-bill-to-pay-a-count-carries-less-7bdb0ba1.mp3"
+  },
+  {
+    "input_text": "Level two settled a whole variance with ninety readings. Bounding a five percent miss rate to plus or minus two points needs four hundred and fifty seven known-bad parts - and a plant that can find four hundred and fifty seven bad parts has a different problem.",
+    "input_data": {
+      "input_text": "Level two settled a whole variance with ninety readings. Bounding a five percent miss rate to plus or minus two points needs four hundred and fifty seven known-bad parts - and a plant that can find four hundred and fifty seven bad parts has a different problem.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "level-two-settled-a-whole-variance-with-ninety-531355bc.mp3",
+    "final_audio": "level-two-settled-a-whole-variance-with-ninety-531355bc.mp3"
+  },
+  {
+    "input_text": "Which is why the most common result of an attribute study - no escapes found - says so much less than it sounds. Zero misses in fifty bad parts is still consistent with a miss rate near six percent.",
+    "input_data": {
+      "input_text": "Which is why the most common result of an attribute study - no escapes found - says so much less than it sounds. Zero misses in fifty bad parts is still consistent with a miss rate near six percent.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "which-is-why-the-most-common-result-of-an-1a784333.mp3",
+    "final_audio": "which-is-why-the-most-common-result-of-an-1a784333.mp3"
+  },
+  {
+    "input_text": "So six levels have now described one measurement system, from a single reading to a gauge with no reading at all. Level seven hands it back to the process it was built to watch.",
+    "input_data": {
+      "input_text": "So six levels have now described one measurement system, from a single reading to a gauge with no reading at all. Level seven hands it back to the process it was built to watch.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "so-six-levels-have-now-described-one-measurement-1cebd2e8.mp3",
+    "final_audio": "so-six-levels-have-now-described-one-measurement-1cebd2e8.mp3"
   }
 ]

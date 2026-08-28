@@ -304,3 +304,31 @@ def test_no_kept_block_is_silently_dropped():
     assert 'for name in ("lab", "sys", "next")' in src
     assert "dropped the" in src
     assert 'for fname, fig in keep["figs"].items()' in src
+
+
+def test_the_tile_grid_stacks_on_a_phone():
+    """Two readout tiles need ~284 px including the gap; a 320 px viewport has
+    272 px of content width. Level 5 overflowed by 9 px the moment its labels
+    grew longer than Level 4's, on CSS that had passed the sweep before.
+    """
+    for p in sorted(REPO.glob("level-0*.html")):
+        css = p.read_text()
+        if "lab-grid-tiles" not in css:
+            continue
+        assert "@media(max-width:400px)" in css, f"{p.name}: no tile stack rule"
+        i = css.index("@media(max-width:400px)")
+        block = css[i:css.index("}", css.index("{", i) + 1) + 1]
+        assert "grid-template-columns:1fr" in block, f"{p.name}: tiles never stack"
+
+
+def test_no_tile_label_opts_out_of_the_label_voice():
+    """`nc` exists for symbols whose case carries meaning - the micro sign, sigma,
+    d2. A spelled-out word has no case meaning, and Level 6 shipped a lowercase
+    `kappa` tile beside four uppercase siblings before this caught it.
+    """
+    for p in sorted(REPO.glob("level-0*.html")):
+        for m in re.finditer(r'<dt>(.*?)</dt>', p.read_text(), re.S):
+            inner = m.group(1)
+            for nc in re.findall(r'<span class="nc">(.*?)</span>', inner):
+                assert not re.fullmatch(r"[a-z]{4,}", nc.strip()), (
+                    f"{p.name}: tile label opts a plain word out of caps: {nc!r}")

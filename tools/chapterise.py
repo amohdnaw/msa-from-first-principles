@@ -1098,6 +1098,190 @@ def chapter_05(K):
     ]
 
 
+def chapter_06(K):
+    from msalab.attribute import (
+        AGREEMENT, BASE_RATE, BOUND_AT_50, BOUND_AT_300, CROSS, EFFECTIVENESS,
+        FALSE_ALARM, GRAY_BANDS, GUARDS, KAPPA, KAPPA_BALANCED, KAPPA_SKEWED,
+        LAZY, MISS_RATE, PARADOX, PARTS_FOR_MISS, kappa_from_gauge,
+    )
+    from msalab.accuracy import GAUGE_SIGMA
+    from msalab.against_what import TOLERANCE
+    here = 6.0 * GAUGE_SIGMA / TOLERANCE * 100.0
+    tight = kappa_from_gauge((0.5,))[0]
+    return [
+        ("s1", "6.1", "The three questions outlive the number", [
+            para("Five levels have divided one spread by another. Every quantity "
+                 "in them &mdash; a repeatability, a reproducibility, an "
+                 "interaction, two ratios, a bias &mdash; needed a reading you "
+                 "could subtract from another reading. Now the gauge says pass.",
+                 lead=True),
+            para("A thread gauge fits or it does not. An operator looks at a weld "
+                 "and calls it good. A vision system returns a verdict. There is "
+                 "no number to take a standard deviation of, and yet the three "
+                 "questions are unchanged: does one appraiser agree with himself, "
+                 "do two agree with each other, and does either agree with the "
+                 "truth. Only the arithmetic has to change, from spreads to "
+                 "counts.",
+                 note("what does change", text="With counts, repeatability and "
+                      "reproducibility stop being different calculations. Two "
+                      "independent looks at one part is two independent looks, "
+                      "whoever is doing the looking.")),
+            K["fig"]("Level06.mp4"),
+        ]),
+        ("s2", "6.2", "Percent agreement cannot see an idle appraiser", [
+            para("Start with the obvious statistic and watch it fail. Hire an "
+                 "appraiser who never looks at a part and passes every one.",
+                 lead=True),
+            para(f"Against himself he is perfect: he never contradicts himself, "
+                 f"because he never decides anything. Against a colleague with the "
+                 f"same habit, also perfect. And against the truth he scores "
+                 f"{LAZY['vs_truth']*100:.2f}&nbsp;%, because that is the share of "
+                 f"parts that were good. He missed "
+                 f"{LAZY['miss_rate']*100:.0f}&nbsp;% of the bad ones.",
+                 datanote(("agrees with himself",
+                           f"{LAZY['self_agreement']*100:.2f} %"),
+                          ("agrees with a colleague",
+                           f"{LAZY['cross_agreement']*100:.2f} %"),
+                          ("agrees with the truth",
+                           f"{LAZY['vs_truth']*100:.2f} %"),
+                          ("bad parts he passed",
+                           f"{LAZY['miss_rate']*100:.0f} %"),
+                          k="an appraiser who never looks")),
+            para("Nothing about the gauge and nothing about the appraiser entered "
+                 "that number. It is the base rate of the process, which on a "
+                 "capable line is a figure that reads like success. Percent "
+                 "agreement on a good process is close to uninformative, and it is "
+                 "the statistic attribute studies report first.",
+                 note("why it happens", text="Two people who both say the same "
+                      "thing to everything agree completely, whatever that thing "
+                      "is and whether or not it is right.")),
+        ]),
+        ("s3", "6.3", "Kappa removes chance, and punishes a good process", [
+            para("The standard fix is to subtract the agreement two people would "
+                 "have reached by chance and report only the surplus. That is "
+                 "Cohen&rsquo;s kappa, and it sees straight through the idle "
+                 "appraiser: for him it cannot be computed at all, because chance "
+                 "accounts for everything he did.",
+                 lead=True),
+            f'{P}<div class="eq"><div class="eq-body" data-tex="\\kappa = '
+            f'\\frac{{p_{{o}} - p_{{e}}}}{{1 - p_{{e}}}}">'
+            f'</div><div class="eq-num">(6.1)</div></div>',
+            para(f"But the chance term is built from the marginals, so it depends "
+                 f"on how lopsided the stream is. Hold the observed agreement "
+                 f"fixed at {PARADOX[0]['observed']*100:.0f}&nbsp;% and move "
+                 f"nothing but the skew, and kappa runs from "
+                 f"{KAPPA_BALANCED:.3f} down to {KAPPA_SKEWED:.3f}. Five tables, "
+                 f"one percent agreement, and a verdict that swings from "
+                 f"excellent to worthless.",
+                 datanote(*[(f"{r['share_of_agreement_in_pass']*100:.0f} % of the "
+                             f"agreement in 'pass'", f"{r['kappa']:.3f}")
+                            for r in PARADOX],
+                          k=f"all at {PARADOX[0]['observed']*100:.0f} % observed")),
+            para("The direction of that is the problem. A capable process puts "
+                 "nearly all of its parts in one cell, which is the skewed end, "
+                 "which is where kappa collapses. Being good at making parts "
+                 "lowers your kappa without anybody touching the gauge.",
+                 note("not a reason to ignore it", text="Kappa is right that "
+                      "little has been learned. What is wrong is reading it as a "
+                      "score for the appraisers.")),
+            K["fig"]("l06_1_kappa_is_not_free.png"),
+        ]),
+        ("s4", "6.4", "Nobody chooses a kappa", [
+            para("Which raises the question of where kappa comes from. Behind "
+                 "every go/no-go gauge there is a real dimension and a real "
+                 "instrument: the appraiser has no number, but the thing in his "
+                 "hand does, and it is the gauge the first five levels built.",
+                 lead=True),
+            para(f"So an attribute study does not measure an independent property "
+                 f"of the appraisers. Every number it reports is a function of "
+                 f"that gauge&rsquo;s sigma, the part spread and the tolerance. "
+                 f"On our own gauge &mdash; {here:.1f}&nbsp;% of tolerance, the "
+                 f"one Level 4 already called a reject &mdash; percent agreement "
+                 f"comes out at {AGREEMENT*100:.2f}&nbsp;% and kappa at "
+                 f"{KAPPA:.3f}. Those are the same instrument on the same day.",
+                 datanote(("the gauge underneath",
+                           f"{GAUGE_SIGMA:.4f} µm"),
+                          ("as %GRR of tolerance", f"{here:.1f} %"),
+                          ("percent agreement", f"{AGREEMENT*100:.3f} %"),
+                          ("kappa", f"{KAPPA:.3f}"),
+                          ("bad parts passed", f"{MISS_RATE*100:.2f} %"),
+                          ("good parts failed", f"{FALSE_ALARM*100:.3f} %"),
+                          k="one sigma, six consequences")),
+            para(f"Improve the instrument and all six move together. A gauge at "
+                 f"{6*0.5/TOLERANCE*100:.0f}&nbsp;% of tolerance lifts kappa to "
+                 f"{tight['kappa']:.3f} and drops the miss rate to "
+                 f"{tight['miss_rate']*100:.1f}&nbsp;%. Nobody negotiated that. "
+                 f"An attribute study that reports kappa and stops has measured a "
+                 f"consequence and left the cause alone.",
+                 note("the practical form", text="If the kappa is poor, ask what "
+                      "the underlying gauge is doing before scheduling appraiser "
+                      "training.")),
+            K["lab"],
+        ]),
+        ("s5", "6.5", "The band, and the bill", [
+            para("If the disagreements come from the instrument, their location is "
+                 "not a mystery. A part far inside the limit is never failed; a "
+                 "part far outside is never passed. Everything contested sits in a "
+                 "band around the limit whose width the gauge sets.",
+                 lead=True),
+            para(f"Within one gauge sigma of a limit lies "
+                 f"{GRAY_BANDS[0]['parts_in_band_pct']:.2f}&nbsp;% of production "
+                 f"and {GRAY_BANDS[0]['disagreements_in_band_pct']:.1f}&nbsp;% of "
+                 f"every disagreement. Within three sigmas, "
+                 f"{GRAY_BANDS[2]['parts_in_band_pct']:.2f}&nbsp;% of production "
+                 f"and {GRAY_BANDS[2]['disagreements_in_band_pct']:.1f}&nbsp;%. "
+                 f"Which is why retraining the appraiser does so little: he is "
+                 f"being asked to resolve differences smaller than the tool can "
+                 f"report.",
+                 datanote(*[(f"within ±{s}σ of the limit",
+                             f"{r['parts_in_band_pct']:.2f} % of parts, "
+                             f"{r['disagreements_in_band_pct']:.1f} % of mistakes")
+                            for s, r in zip((1, 2, 3), GRAY_BANDS)],
+                          k="where the contested parts are")),
+            K["fig"]("l06_2_where_the_mistakes_are.png"),
+            para(f"The standard response to an escape is to move the acceptance "
+                 f"limit inward. It works: a "
+                 f"{GUARDS[4]['guard']:.0f}&nbsp;µm guard band takes the miss "
+                 f"rate from {MISS_RATE*100:.1f}&nbsp;% to "
+                 f"{GUARDS[4]['miss_rate']*100:.1f}. The price is paid entirely "
+                 f"in good parts, and it rises: "
+                 f"{GUARDS[1]['good_parts_lost_per_escape_saved']:.0f} good parts "
+                 f"lost per escape saved at the first half-micron, "
+                 f"{GUARDS[5]['good_parts_lost_per_escape_saved']:.0f} by four "
+                 f"microns.",
+                 note("why the price rises", text="The escapes live nearest the "
+                      "limit, so the first micron of guard band catches the "
+                      "cheapest ones. After that you are buying rarer mistakes "
+                      "with commoner good parts.")),
+            para(f"And a count is dearer than a measurement. Level 2 settled a "
+                 f"whole variance with ninety readings; bounding a five percent "
+                 f"miss rate to plus or minus two points needs "
+                 f"{PARTS_FOR_MISS} known-bad parts, and a plant that can find "
+                 f"{PARTS_FOR_MISS} bad parts has a different problem. Worse, the "
+                 f"usual result &mdash; no escapes found &mdash; is weak: zero "
+                 f"misses in fifty bad parts is still consistent with a miss rate "
+                 f"of {BOUND_AT_50*100:.2f}&nbsp;%.",
+                 datanote(("Level 2, a full variance", "90 readings"),
+                          ("bound a 5 % miss rate to ±2 points",
+                           f"{PARTS_FOR_MISS} bad parts"),
+                          ("zero misses in 50 still allows",
+                           f"{BOUND_AT_50*100:.2f} %"),
+                          ("zero misses in 300 still allows",
+                           f"{BOUND_AT_300*100:.2f} %"),
+                          k="the price of throwing the number away")),
+            para("So six levels have described one measurement system, from a "
+                 "single reading of one bore to a gauge with no reading at all. "
+                 "What has not been done is hand it back. Every one of these "
+                 "numbers exists to be used by somebody watching a process, and "
+                 "the handover has its own arithmetic.",
+                 note("the seam ahead", text="Level 7 is the handshake back: what "
+                      "a measurement system owes the chart that consumes it, and "
+                      "what the chart is entitled to assume.")),
+            K["sys"],
+        ]),
+    ]
+
+
 CHAPTERS = {
     "level-01.html": {
         "number": 1, "word": "one",
@@ -1186,6 +1370,23 @@ CHAPTERS = {
                 ("5.5", "s5", "And it was right in March",
                  "6 \u00b5m of drift while %GRR reads the same every month")],
         "sections": chapter_05,
+    },
+    "level-06.html": {
+        "number": 6, "word": "six",
+        "before": "Level 5 \u2014 bias, linearity, stability",
+        "after": "Level 7 \u2014 the handshake back",
+        "estimate": "5 sections \u00b7 1 act \u00b7 1 interactive \u00b7 ~9 min read",
+        "toc": [("6.1", "s1", "The three questions outlive the number",
+                 "no reading to subtract, and the same three things to answer"),
+                ("6.2", "s2", "Percent agreement cannot see an idle appraiser",
+                 "pass everything and score 99.86 % against the truth"),
+                ("6.3", "s3", "Kappa removes chance, and punishes a good process",
+                 "one percent agreement, five tables, kappa 0.80 to 0.10"),
+                ("6.4", "s4", "Nobody chooses a kappa",
+                 "every number an attribute study reports is the gauge's"),
+                ("6.5", "s5", "The band, and the bill",
+                 "6 % of production, 99 % of the mistakes, 457 bad parts")],
+        "sections": chapter_06,
     },
 }
 
