@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Level 6 — Control limits are a hypothesis test · SPC from First Principles</title>
+<meta name="description" content="A percentage of what? %GRR against study variation and against tolerance answer different questions and can land on opposite sides of the same printed gate. And ndc cannot disagree with either, because it is one of them rearranged.">
+
+<link rel="icon" href="favicon.svg">
+<link rel="preload" as="font" type="font/woff2" href="fonts/eb-garamond-roman.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/ibm-plex-mono-400.woff2" crossorigin>
+<link rel="stylesheet" href="vendor/katex/katex.css">
+
+<style>
+  /* ---------- self-hosted, two families, two voices ---------- */
+  @font-face{font-family:'EB Garamond';src:url('fonts/eb-garamond-roman.woff2') format('woff2');
+    font-weight:400 600;font-style:normal;font-display:swap}
+  @font-face{font-family:'EB Garamond';src:url('fonts/eb-garamond-italic.woff2') format('woff2');
+    font-weight:400 500;font-style:italic;font-display:swap}
+  @font-face{font-family:'IBM Plex Mono';src:url('fonts/ibm-plex-mono-400.woff2') format('woff2');
+    font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'IBM Plex Mono';src:url('fonts/ibm-plex-mono-600.woff2') format('woff2');
+    font-weight:600;font-style:normal;font-display:swap}
+
+  /* ---------- tokens: DESIGN.md ---------- */
+  :root{
+    --ground:#0d1114; --panel:#14181c; --panel-high:#1b2026;
+    --rule:#2a3138; --rule-strong:#3d4650;
+    --ink-dim:#7d8b98; --ink:#d7dee4; --ink-bright:#eef3f7;
+    --accent:#ffae00; --accent-wash:rgba(255,174,0,.14);
+    --signal-ok:#65ccaf; --signal-alarm:#de6a5d; --fill-ok:#2a534b;
+
+    --serif:'EB Garamond',Georgia,serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+
+    --body:21px;
+    --measure:27em;              /* ≈60ch at 21px EB Garamond, measured */
+    --figure:44rem;              /* figures step wider than text, still not full bleed */
+    --gutter:clamp(24px,5vw,72px);
+    --rhythm:32px;
+  }
+
+  *{box-sizing:border-box}
+  /* typography hygiene (better-typography 3, 16) */
+  html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  html,body{font-synthesis:none}
+  .nc{text-transform:none}
+
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--ground);color:var(--ink);
+    font-family:var(--serif);font-size:var(--body);line-height:1.55;font-weight:500;
+    font-variant-numeric:oldstyle-nums;
+  }
+  ::selection{background:var(--accent);color:var(--ground)}
+
+  .wrap{max-width:76rem;margin:0 auto;padding:0 var(--gutter)}
+  .col{max-width:var(--measure)}
+
+  /* mono voice: labels, units, status, data */
+  .m{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .micro{font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
+
+  /* ---------- nav ---------- */
+  nav{position:sticky;top:0;z-index:30;background:var(--ground);
+    border-bottom:1px solid var(--rule)}
+  .nav-in{max-width:76rem;margin:0 auto;padding:14px var(--gutter);
+    display:flex;align-items:center;gap:28px}
+  .wordmark{font-family:var(--mono);font-size:13px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-bright);
+    text-decoration:none;white-space:nowrap}
+  .wordmark span{color:var(--accent)}
+  .rail{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap}
+  .rail a{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-dim);text-decoration:none;
+    display:flex;align-items:center;gap:7px;padding:3px 0;transition:color .18s}
+  .rail a::before{content:"";width:7px;height:7px;background:var(--rule-strong);flex:none}
+  .rail a:hover{color:var(--ink)}
+  /* The rail wraps to two rows below 1024px. A sticky nav that tall is the
+     'fixed chrome squeezing the reading column' the ban list forbids, so it
+     only sticks while it is a single 52px row. */
+  @media(max-width:1023px){nav{position:static}}
+  .rail a[aria-current="page"]{color:var(--accent)}
+  /* Twelve slots, five written. The seven that are not are present and inert:
+     an explicit gap the reader can see, never a silent one. */
+  .rail span.soon{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+    color:var(--ink-dim);opacity:.45;display:inline-flex;align-items:center;gap:7px;cursor:default}
+  .rail span.soon::before{content:"";width:7px;height:7px;border:1px solid var(--rule-strong);flex:none}
+  .rail a[aria-current="page"]::before{background:var(--accent)}
+
+  /* ---------- level opener ---------- */
+  header.opener{padding:88px 0 0}
+  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--accent);margin:0 0 20px}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(33px,5.2vw,56px);
+    line-height:1.04;letter-spacing:-.01em;color:var(--ink-bright);margin:0 0 20px;
+    max-width:20em}
+  .dek{font-style:italic;font-size:26px;line-height:1.4;color:var(--ink-dim);
+    margin:0 0 var(--rhythm);max-width:24em}
+
+  main{padding-bottom:64px}
+  section{padding-top:48px}
+  p{margin:0 0 var(--rhythm)}
+
+  /* ---------- equation ---------- */
+  .eq{display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px;
+    max-width:var(--measure);
+    margin:48px 0;padding:40px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .eq-body{font-size:33px;text-align:center;color:var(--ink-bright);letter-spacing:.02em}
+  .eq-num{font-family:var(--mono);font-size:13px;color:var(--ink-dim)}
+  .eq-cap{font-family:var(--mono);font-size:13px;color:var(--ink-dim);
+    margin:14px 0 0;text-align:center;grid-column:1/-1}
+
+  /* ---------- figures ---------- */
+  figure{margin:64px 0 0;max-width:var(--figure)}
+  figure .rule{height:1px;background:var(--rule);margin-bottom:20px}
+  figure img,figure video{display:block;width:100%;height:auto;background:var(--ground)}
+  figcaption{margin-top:16px;max-width:var(--measure)}
+  figcaption .fignum{font-family:var(--mono);font-size:13px;font-weight:600;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--accent);
+    display:block;margin-bottom:6px}
+  figcaption .figtext{font-size:17px;line-height:1.5;color:var(--ink-dim)}
+
+  /* ---------- interactive ---------- */
+  .lab{margin:64px 0 0;border:1px solid var(--rule);background:var(--panel)}
+  .lab-head{display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:11px 20px;border-bottom:1px solid var(--rule)}
+  .lab-head .status{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--signal-ok)}
+  .lab-grid{display:grid;grid-template-columns:1fr 300px;gap:0}
+  .lab-canvas{padding:20px;border-right:1px solid var(--rule);min-width:0}
+  canvas{display:block;width:100%;height:300px}
+  .lab-ctl{padding:20px;display:flex;flex-direction:column;gap:20px}
+  .lab-ctl label{font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);
+    display:block;margin-bottom:12px}
+  .lab-ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+  input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;margin:0}
+
+  .tiles{display:flex;flex-direction:column;gap:1px;background:var(--rule)}
+  .tile{background:var(--panel-high);padding:12px 14px}
+  .tile dt{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-dim);margin-bottom:6px}
+  .tile dd{margin:0;font-family:var(--mono);font-size:26px;font-weight:600;
+    font-variant-numeric:tabular-nums;line-height:1.1}
+  .tile dd.ok{color:var(--signal-ok)}
+  .tile dd.alarm{color:var(--signal-alarm)}
+  .tile dd.neutral{color:var(--ink-bright)}
+  .lab-note{font-size:17px;line-height:1.5;color:var(--ink-dim);margin:0}
+
+  /* ---------- SYS note ---------- */
+  /* component 7 is a pull-quote with an amber left border and NO fill — an amber
+     area carries no information, and DESIGN.md 6 bans decorative ornament. */
+  .sys{margin:64px 0 0;border-left:2px solid var(--accent);
+    padding-left:24px;max-width:34em}
+  .sys .micro{color:var(--accent);display:block;margin-bottom:8px}
+  .sys p{font-size:26px;line-height:1.35;color:var(--ink-bright);margin:0;font-style:italic}
+
+  /* ---------- next + footer ---------- */
+  .next{display:inline-flex;align-items:baseline;gap:12px;margin-top:96px;
+    padding-bottom:6px;border-bottom:1px solid var(--rule-strong);
+    color:var(--ink-bright);text-decoration:none;font-size:26px;transition:border-color .18s}
+  .next:hover{border-bottom-color:var(--accent)}
+  .next .m{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+
+  footer{border-top:1px solid var(--rule);margin-top:64px}
+  .foot-in{max-width:76rem;margin:0 auto;padding:24px var(--gutter);
+    display:flex;flex-wrap:wrap;gap:16px 32px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-dim)}
+  .foot-in a{color:var(--ink-dim);text-decoration:none}
+  .foot-in a:hover{color:var(--accent)}
+  .foot-in .sp{margin-left:auto}
+
+  @media(max-width:900px){
+    .lab-grid{grid-template-columns:1fr}
+    .lab-canvas{border-right:0;border-bottom:1px solid var(--rule)}
+  }
+  @media(max-width:560px){
+    body{font-size:19px}
+    .dek,.sys p,.next{font-size:21px}
+    /* long formulas (Level 9's EWMA limit) blow past a 320px viewport;
+       stack the reference number and let the expression wrap */
+    .eq{grid-template-columns:1fr;gap:10px}
+    .eq-num{justify-self:end}
+    .eq-body{font-size:26px;overflow-wrap:anywhere;line-height:1.35}
+    .rail{gap:12px;width:100%;margin-left:0}
+    .nav-in{flex-wrap:wrap;gap:12px}
+    /* the wrapped two-row rail would eat a quarter of a phone viewport;
+       fixed chrome must not squeeze the reading column (DESIGN.md ban list) */
+    nav{position:static}
+    header.opener{padding-top:48px}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+  /* maths — KaTeX, pre-rendered by tools/typeset.mjs. Computer Modern here for
+     the same reason the videos use it: a formula should read the same on the
+     page as it does in the act. */
+  .katex{color:var(--ink-bright);font-size:1em}
+  .eq-body .katex-display{margin:0}
+  .eq-body .katex{font-size:1.05em}
+  p .katex,figcaption .katex,li .katex{font-size:.98em}
+  /* Display maths cannot wrap. On a narrow screen it scrolls inside its own
+     block instead of dragging the page sideways — DESIGN.md bans the page
+     scrolling horizontally, not a figure doing it. min-width:0 is required or
+     the grid item refuses to shrink. */
+  .eq-body{min-width:0;max-width:100%;overflow-x:auto;overflow-y:hidden;
+           -webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  .eq-body .katex-display{margin:0;padding-bottom:2px}
+  @media (max-width:560px){ .eq-body .katex{font-size:.86em} }
+  @media (max-width:400px){ .eq-body .katex{font-size:.74em} }
+
+  /* ---------- wide viewports (DESIGN.md §3, added 2026-08-27) ----------
+     The measure never moves; figures spend the width the prose refuses.
+     Each figure is additionally capped at its own native resolution by an
+     inline max-width, so the band is a ceiling and never a stretch. */
+  /* A run of chart figures sits two-up once there is room for two of them
+     without either dropping below 560px. Videos never join a pair. */
+  .figpair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(560px,100%),1fr));
+    gap:var(--gutter);align-items:start;max-width:var(--figure)}
+  .figpair figure{margin:64px 0 0;max-width:none}
+
+  /* ---------- captions ----------
+     The tracks stay (WCAG 1.2.2 asks that captions be PROVIDED, not forced on) but
+     they are no longer `default`. Three reasons they were wrong on by default here:
+     the audio IS narration so the cues duplicate it, the page prose now carries the
+     same argument in text, and every Manim frame already has on-screen text - axis
+     labels and the readout column sit exactly where a cue lands. Turned on from the
+     player, they now render small and on a translucent ground instead of a slab. */
+  ::cue{
+    font-family:var(--mono, ui-monospace, monospace);
+    font-size:58%;
+    line-height:1.35;
+    color:#e8eef4;
+    background:rgba(13,17,20,.74);
+  }
+
+
+  /* ---------- DESIGN.md amendment 1: the stateful readout tile ----------
+     SPC's Component 2 colours only the value. MSA shows strips of tiles against
+     AIAG thresholds, so the tile itself carries the verdict: border, plus a 14 %
+     wash on the header. The washes are built from the sampled semantic pair -
+     never from a re-picked hue, and never from amber, which is wayfinding. */
+  .tile.pass{ border-color:var(--signal-ok) }
+  .tile.pass dt{ background:rgba(101,204,175,.14); color:var(--signal-ok);
+    border-bottom:1px solid var(--signal-ok) }
+  .tile.pass dd{ color:var(--signal-ok) }
+  .tile.fail{ border-color:var(--signal-alarm) }
+  .tile.fail dt{ background:rgba(222,106,93,.14); color:var(--signal-alarm);
+    border-bottom:1px solid var(--signal-alarm) }
+  .tile.fail dd{ color:var(--signal-alarm) }
+  /* amendment 2: the third state is neutral. No hue, because "conditional"
+     means no verdict yet, and a traffic light is the cliche this subject
+     invites. */
+  .tile.cond{ border-color:var(--rule-strong) }
+  .tile.cond dt{ background:var(--panel-high) }
+  .tile.cond dd{ color:var(--ink-bright) }
+
+  /* ---------- chapter grammar (DESIGN.md §3) ----------
+     Layout follows the book convention rather than an invented one. Tufte CSS:
+     figures are constrained to the main column by default, a *small* figure may
+     go in the margin, and anything larger takes the full text block. Margin notes
+     sit "as close as possible to the text that references them" - which is done
+     with a float at the note's position in the flow, never with grid rows. Grid
+     rows put the note in a row of its own and cut an L-shaped hole in the page. */
+  :root{ --marg:320px; --marg-gap:48px; }
+
+  /* The page IS the grid. Before this the container was 110rem while the text
+     block was 1090px and left-aligned inside it, so the margins came out 149px
+     left and 675px right - the dead right column. The page width is now computed
+     from the same tokens the grid uses, so it can never drift from it again. */
+  .wrap{max-width:calc(var(--measure) + var(--marg-gap) + var(--marg) + 2 * var(--gutter))}
+  /* the text block: measure + gutter + margin. Everything aligns to its left edge. */
+  .leaf{max-width:calc(var(--measure) + var(--marg-gap) + var(--marg))}
+  .leaf > div > p,.leaf > div > .eq,.leaf > div > .sys{max-width:var(--measure)}
+
+  .ch-no{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--accent);margin:0 0 18px}
+
+  .toc{border-top:1px solid var(--rule-strong);border-bottom:1px solid var(--rule);
+    padding:22px 0 24px;margin:8px 0 0;
+    max-width:calc(var(--measure) + var(--marg-gap) + var(--marg))}
+  .toc-head{display:flex;gap:18px;align-items:baseline;margin:0 0 14px;flex-wrap:wrap}
+  .toc-head .est{margin-left:auto}
+  .toc ol{list-style:none;margin:0;padding:0;display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:2px 48px}
+  .toc li{display:grid;grid-template-columns:44px 1fr;gap:10px;padding:7px 0;
+    border-bottom:1px solid rgba(42,49,56,.55)}
+  .toc .n{font-family:var(--mono);font-size:13px;color:var(--accent);padding-top:.35em}
+  .toc a{color:var(--ink);text-decoration:none;font-size:19px}
+  .toc a:hover{color:var(--accent)}
+  .toc-chain{font-family:var(--serif);font-size:17px;color:var(--ink-dim);margin:14px 0 0;
+    display:flex;flex-wrap:wrap;gap:0 8px;align-items:baseline}
+  .toc-chain .sep{color:var(--rule-strong);padding:0 4px}
+  .toc .sub{display:block;font-size:15px;color:var(--ink-dim);line-height:1.4}
+
+  /* a heading must clear the sticky nav when jumped to from the contents */
+  main section{scroll-margin-top:96px}
+  .sec-no{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.14em;
+    color:var(--accent);display:block;margin-bottom:10px}
+  /* headings balance across lines; body prose gets pretty so no line is left
+     carrying a single word (better-typography principle 9) */
+  main h2{font-family:var(--serif);font-size:33px;font-weight:600;line-height:1.12;
+    color:var(--ink-bright);margin:0 0 14px;max-width:26em;text-wrap:balance}
+  .leaf > div > p{text-wrap:pretty}
+  .toc .sub,.note em,figcaption .figtext{text-wrap:pretty}
+  .lead::first-letter{initial-letter:2;font-weight:600;color:var(--ink-bright);margin-right:.08em}
+
+  /* margin notes: instrument voice, level with the paragraph they annotate.
+     Below the margin breakpoint they simply follow the prose at measure width. */
+  .note{display:block;font-family:var(--mono);font-size:12.5px;line-height:1.6;
+    color:var(--ink-dim);border-left:1px solid var(--rule);padding-left:14px;
+    margin:0 0 26px;max-width:var(--measure);text-indent:0}
+  .note .k{display:block;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;
+    font-size:11px;margin-bottom:5px}
+  .note .v{color:var(--ink-bright);font-size:21px;font-variant-numeric:tabular-nums}
+  .note em{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--ink);
+    line-height:1.45;display:block;font-variant-numeric:oldstyle-nums}
+  .note.speak{border-left-color:var(--accent)}
+  .note.data .row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 12px;
+    align-items:baseline;padding:3px 0;border-bottom:1px solid rgba(42,49,56,.6);min-width:0}
+  .note.data .row:last-child{border-bottom:0}
+  /* NB: these labels are uppercased, which maps σ to Σ - the summation sign.
+     Keep label text ASCII and put Greek in the value. */
+  .note.data .rk{color:var(--ink-dim);letter-spacing:.06em;text-transform:uppercase;font-size:11px}
+  .note.data .rv{color:var(--ink-bright);font-variant-numeric:tabular-nums;min-width:0;
+    overflow-wrap:anywhere}
+  .note.data .row.num .rv{font-size:16px;text-align:right;white-space:nowrap}
+  /* a sentence is not data: own line, left aligned, in the reading voice */
+  .note.data .row.txt{display:block}
+  .note.data .row.txt .rv{display:block;font-family:var(--serif);font-size:17px;
+    line-height:1.45;margin-top:3px;font-variant-numeric:oldstyle-nums}
+  .note.data .rn{flex:1 1 100%;min-width:0;color:var(--ink-dim);font-size:11.5px;
+    line-height:1.5;overflow-wrap:anywhere}
+
+  /* A referenced act, collapsed. Closed it is a poster strip; open it is a player
+     at the full text-block width. The previous version was a 340px margin card,
+     which measured 323x182 on screen - not a player, a thumbnail with controls. */
+  .act{border-top:1px solid var(--rule);margin:40px 0 0}
+  .act > summary{display:flex;gap:18px;align-items:center;cursor:pointer;
+    padding:16px 0;list-style:none}
+  .act > summary::-webkit-details-marker{display:none}
+  .act > summary::marker{content:""}
+  .act > summary:hover .k{color:var(--ink-bright)}
+  /* the closed strip has to look like a video, or it reads as a footnote. A poster
+     at 280px with a play glyph over it does that; 180px and a word did not. */
+  .act .thumb-wrap{position:relative;flex:none;display:block;line-height:0}
+  .act .thumb{width:280px;height:auto;display:block;border:1px solid var(--rule)}
+  .act .thumb-wrap::after{content:"";position:absolute;left:50%;top:50%;
+    transform:translate(-50%,-50%);width:0;height:0;
+    border-left:18px solid var(--ink-bright);border-top:11px solid transparent;
+    border-bottom:11px solid transparent;filter:drop-shadow(0 0 6px rgba(0,0,0,.6))}
+  .act > summary:hover .thumb-wrap::after{border-left-color:var(--accent)}
+  .act[open] > summary .thumb-wrap{display:none}
+  .act .meta{min-width:0}
+  .act .k{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);display:block;margin-bottom:5px}
+  .act .cap{font-size:17px;line-height:1.45;color:var(--ink-dim);display:block;
+    max-width:52ch;text-wrap:pretty}
+  .act .cue{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);margin-left:auto;flex:none;white-space:nowrap}
+  .act[open] > summary .cue{color:var(--accent)}
+  .act video{display:block;width:100%;height:auto;background:var(--ground);
+    margin:0 0 8px;max-width:min(100%,calc(68vh * 16 / 9))}
+  @media(max-width:640px){ .act > summary{flex-wrap:wrap} .act .thumb{width:160px} }
+  /* a margin figure - Tufte's one case for a figure outside the main flow */
+  .note.watch video{display:block;width:100%;height:auto;margin:8px 0;border:1px solid var(--rule)}
+  .note.watch:hover .k{color:var(--ink-bright)}
+
+  /* figures take the whole text block and share its left edge */
+  figure,.figpair{max-width:calc(var(--measure) + var(--marg-gap) + var(--marg))}
+  figure video{max-width:min(100%,calc(68vh * 16 / 9))}
+
+  @media (min-width:1500px){
+    :root{ --body:26px; --marg:340px; }
+    /* the note floats into the margin at its position in the flow. This is the
+       whole trick: no row of its own, so no hole beside it. */
+    /* tufte-css's mechanism: a negative right margin pulls the float out of the
+       text column so it consumes no horizontal space there. Without it the float
+       lives inside the 702px paragraph and shortens every line beside it, which
+       destroys the measure the whole design is built on. */
+    .note{float:right;clear:right;width:var(--marg);max-width:var(--marg);
+      margin:0 calc(-1 * (var(--marg) + var(--marg-gap))) 26px 0;
+      position:relative;z-index:1}
+    /* a note that must not float (it holds something wide) */
+    .note.nofloat{float:none;width:auto;max-width:var(--measure);margin-top:34px}
+    .leaf > div::after{content:"";display:block;clear:both}
+  }
+</style>
+<style>
+  .lab-grid-tiles{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0 0 }
+  .lab-grid-tiles .tile{ margin:0 }
+
+  /* ---------- narrow-viewport lab fixes, added 2026-08-28 ----------
+     A `1fr` grid track has `min-width: auto`, so it cannot shrink below its
+     content's min-content width. Level 2's tile labels are longer than Level 1's,
+     and that alone pushed the lab column to 334 px inside a 270 px container -
+     39 px of horizontal overflow at 320 px wide, on a page whose CSS was
+     byte-identical to one that passed. min-width:0 is the fix, and it belongs
+     here rather than in one level's markup because every future lab inherits it. */
+  .lab-grid > *{ min-width:0 }
+  .lab-grid-tiles{ min-width:0 }
+  .lab-grid-tiles .tile dt{ overflow-wrap:anywhere }
+  .lab-ctl label{ overflow-wrap:anywhere }
+  /* KaTeX output is inline-block and never breaks, so a formula in a contents
+     entry runs off the edge instead of wrapping. */
+  .toc span.tex{ max-width:100%; overflow-x:auto }
+  /* and an inline code span with a long path does the same */
+  code{ overflow-wrap:anywhere }
+</style>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="wordmark" href="index.html">Ammar Nawawi <span>/ MSA</span></a>
+    <div class="rail">
+      <a href="level-01.html" title="Level 1 — Measurement as a process">01</a>
+      <a href="level-02.html" title="Level 2 — Repeatability and reproducibility">02</a>
+      <a href="level-03.html" title="Level 3 — Gage R&amp;R by ANOVA">03</a>
+      <a href="level-04.html" title="Level 4 — %GRR, ndc, and against what" aria-current="page">04</a>
+      <span class="soon" title="Level 5 — Bias, linearity, stability — not written yet">05</span>
+      <span class="soon" title="Level 6 — Attribute agreement — not written yet">06</span>
+      <span class="soon" title="Level 7 — The handshake back — not written yet">07</span>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+    <main>
+    <header class="ch">
+      <div class="leaf">
+        <div>
+          <p class="ch-no">Level 4 · chapter four</p>
+          <h1>%GRR, ndc, and against what</h1>
+          <p class="dek">Three levels produced variances. A verdict is
+      not a variance &mdash; it is a percentage, and a percentage needs a denominator.
+      The two usual choices answer different questions, disagree on purpose, and the
+      standard prints both without saying which one you are asking.</p>
+        </div>
+      </div>
+      <div class="toc">
+        <div class="toc-head"><span class="micro">What this chapter derives</span><span class="micro est">5 sections · 1 act · 1 interactive · ~9 min read</span></div>
+        <p class="toc-chain"><span class="micro">after</span> Level 3 — Gage R&R by ANOVA<span class="sep">·</span><span class="micro">leads to</span> Level 5 — bias, linearity, stability</p>
+        <ol>
+          <li><span class="n">4.1</span><a href="#s1">A verdict is not a variance<span class="sub">same numerator, two denominators, two questions</span></a></li>
+          <li><span class="n">4.2</span><a href="#s2">Only one of them can see the parts<span class="sub">improve the process and the study ratio gets worse</span></a></li>
+          <li><span class="n">4.3</span><a href="#s3">The same gauge, opposite verdicts<span class="sub">two factories, one instrument, both gates honest</span></a></li>
+          <li><span class="n">4.4</span><a href="#s4">The third number is the first one rearranged<span class="sub"><span class="tex" data-tex="1.41\,\sigma_{part}/\sigma_{gauge}"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.41</mn><mtext> </mtext><msub><mi>σ</mi><mrow><mi>p</mi><mi>a</mi><mi>r</mi><mi>t</mi></mrow></msub><mi mathvariant="normal">/</mi><msub><mi>σ</mi><mrow><mi>g</mi><mi>a</mi><mi>u</mi><mi>g</mi><mi>e</mi></mrow></msub></mrow><annotation encoding="application/x-tex">1.41\,\sigma_{part}/\sigma_{gauge}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord">1.41</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.0278em;">r</span><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">ug</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span> — and its gate is 2.9 points tighter</span></a></li>
+          <li><span class="n">4.5</span><a href="#s5">A percentage is a proxy for a risk<span class="sub">shift the process and the risk moves while %GRR does not</span></a></li>
+        </ol>
+      </div>
+    </header>
+    <section id="s1">
+      <div class="leaf">
+        <div>
+          <span class="sec-no">4.1</span>
+          <h2>A verdict is not a variance</h2>
+          <p class="lead">Three levels of arithmetic have produced variances: a repeatability, a reproducibility, an interaction. None of them is a decision. To get a decision you divide, and the whole difficulty of this level is what you divide by.</p>
+          <div class="eq"><div class="eq-body" data-tex="\%GRR_{study} = \frac{\sigma_{gauge}}{\sigma_{total}} \qquad \%GRR_{tol} = \frac{6\sigma_{gauge}}{tolerance}"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">%</mi><mi>G</mi><mi>R</mi><msub><mi>R</mi><mrow><mi>s</mi><mi>t</mi><mi>u</mi><mi>d</mi><mi>y</mi></mrow></msub><mo>=</mo><mfrac><msub><mi>σ</mi><mrow><mi>g</mi><mi>a</mi><mi>u</mi><mi>g</mi><mi>e</mi></mrow></msub><msub><mi>σ</mi><mrow><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi></mrow></msub></mfrac><mspace width="2em"/><mi mathvariant="normal">%</mi><mi>G</mi><mi>R</mi><msub><mi>R</mi><mrow><mi>t</mi><mi>o</mi><mi>l</mi></mrow></msub><mo>=</mo><mfrac><mrow><mn>6</mn><msub><mi>σ</mi><mrow><mi>g</mi><mi>a</mi><mi>u</mi><mi>g</mi><mi>e</mi></mrow></msub></mrow><mrow><mi>t</mi><mi>o</mi><mi>l</mi><mi>e</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>c</mi><mi>e</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\%GRR_{study} = \frac{\sigma_{gauge}}{\sigma_{total}} \qquad \%GRR_{tol} = \frac{6\sigma_{gauge}}{tolerance}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord">%</span><span class="mord mathnormal" style="margin-right:0.0077em;">GR</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">s</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">u</span><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:1.9436em;vertical-align:-0.836em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.1076em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.0197em;">l</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">ug</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.836em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:2em;"></span><span class="mord">%</span><span class="mord mathnormal" style="margin-right:0.0077em;">GR</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0077em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0077em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight" style="margin-right:0.0197em;">l</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:2.0074em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">t</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.0197em;">l</span><span class="mord mathnormal" style="margin-right:0.0278em;">er</span><span class="mord mathnormal">an</span><span class="mord mathnormal">ce</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">6</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">ug</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div><div class="eq-num">(4.1)</div></div>
+          <p>Same numerator both times. <span class="note data"><span class="k">one numerator, two denominators</span><span class="row num"><span class="rk">the gauge, 6<span class="nc">σ</span></span><span class="rv">12.4 µm</span></span><span class="row num"><span class="rk">the study spread, 6<span class="nc">σ</span></span><span class="rv">30.8 µm</span></span><span class="row num"><span class="rk">the tolerance</span><span class="rv">30 µm</span></span><span class="row num"><span class="rk">against study</span><span class="rv">40.1 %</span></span><span class="row num"><span class="rk">against tolerance</span><span class="rv">41.2 %</span></span></span>The first asks whether this gauge can tell these parts apart. The second asks whether it can decide whether a part conforms. Those are different questions, and the standard prints both answers side by side without saying which one you asked.</p>
+<figure>
+        <video controls preload="none" poster="posters/level04.jpg">
+          <source src="msa-lab/media/videos/level04_scene/1080p60/Level04.mp4" type="video/mp4">
+          <track kind="captions" src="captions/level04.vtt" srclang="en" label="English">
+        </video>
+        <figcaption><span class="fignum">Figure 4.1</span><span class="figtext">The two denominators drawn to scale, one ratio swept while the other refuses to move, the same gauge given opposite verdicts in two factories, and the decision the percentage was standing in for.</span></figcaption>
+      </figure>
+        </div>
+      </div>
+    </section>
+    <section id="s2">
+      <div class="leaf">
+        <div>
+          <span class="sec-no">4.2</span>
+          <h2>Only one of them can see the parts</h2>
+          <p class="lead">The tolerance came off a drawing. It does not know how much the parts vary, so the tolerance ratio cannot move when the process changes. The study ratio is almost nothing but that.</p>
+          <p>Improve the process - take the part spread from 4.7&nbsp;µm down to 1.2 - and the study ratio gets <em>worse</em>, from 40.1&nbsp;% to 86.4. <span class="note data"><span class="k">tightening the process</span><span class="row num"><span class="rk">study ratio before</span><span class="rv">40.1 %</span></span><span class="row num"><span class="rk">study ratio after</span><span class="rv">86.4 %</span></span><span class="row txt"><span class="rk">tolerance ratio</span><span class="rv">41.2 % (unmoved)</span></span></span>Nothing about the instrument changed. A gauge measuring parts that are nearly identical cannot sort them, and as the parts converge the ratio approaches a hundred percent.</p>
+          <p>Which is worth stating plainly, because it is the opposite of an intuition: a good process makes a gauge look bad on the study ratio. <span class="note"><span class="k">both are honest</span>If you are sorting parts into bins, the study ratio is the one you want. If you are stamping conform or not, it is the wrong number entirely.</span>The gauge did not get worse. The question got harder.</p>
+<figure>
+        <img src="msa-lab/docs/l04_1_against_what.png" width="1873" height="783"
+             loading="lazy" decoding="async"
+             alt="Left: the gauge spread drawn to scale beside the study spread and the tolerance. Right: a map of part spread against tolerance, shaded where the two AIAG gates give opposite verdicts for the same gauge.">
+        <figcaption><span class="fignum">Figure 4.2</span><span class="figtext">Same numerator, two denominators. The shaded region is where the two gates disagree &mdash; for one unchanged gauge.</span></figcaption>
+      </figure>
+        </div>
+      </div>
+    </section>
+    <section id="s3">
+      <div class="leaf">
+        <div>
+          <span class="sec-no">4.3</span>
+          <h2>The same gauge, opposite verdicts</h2>
+          <p class="lead">So take this gauge - 2.06&nbsp;µm, unchanged - and put it in two factories.</p>
+          <p><strong>A.</strong> A well-controlled process on a generous drawing: parts at 3&nbsp;µm, tolerance 150. <span class="note data"><span class="k">factory A</span><span class="row txt"><span class="rk">against study</span><span class="rv">56.6 % → reject</span></span><span class="row num"><span class="rk">against tolerance</span><span class="rv">8.2 % → accept</span></span></span>The study ratio is 56.6&nbsp;% - reject - and the tolerance ratio is 8.2&nbsp;%, accept.</p>
+          <p><strong>B.</strong> A sloppy process on a tight drawing: parts at 25&nbsp;µm, tolerance 35. <span class="note data"><span class="k">factory B</span><span class="row num"><span class="rk">against study</span><span class="rv">8.2 % → accept</span></span><span class="row txt"><span class="rk">against tolerance</span><span class="rv">35.3 % → reject</span></span></span>Exactly the reverse - 8.2&nbsp;% (accept) against 35.3&nbsp;% (reject).</p>
+          <p>One gauge, two rows, opposite verdicts off the same printed table - and neither row is a mistake. <span class="note"><span class="k">so which</span>Whichever matches the decision the gauge is there to make. That is a question about the job, and no amount of arithmetic answers it.</span>The shaded region in the figure above is the whole set of processes and drawings where that happens, and it is not a corner case.</p>
+<div class="lab">
+        <div class="lab-head">
+          <span class="micro">Interactive &mdash; move the factory, not the gauge</span>
+          <span class="micro" id="lab-status">SYSTEM-OK</span>
+        </div>
+        <div class="lab-grid">
+          <div class="lab-canvas">
+            <canvas id="w-canvas" height="300" aria-label="The two %GRR ratios against part spread, with the AIAG accept and reject gates drawn"></canvas>
+          </div>
+          <div class="lab-ctl">
+            <label for="p-slider">Part-to-part spread <b id="p-val">4.7</b>
+              <span class="nc">µm</span></label>
+            <input type="range" id="p-slider" min="6" max="300" value="47" step="1">
+            <label for="t-slider">Tolerance <b id="t-val">30</b>
+              <span class="nc">µm</span></label>
+            <input type="range" id="t-slider" min="10" max="200" value="30" step="1">
+            <dl class="lab-grid-tiles">
+              <div class="tile" id="t-study"><dt>against study %</dt><dd id="r-study">&mdash;</dd></div>
+              <div class="tile" id="t-tol"><dt>against tolerance %</dt><dd id="r-tol">&mdash;</dd></div>
+              <div class="tile" id="t-ndc"><dt><span class="nc">ndc</span></dt><dd id="r-ndc">&mdash;</dd></div>
+              <div class="tile" id="t-agree"><dt>the two verdicts</dt><dd id="r-agree">&mdash;</dd></div>
+            </dl>
+            <p class="lab-note">The gauge never changes. Drag the part spread down and the study
+            ratio climbs towards a hundred percent while the tolerance ratio does not move at
+            all &mdash; a gauge measuring identical parts cannot sort them, and has no trouble
+            deciding conformance. Then drag the tolerance and only the second one reacts. The
+            last tile turns when the two gates give opposite answers, which they do over a large
+            part of this space.</p>
+          </div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </section>
+    <section id="s4">
+      <div class="leaf">
+        <div>
+          <span class="sec-no">4.4</span>
+          <h2>The third number is the first one rearranged</h2>
+          <p class="lead">Beside those two the standard prints a third: the number of distinct categories, which is supposed to say how many groups the gauge can separate.</p>
+          <p>It is not independent. <span class="note data"><span class="k">two routes, one number</span><span class="row num"><span class="rk"><span class="nc">ndc</span> from the components</span><span class="rv">3.2184</span></span><span class="row num"><span class="rk"><span class="nc">ndc</span> from the study ratio</span><span class="rv">3.2184</span></span><span class="row num"><span class="rk">difference</span><span class="rv">0 (algebraic)</span></span></span>ndc is <span class="tex" data-tex="1.41\,\sigma_{part}/\sigma_{gauge}"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.41</mn><mtext> </mtext><msub><mi>σ</mi><mrow><mi>p</mi><mi>a</mi><mi>r</mi><mi>t</mi></mrow></msub><mi mathvariant="normal">/</mi><msub><mi>σ</mi><mrow><mi>g</mi><mi>a</mi><mi>u</mi><mi>g</mi><mi>e</mi></mrow></msub></mrow><annotation encoding="application/x-tex">1.41\,\sigma_{part}/\sigma_{gauge}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord">1.41</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.0278em;">r</span><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">ug</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span>, and the study ratio is <span class="tex" data-tex="\sigma_{gauge}/\sigma_{total}"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mrow><mi>g</mi><mi>a</mi><mi>u</mi><mi>g</mi><mi>e</mi></mrow></msub><mi mathvariant="normal">/</mi><msub><mi>σ</mi><mrow><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\sigma_{gauge}/\sigma_{total}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">ug</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.0197em;">l</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>, so one determines the other exactly. Plot ndc against the study ratio and you get a curve, not a cloud. It cannot carry information the first number did not already have, and it cannot rank two gauges differently.</p>
+<figure>
+        <img src="msa-lab/docs/l04_2_what_the_numbers_are_worth.png" width="1627" height="783"
+             loading="lazy" decoding="async"
+             alt="Left: ndc plotted against %GRR, a single curve, with both printed gates marked 2.9 points apart. Right: gauge readings against true sizes with the limits drawn, and the accepted bad parts and rejected good parts picked out.">
+        <figcaption><span class="fignum">Figure 4.3</span><span class="figtext">ndc is a curve, not a cloud: given %GRR it is determined. And the two gates printed beside each other are 2.9 points apart.</span></figcaption>
+      </figure>
+          <p>What it does add is an inconsistency. <span class="note data"><span class="k">two lines, one table</span><span class="row num"><span class="rk">reject above</span><span class="rv">30 %</span></span><span class="row num"><span class="rk"><span class="nc">ndc</span> ≥ 5 means</span><span class="rv">≤ 27.1 %</span></span><span class="row num"><span class="rk">the two gates differ by</span><span class="rv">2.9 points</span></span></span>Requiring ndc to reach 5 is exactly requiring the study ratio to be at or below 27.1&nbsp;% - which is 2.9&nbsp;points tighter than the 30&nbsp;% printed beside it. A gauge can satisfy one rule and fail the other on the same study.</p>
+          <p>And the 1.41 is not a measurement. <span class="note"><span class="k">earned, not quoted</span>A test asserts the constant is √2 to within 0.005, and another asserts the gate computed with the exact root is the more permissive of the two.</span>It is the square root of two, rounded to two places - which itself moves the gate by 0.08 of a point. Small, and a reminder that a rounded constant sitting inside a threshold is not the same object as the number it came from.</p>
+        </div>
+      </div>
+    </section>
+    <section id="s5">
+      <div class="leaf">
+        <div>
+          <span class="sec-no">4.5</span>
+          <h2>A percentage is a proxy for a risk</h2>
+          <p class="lead">None of the three numbers is the thing anyone actually cares about. A conformance decision compares a <em>reading</em> to a limit, so a good part can be scrapped and a bad part can be shipped - and how often depends on where the process is sitting.</p>
+          <p>On a centred process with this gauge, 28&nbsp;% of the genuinely out-of-tolerance parts pass. <span class="note data"><span class="k">centred</span><span class="row num"><span class="rk">of the bad parts, accepted</span><span class="rv">27.5 %</span></span><span class="row num"><span class="rk">of all parts</span><span class="rv">0.038 %</span></span><span class="row num"><span class="rk">of the good parts, rejected</span><span class="rv">0.25 %</span></span><span class="row num"><span class="rk">scrap</span><span class="rv">0.14 %</span></span></span>That is not the same sentence as the headline rate of 0.038&nbsp;% of all parts, and the second one is what ships.</p>
+          <p>Now move the process a quarter of the tolerance off centre and touch nothing else. <span class="note data"><span class="k">shifted, same gauge</span><span class="row num"><span class="rk">scrap</span><span class="rv">0.14 % → 5.5 %</span></span><span class="row txt"><span class="rk">good parts rejected</span><span class="rv">0.25 % → 3.13 %</span></span><span class="row num"><span class="rk">%GRR</span><span class="rv">unchanged</span></span></span>Scrap goes from 0.14&nbsp;% to 5.5, and good parts rejected from 0.25 to 3.13. The gauge is identical, so every percentage in this level is identical, and the risk moved by more than an order of magnitude.</p>
+          <p>So a percentage is a proxy, and it does not know where you are. <span class="note"><span class="k">the seam ahead</span>Bias, linearity and stability. A gauge can repeat beautifully and be wrong, be right in the middle and wrong at the ends, or be right only today.</span>Which exposes the last thing these four levels have assumed without checking: that the gauge is merely noisy. Everything so far has had a mean of zero. Suppose it reads high.</p>
+<aside class="sys">
+        <span class="micro">SYS_MSG</span>
+        <p>Every number on this page is computed at render time by
+        <code>msalab.against_what</code>. The test suite reads the same functions.</p>
+      </aside>
+        </div>
+      </div>
+    </section>
+    <a class="next" href="index.html">
+      <span class="m">Ammar / MSA</span>
+      <span>Back to the curriculum &rarr;</span>
+    </a>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <span class="micro">· MSA from first principles</span>
+    <span class="micro">All figures computed</span>
+    <a class="micro" href="https://portfolio.amohdnaw.xyz" target="_blank" rel="noopener">Portfolio &#8599;</a>
+    <span class="micro">&copy; 2026</span>
+  </div>
+</footer>
+
+<script src="vendor/katex/katex.js" defer></script>
+<script>
+(function () {
+  "use strict";
+  // The same three formulas msalab.against_what exposes. ndc is written as a
+  // function of the study ratio on purpose - that IS the claim of section 4.4,
+  // and writing it any other way would hide it.
+  const GAUGE = 2.0591260281974;      // sqrt(1.0^2 + 1.8^2), from Levels 2-3
+  const ACCEPT = 10, REJECT = 30, NDC_K = 1.41, NDC_MIN = 5;
+
+  const studyRatio = (g, part) => g / Math.sqrt(part * part + g * g) * 100;
+  const toleranceRatio = (g, tol) => 6 * g / tol * 100;
+  const ndcFromStudyRatio = (pct) => {
+    const r = pct / 100;
+    return NDC_K * Math.sqrt(1 - r * r) / r;
+  };
+  const verdict = (p) => (p <= ACCEPT ? "accept" : p > REJECT ? "reject" : "conditional");
+
+  const COL = (function () {
+    const s = getComputedStyle(document.documentElement);
+    return { ok: s.getPropertyValue("--signal-ok").trim(),
+             bad: s.getPropertyValue("--signal-alarm").trim(),
+             acc: s.getPropertyValue("--accent").trim(),
+             ink: s.getPropertyValue("--ink-bright").trim(),
+             dim: s.getPropertyValue("--ink-dim").trim(),
+             rule: s.getPropertyValue("--rule").trim() };
+  })();
+
+  const cv = document.getElementById("w-canvas");
+  const ctx = cv.getContext("2d");
+  const ps = document.getElementById("p-slider");
+  const ts = document.getElementById("t-slider");
+
+  function draw() {
+    const part = parseInt(ps.value, 10) / 10;
+    const tol = parseInt(ts.value, 10);
+
+    const sr = studyRatio(GAUGE, part);
+    const tr = toleranceRatio(GAUGE, tol);
+    const nd = ndcFromStudyRatio(sr);
+    const sv = verdict(sr), tv = verdict(tr);
+    const agree = sv === tv;
+
+    document.getElementById("p-val").textContent = part.toFixed(1);
+    document.getElementById("t-val").textContent = String(tol);
+    document.getElementById("r-study").textContent = sr.toFixed(1);
+    document.getElementById("r-tol").textContent = tr.toFixed(1);
+    document.getElementById("r-ndc").textContent = nd.toFixed(2);
+    document.getElementById("r-agree").textContent = agree ? "agree" : "differ";
+
+    for (const [id, v] of [["t-study", sv], ["t-tol", tv]]) {
+      const el = document.getElementById(id);
+      el.classList.remove("pass", "fail", "cond");
+      el.classList.add(v === "accept" ? "pass" : v === "reject" ? "fail" : "cond");
+    }
+    const nel = document.getElementById("t-ndc");
+    nel.classList.remove("pass", "fail", "cond");
+    nel.classList.add(nd >= NDC_MIN ? "pass" : "fail");
+    const ael = document.getElementById("t-agree");
+    ael.classList.remove("pass", "fail", "cond");
+    ael.classList.add(agree ? "pass" : "fail");
+    document.getElementById("lab-status").textContent = agree
+      ? "THE TWO GATES AGREE HERE"
+      : "OPPOSITE VERDICTS, SAME GAUGE";
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = Math.round(cv.getBoundingClientRect().width);
+    const h = 300;
+    if (cv.width !== Math.round(w * dpr)) {
+      cv.width = Math.round(w * dpr);
+      cv.height = Math.round(h * dpr);
+    }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    const pad = 34, maxPart = 30;
+    const x2p = (x) => pad + (x / maxPart) * (w - 2 * pad);
+    const y2p = (y) => h - pad - (y / 100) * (h - 2 * pad);
+
+    // the two gates
+    for (const [g, colour, label] of [[ACCEPT, COL.ok, "accept below 10 %"],
+                                      [REJECT, COL.bad, "reject above 30 %"]]) {
+      ctx.setLineDash([6, 5]);
+      ctx.strokeStyle = colour;
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(pad, y2p(g));
+      ctx.lineTo(w - pad, y2p(g));
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = colour;
+      ctx.font = "11px ui-monospace, monospace";
+      ctx.fillText(label, pad + 6, y2p(g) - 5);
+    }
+
+    // the study ratio as a curve of part spread, and the tolerance ratio flat
+    ctx.beginPath();
+    for (let i = 0; i <= 300; i++) {
+      const x = 0.4 + (maxPart - 0.4) * i / 300;
+      const p = x2p(x), q = y2p(studyRatio(GAUGE, x));
+      i === 0 ? ctx.moveTo(p, q) : ctx.lineTo(p, q);
+    }
+    ctx.strokeStyle = COL.bad;
+    ctx.lineWidth = 2.2;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(pad, y2p(Math.min(tr, 100)));
+    ctx.lineTo(w - pad, y2p(Math.min(tr, 100)));
+    ctx.strokeStyle = COL.ink;
+    ctx.lineWidth = 2.2;
+    ctx.stroke();
+
+    // where you are
+    ctx.fillStyle = COL.acc;
+    ctx.beginPath();
+    ctx.arc(x2p(Math.min(part, maxPart)), y2p(sr), 4.2, 0, 2 * Math.PI);
+    ctx.fill();
+
+    ctx.fillStyle = COL.dim;
+    ctx.font = "12px ui-monospace, monospace";
+    ctx.fillText("%GRR", pad + 4, pad - 12);
+    ctx.fillText("part-to-part spread, \u00b5m", w - pad - 150, h - pad + 18);
+  }
+
+  ps.addEventListener("input", draw);
+  ts.addEventListener("input", draw);
+  addEventListener("resize", draw);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+  draw();
+
+  window.__msalabStudyRatio = studyRatio;
+  window.__msalabToleranceRatio = toleranceRatio;
+  window.__msalabNdcFromRatio = ndcFromStudyRatio;
+})();
+</script>
+
+</body>
+</html>

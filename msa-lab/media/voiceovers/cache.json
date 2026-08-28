@@ -680,5 +680,225 @@
     },
     "original_audio": "so-the-decomposition-has-four-terms-and-one-of-56fd081e.mp3",
     "final_audio": "so-the-decomposition-has-four-terms-and-one-of-56fd081e.mp3"
+  },
+  {
+    "input_text": "Three levels of arithmetic have produced variances. A verdict is not a variance. To get one you divide - and the question is what you divide by.",
+    "input_data": {
+      "input_text": "Three levels of arithmetic have produced variances. A verdict is not a variance. To get one you divide - and the question is what you divide by.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "three-levels-of-arithmetic-have-produced-variances-a4312740.mp3",
+    "final_audio": "three-levels-of-arithmetic-have-produced-variances-a4312740.mp3"
+  },
+  {
+    "input_text": "Here is the gauge, drawn to scale. And here are the two things you might compare it to: the spread of the parts you measured, and the tolerance on the drawing.",
+    "input_data": {
+      "input_text": "Here is the gauge, drawn to scale. And here are the two things you might compare it to: the spread of the parts you measured, and the tolerance on the drawing.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "here-is-the-gauge-drawn-to-scale-and-here-are-the-887658d7.mp3",
+    "final_audio": "here-is-the-gauge-drawn-to-scale-and-here-are-the-887658d7.mp3"
+  },
+  {
+    "input_text": "Same numerator. Two denominators. Two questions - can this gauge tell these parts apart, and can it decide whether a part conforms. Neither is wrong, and the standard prints both without saying which one you are asking.",
+    "input_data": {
+      "input_text": "Same numerator. Two denominators. Two questions - can this gauge tell these parts apart, and can it decide whether a part conforms. Neither is wrong, and the standard prints both without saying which one you are asking.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "same-numerator-two-denominators-two-questions-can-cdb2875c.mp3",
+    "final_audio": "same-numerator-two-denominators-two-questions-can-cdb2875c.mp3"
+  },
+  {
+    "input_text": "Watch what happens to each of them when the process gets better and the gauge does not change at all.",
+    "input_data": {
+      "input_text": "Watch what happens to each of them when the process gets better and the gauge does not change at all.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "watch-what-happens-to-each-of-them-when-the-32489b12.mp3",
+    "final_audio": "watch-what-happens-to-each-of-them-when-the-32489b12.mp3"
+  },
+  {
+    "input_text": "The tolerance ratio is a flat line. It does not know the parts exist.",
+    "input_data": {
+      "input_text": "The tolerance ratio is a flat line. It does not know the parts exist.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "the-tolerance-ratio-is-a-flat-line-it-does-not-69bc0c23.mp3",
+    "final_audio": "the-tolerance-ratio-is-a-flat-line-it-does-not-69bc0c23.mp3"
+  },
+  {
+    "input_text": "The study ratio climbs, and it climbs steeply. Make the parts nearly identical and it approaches a hundred percent, because a gauge measuring parts that do not differ cannot tell them apart. Nothing about the instrument got worse. The question got harder.",
+    "input_data": {
+      "input_text": "The study ratio climbs, and it climbs steeply. Make the parts nearly identical and it approaches a hundred percent, because a gauge measuring parts that do not differ cannot tell them apart. Nothing about the instrument got worse. The question got harder.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "the-study-ratio-climbs-and-it-climbs-steeply-make-4efecc71.mp3",
+    "final_audio": "the-study-ratio-climbs-and-it-climbs-steeply-make-4efecc71.mp3"
+  },
+  {
+    "input_text": "So put one gauge - this gauge, two point zero six microns - into two different factories.",
+    "input_data": {
+      "input_text": "So put one gauge - this gauge, two point zero six microns - into two different factories.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "so-put-one-gauge-this-gauge-two-point-zero-six-36239d57.mp3",
+    "final_audio": "so-put-one-gauge-this-gauge-two-point-zero-six-36239d57.mp3"
+  },
+  {
+    "input_text": "In the first, the parts barely vary and the drawing is generous. The gauge cannot tell the parts apart at all - fifty seven percent, reject - and it decides conformance comfortably, eight percent, accept.",
+    "input_data": {
+      "input_text": "In the first, the parts barely vary and the drawing is generous. The gauge cannot tell the parts apart at all - fifty seven percent, reject - and it decides conformance comfortably, eight percent, accept.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "in-the-first-the-parts-barely-vary-and-the-drawing-de8531ed.mp3",
+    "final_audio": "in-the-first-the-parts-barely-vary-and-the-drawing-de8531ed.mp3"
+  },
+  {
+    "input_text": "In the second, exactly the reverse. It sorts the parts easily and it cannot be trusted with the conformance call.",
+    "input_data": {
+      "input_text": "In the second, exactly the reverse. It sorts the parts easily and it cannot be trusted with the conformance call.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "in-the-second-exactly-the-reverse-it-sorts-the-ba66598a.mp3",
+    "final_audio": "in-the-second-exactly-the-reverse-it-sorts-the-ba66598a.mp3"
+  },
+  {
+    "input_text": "One gauge. Two rows. Opposite verdicts off the same printed table, and neither row is a mistake.",
+    "input_data": {
+      "input_text": "One gauge. Two rows. Opposite verdicts off the same printed table, and neither row is a mistake.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "one-gauge-two-rows-opposite-verdicts-off-the-same-f6970ec2.mp3",
+    "final_audio": "one-gauge-two-rows-opposite-verdicts-off-the-same-f6970ec2.mp3"
+  },
+  {
+    "input_text": "The standard prints a third number beside those two: the number of distinct categories. It is supposed to say how many groups the gauge can tell apart.",
+    "input_data": {
+      "input_text": "The standard prints a third number beside those two: the number of distinct categories. It is supposed to say how many groups the gauge can tell apart.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "the-standard-prints-a-third-number-beside-those-68e48b25.mp3",
+    "final_audio": "the-standard-prints-a-third-number-beside-those-68e48b25.mp3"
+  },
+  {
+    "input_text": "Plot it against the study ratio and it is a curve. Not a cloud - a curve. Given the study ratio, ndc is determined, because it is that same ratio with the algebra rearranged. It cannot carry information the first number did not already have.",
+    "input_data": {
+      "input_text": "Plot it against the study ratio and it is a curve. Not a cloud - a curve. Given the study ratio, ndc is determined, because it is that same ratio with the algebra rearranged. It cannot carry information the first number did not already have.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "plot-it-against-the-study-ratio-and-it-is-a-curve-033490cf.mp3",
+    "final_audio": "plot-it-against-the-study-ratio-and-it-is-a-curve-033490cf.mp3"
+  },
+  {
+    "input_text": "Now put both of the standard's own gates on it. The rule says reject above thirty percent. The rule also says ndc must reach five.",
+    "input_data": {
+      "input_text": "Now put both of the standard's own gates on it. The rule says reject above thirty percent. The rule also says ndc must reach five.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "now-put-both-of-the-standard-s-own-gates-on-it-the-f960bb7e.mp3",
+    "final_audio": "now-put-both-of-the-standard-s-own-gates-on-it-the-f960bb7e.mp3"
+  },
+  {
+    "input_text": "Those are not the same line. Ndc reaching five happens at twenty seven point one percent, nearly three points tighter than the thirty printed beside it. A gauge can satisfy one rule and fail the other, in the same table, on the same study.",
+    "input_data": {
+      "input_text": "Those are not the same line. Ndc reaching five happens at twenty seven point one percent, nearly three points tighter than the thirty printed beside it. A gauge can satisfy one rule and fail the other, in the same table, on the same study.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "those-are-not-the-same-line-ndc-reaching-five-9a5b79a8.mp3",
+    "final_audio": "those-are-not-the-same-line-ndc-reaching-five-9a5b79a8.mp3"
+  },
+  {
+    "input_text": "None of those three numbers is the thing you actually care about. A conformance decision compares a reading to a limit, so a good part can be rejected and a bad part can be shipped.",
+    "input_data": {
+      "input_text": "None of those three numbers is the thing you actually care about. A conformance decision compares a reading to a limit, so a good part can be rejected and a bad part can be shipped.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "none-of-those-three-numbers-is-the-thing-you-3bdbad31.mp3",
+    "final_audio": "none-of-those-three-numbers-is-the-thing-you-3bdbad31.mp3"
+  },
+  {
+    "input_text": "The dashed lines are the truth's limits. The solid lines are where the gauge's reading crosses them.",
+    "input_data": {
+      "input_text": "The dashed lines are the truth's limits. The solid lines are where the gauge's reading crosses them.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "the-dashed-lines-are-the-truth-s-limits-the-solid-ac59db6d.mp3",
+    "final_audio": "the-dashed-lines-are-the-truth-s-limits-the-solid-ac59db6d.mp3"
+  },
+  {
+    "input_text": "Five hundred parts, measured once each.",
+    "input_data": {
+      "input_text": "Five hundred parts, measured once each.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "five-hundred-parts-measured-once-each-cfd4a8d8.mp3",
+    "final_audio": "five-hundred-parts-measured-once-each-cfd4a8d8.mp3"
+  },
+  {
+    "input_text": "The salmon points are out of tolerance and were accepted. The amber ones were inside and got scrapped. Twenty eight percent of the genuinely bad parts pass, on a centred process, with this gauge.",
+    "input_data": {
+      "input_text": "The salmon points are out of tolerance and were accepted. The amber ones were inside and got scrapped. Twenty eight percent of the genuinely bad parts pass, on a centred process, with this gauge.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "the-salmon-points-are-out-of-tolerance-and-were-df509640.mp3",
+    "final_audio": "the-salmon-points-are-out-of-tolerance-and-were-df509640.mp3"
+  },
+  {
+    "input_text": "Now move the process off centre without touching the gauge. Scrap goes from a tenth of a percent to five and a half. The gauge is identical, so every percentage from the first three levels is identical, and the risk has moved by a factor of forty.",
+    "input_data": {
+      "input_text": "Now move the process off centre without touching the gauge. Scrap goes from a tenth of a percent to five and a half. The gauge is identical, so every percentage from the first three levels is identical, and the risk has moved by a factor of forty.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "now-move-the-process-off-centre-without-touching-ffe1624c.mp3",
+    "final_audio": "now-move-the-process-off-centre-without-touching-ffe1624c.mp3"
+  },
+  {
+    "input_text": "So a percentage is a proxy for a risk, and it does not know where your process is sitting. Which is the last thing we have been assuming without checking: that the gauge is merely noisy, and not wrong. Level five asks what happens when it reads high.",
+    "input_data": {
+      "input_text": "So a percentage is a proxy for a risk, and it does not know where your process is sitting. Which is the last thing we have been assuming without checking: that the gauge is merely noisy, and not wrong. Level five asks what happens when it reads high.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "so-a-percentage-is-a-proxy-for-a-risk-and-it-does-a62a9b3c.mp3",
+    "final_audio": "so-a-percentage-is-a-proxy-for-a-risk-and-it-does-a62a9b3c.mp3"
   }
 ]

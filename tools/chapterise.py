@@ -748,6 +748,165 @@ def chapter_03(K):
     ]
 
 
+def chapter_04(K):
+    from msalab.against_what import (
+        ACCEPT_PCT, A_PART, A_STUDY, A_TOL, A_TOLPCT, B_PART, B_STUDY, B_TOL,
+        B_TOLPCT, CAP, CENTRED, GAUGE_SIGMA, NDC, NDC_GATE_GAP, NDC_MIN,
+        REJECT_PCT, SHIFTED, STUDY_PCT, STUDY_PCT_AT_NDC5, STUDY_AFTER,
+        STUDY_BEFORE, TOLERANCE, TOL_PCT, TIGHTEN_FROM, TIGHTEN_TO, verdict,
+    )
+    import math as _m
+    s6 = 6 * _m.hypot(4.7, GAUGE_SIGMA)
+    return [
+        ("s1", "4.1", "A verdict is not a variance", [
+            para("Three levels of arithmetic have produced variances: a "
+                 "repeatability, a reproducibility, an interaction. None of them "
+                 "is a decision. To get a decision you divide, and the whole "
+                 "difficulty of this level is what you divide by.",
+                 lead=True),
+            f'{P}<div class="eq"><div class="eq-body" data-tex="\\%GRR_{{study}} = '
+            f'\\frac{{\\sigma_{{gauge}}}}{{\\sigma_{{total}}}} \\qquad '
+            f'\\%GRR_{{tol}} = \\frac{{6\\sigma_{{gauge}}}}'
+            f'{{tolerance}}"></div><div class="eq-num">(4.1)</div></div>',
+            para("Same numerator both times. The first asks whether this gauge can "
+                 "tell these parts apart. The second asks whether it can decide "
+                 "whether a part conforms. Those are different questions, and the "
+                 "standard prints both answers side by side without saying which "
+                 "one you asked.",
+                 datanote(("the gauge, 6" + nc("σ"), f"{6*GAUGE_SIGMA:.1f} µm"),
+                          ("the study spread, 6" + nc("σ"), f"{s6:.1f} µm"),
+                          ("the tolerance", f"{TOLERANCE:.0f} µm"),
+                          ("against study", f"{STUDY_PCT:.1f} %"),
+                          ("against tolerance", f"{TOL_PCT:.1f} %"),
+                          k="one numerator, two denominators")),
+            K["fig"]("Level04.mp4"),
+        ]),
+        ("s2", "4.2", "Only one of them can see the parts", [
+            para("The tolerance came off a drawing. It does not know how much the "
+                 "parts vary, so the tolerance ratio cannot move when the process "
+                 "changes. The study ratio is almost nothing but that.",
+                 lead=True),
+            para(f"Improve the process - take the part spread from "
+                 f"{TIGHTEN_FROM}&nbsp;µm down to {TIGHTEN_TO} - and the study "
+                 f"ratio gets <em>worse</em>, from {STUDY_BEFORE:.1f}&nbsp;% to "
+                 f"{STUDY_AFTER:.1f}. Nothing about the instrument changed. A gauge "
+                 f"measuring parts that are nearly identical cannot sort them, and "
+                 f"as the parts converge the ratio approaches a hundred percent.",
+                 datanote(("study ratio before", f"{STUDY_BEFORE:.1f} %"),
+                          ("study ratio after", f"{STUDY_AFTER:.1f} %"),
+                          ("tolerance ratio", f"{TOL_PCT:.1f} % (unmoved)"),
+                          k="tightening the process")),
+            para("Which is worth stating plainly, because it is the opposite of an "
+                 "intuition: a good process makes a gauge look bad on the study "
+                 "ratio. The gauge did not get worse. The question got harder.",
+                 note("both are honest", text="If you are sorting parts into bins, "
+                      "the study ratio is the one you want. If you are stamping "
+                      "conform or not, it is the wrong number entirely.")),
+            K["fig"]("l04_1_against_what.png"),
+        ]),
+        ("s3", "4.3", "The same gauge, opposite verdicts", [
+            para(f"So take this gauge - {GAUGE_SIGMA:.2f}&nbsp;µm, unchanged - and "
+                 f"put it in two factories.", lead=True),
+            para(f"<strong>A.</strong> A well-controlled process on a generous "
+                 f"drawing: parts at {A_PART:.0f}&nbsp;µm, tolerance "
+                 f"{A_TOL:.0f}. The study ratio is {A_STUDY:.1f}&nbsp;% - "
+                 f"{verdict(A_STUDY)} - and the tolerance ratio is "
+                 f"{A_TOLPCT:.1f}&nbsp;%, {verdict(A_TOLPCT)}.",
+                 datanote(("against study", f"{A_STUDY:.1f} % → {verdict(A_STUDY)}"),
+                          ("against tolerance", f"{A_TOLPCT:.1f} % → {verdict(A_TOLPCT)}"),
+                          k="factory A")),
+            para(f"<strong>B.</strong> A sloppy process on a tight drawing: parts at "
+                 f"{B_PART:.0f}&nbsp;µm, tolerance {B_TOL:.0f}. Exactly the "
+                 f"reverse - {B_STUDY:.1f}&nbsp;% ({verdict(B_STUDY)}) against "
+                 f"{B_TOLPCT:.1f}&nbsp;% ({verdict(B_TOLPCT)}).",
+                 datanote(("against study", f"{B_STUDY:.1f} % → {verdict(B_STUDY)}"),
+                          ("against tolerance", f"{B_TOLPCT:.1f} % → {verdict(B_TOLPCT)}"),
+                          k="factory B")),
+            para("One gauge, two rows, opposite verdicts off the same printed "
+                 "table - and neither row is a mistake. The shaded region in the "
+                 "figure above is the whole set of processes and drawings where "
+                 "that happens, and it is not a corner case.",
+                 note("so which", text="Whichever matches the decision the gauge is "
+                      "there to make. That is a question about the job, and no "
+                      "amount of arithmetic answers it.")),
+            K["lab"],
+        ]),
+        ("s4", "4.4", "The third number is the first one rearranged", [
+            para("Beside those two the standard prints a third: the number of "
+                 "distinct categories, which is supposed to say how many groups the "
+                 "gauge can separate.",
+                 lead=True),
+            para("It is not independent. ndc is "
+                 + tex(r"1.41\,\sigma_{part}/\sigma_{gauge}") + ", and the study "
+                 "ratio is " + tex(r"\sigma_{gauge}/\sigma_{total}") + ", so one "
+                 "determines the other exactly. Plot ndc against the study ratio "
+                 "and you get a curve, not a cloud. It cannot carry information "
+                 "the first number did not already have, and it cannot rank two "
+                 "gauges differently.",
+                 datanote((nc("ndc") + " from the components", f"{NDC:.4f}"),
+                          (nc("ndc") + " from the study ratio", f"{NDC:.4f}"),
+                          ("difference", "0 (algebraic)"),
+                          k="two routes, one number")),
+            K["fig"]("l04_2_what_the_numbers_are_worth.png"),
+            para(f"What it does add is an inconsistency. Requiring ndc to reach "
+                 f"{NDC_MIN} is exactly requiring the study ratio to be at or below "
+                 f"{STUDY_PCT_AT_NDC5:.1f}&nbsp;% - which is "
+                 f"{NDC_GATE_GAP:.1f}&nbsp;points tighter than the "
+                 f"{REJECT_PCT:.0f}&nbsp;% printed beside it. A gauge can satisfy "
+                 f"one rule and fail the other on the same study.",
+                 datanote(("reject above", f"{REJECT_PCT:.0f} %"),
+                          (nc("ndc") + f" ≥ {NDC_MIN} means", f"≤ {STUDY_PCT_AT_NDC5:.1f} %"),
+                          ("the two gates differ by", f"{NDC_GATE_GAP:.1f} points"),
+                          k="two lines, one table")),
+            para("And the 1.41 is not a measurement. It is the square root of two, "
+                 "rounded to two places - which itself moves the gate by 0.08 of a "
+                 "point. Small, and a reminder that a rounded constant sitting "
+                 "inside a threshold is not the same object as the number it came "
+                 "from.",
+                 note("earned, not quoted", text="A test asserts the constant is "
+                      "√2 to within 0.005, and another asserts the gate computed "
+                      "with the exact root is the more permissive of the two.")),
+        ]),
+        ("s5", "4.5", "A percentage is a proxy for a risk", [
+            para("None of the three numbers is the thing anyone actually cares "
+                 "about. A conformance decision compares a <em>reading</em> to a "
+                 "limit, so a good part can be scrapped and a bad part can be "
+                 "shipped - and how often depends on where the process is sitting.",
+                 lead=True),
+            para(f"On a centred process with this gauge, "
+                 f"{CENTRED['bad_parts_accepted_pct']:.0f}&nbsp;% of the genuinely "
+                 f"out-of-tolerance parts pass. That is not the same sentence as "
+                 f"the headline rate of {CENTRED['false_accept_pct']:.3f}&nbsp;% of "
+                 f"all parts, and the second one is what ships.",
+                 datanote(("of the bad parts, accepted", f"{CENTRED['bad_parts_accepted_pct']:.1f} %"),
+                          ("of all parts", f"{CENTRED['false_accept_pct']:.3f} %"),
+                          ("of the good parts, rejected", f"{CENTRED['good_parts_rejected_pct']:.2f} %"),
+                          ("scrap", f"{CENTRED['scrap_rate_pct']:.2f} %"),
+                          k="centred")),
+            para(f"Now move the process a quarter of the tolerance off centre and "
+                 f"touch nothing else. Scrap goes from "
+                 f"{CENTRED['scrap_rate_pct']:.2f}&nbsp;% to "
+                 f"{SHIFTED['scrap_rate_pct']:.1f}, and good parts rejected from "
+                 f"{CENTRED['good_parts_rejected_pct']:.2f} to "
+                 f"{SHIFTED['good_parts_rejected_pct']:.2f}. The gauge is "
+                 f"identical, so every percentage in this level is identical, and "
+                 f"the risk moved by more than an order of magnitude.",
+                 datanote(("scrap", f"{CENTRED['scrap_rate_pct']:.2f} % → {SHIFTED['scrap_rate_pct']:.1f} %"),
+                          ("good parts rejected", f"{CENTRED['good_parts_rejected_pct']:.2f} % → {SHIFTED['good_parts_rejected_pct']:.2f} %"),
+                          ("%GRR", "unchanged"),
+                          k="shifted, same gauge")),
+            para("So a percentage is a proxy, and it does not know where you are. "
+                 "Which exposes the last thing these four levels have assumed "
+                 "without checking: that the gauge is merely noisy. Everything so "
+                 "far has had a mean of zero. Suppose it reads high.",
+                 note("the seam ahead", text="Bias, linearity and stability. A "
+                      "gauge can repeat beautifully and be wrong, be right in the "
+                      "middle and wrong at the ends, or be right only today.")),
+            K["sys"],
+        ]),
+    ]
+
+
 CHAPTERS = {
     "level-01.html": {
         "number": 1, "word": "one",
@@ -801,6 +960,24 @@ CHAPTERS = {
                 ("3.5", "s5", "Three hundred studies, because one settles nothing",
                  "43 % too small at the far end, and ANOVA's own bias named")],
         "sections": chapter_03,
+    },
+    "level-04.html": {
+        "number": 4, "word": "four",
+        "before": "Level 3 \u2014 Gage R&R by ANOVA",
+        "after": "Level 5 \u2014 bias, linearity, stability",
+        "estimate": "5 sections \u00b7 1 act \u00b7 1 interactive \u00b7 ~9 min read",
+        "toc": [("4.1", "s1", "A verdict is not a variance",
+                 "same numerator, two denominators, two questions"),
+                ("4.2", "s2", "Only one of them can see the parts",
+                 "improve the process and the study ratio gets worse"),
+                ("4.3", "s3", "The same gauge, opposite verdicts",
+                 "two factories, one instrument, both gates honest"),
+                ("4.4", "s4", "The third number is the first one rearranged",
+                 tex(r"1.41\,\sigma_{part}/\sigma_{gauge}")
+                 + " \u2014 and its gate is 2.9 points tighter"),
+                ("4.5", "s5", "A percentage is a proxy for a risk",
+                 "shift the process and the risk moves while %GRR does not")],
+        "sections": chapter_04,
     },
 }
 
