@@ -42,6 +42,9 @@ TAIL_PAUSE = 0.45
 
 VOICE = os.environ.get("MSALAB_VOICE", "").strip().lower() in {"1", "true", "yes", "on"}
 SERVICE = os.environ.get("MSALAB_VOICE_SERVICE", "kokoro").strip().lower()
+# An unavailable kokoro stops the build unless this is set. See _speech_service.
+FALLBACK_OK = os.environ.get("MSALAB_VOICE_FALLBACK", "").strip().lower() in {
+    "1", "true", "yes", "on"}
 
 
 def spoken_duration(text: str) -> float:
@@ -95,8 +98,27 @@ def _speech_service():
         try:
             from msalab.kokoro_voice import KokoroService
             return KokoroService()
-        except Exception as exc:                       # noqa: BLE001 — see docstring
-            print(f"\n  kokoro unavailable ({exc}); falling back to gTTS\n")
+        except Exception as exc:                       # noqa: BLE001 — see below
+            # This used to fall through to gTTS with a printed warning, and that
+            # is how Level 1 shipped in the wrong voice: kokoro_voice.py had not
+            # been copied into this package, the warning went to a build log that
+            # was being grepped, and every downstream artifact was correct except
+            # the sound. A fallback nobody sees is not resilience.
+            #
+            # It now stops the build. Ask for gTTS explicitly if you want it.
+            if not FALLBACK_OK:
+                raise RuntimeError(
+                    f"kokoro is unavailable ({exc}).\n"
+                    "  The render is stopping rather than quietly substituting "
+                    "gTTS, which measures 209 Hz against am_michael's 118 and is "
+                    "audibly the wrong voice.\n"
+                    "  Either fix kokoro (see msalab/kokoro_voice.py), or ask for "
+                    "another voice on purpose:\n"
+                    "    MSALAB_VOICE=1 MSALAB_VOICE_SERVICE=gtts ./build-media.sh\n"
+                    "    MSALAB_VOICE_FALLBACK=1 ...   # allow the silent fallback"
+                ) from exc
+            print(f"\n  kokoro unavailable ({exc}); falling back to gTTS "
+                  f"because MSALAB_VOICE_FALLBACK is set\n")
 
     from manim_voiceover.services.gtts import GTTSService
     # en-GB reads a little slower and flatter than en-US, which suits

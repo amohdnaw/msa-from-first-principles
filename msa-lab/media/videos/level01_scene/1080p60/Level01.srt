@@ -1,164 +1,164 @@
 1
-00:00:00,000 --> 00:00:05,372
+00:00:00,000 --> 00:00:05,156
 This is one bore, machined once. It has exactly one size.
 
 2
-00:00:05,466 --> 00:00:08,798
+00:00:05,250 --> 00:00:08,990
 One size, and nothing has been measured yet.
 
 3
-00:00:08,883 --> 00:00:15,325
+00:00:09,083 --> 00:00:14,534
 Measure it once, and again, and two hundred times. The bore has not changed.
 
 4
-00:00:15,425 --> 00:00:20,663
+00:00:14,634 --> 00:00:19,063
 The readings have a shape, a centre and a spread of their own.
 
 5
-00:00:20,750 --> 00:00:25,330
+00:00:19,150 --> 00:00:23,335
 One true size. Seven microns of spread on the screen.
 
 6
-00:00:25,430 --> 00:00:29,746
+00:00:23,435 --> 00:00:27,378
 That spread belongs to the gauge, not to the part.
 
 7
-00:00:31,433 --> 00:00:34,141
+00:00:29,066 --> 00:00:32,326
 So a reading is never just the part.
 
 8
-00:00:34,233 --> 00:00:36,466
+00:00:32,416 --> 00:00:34,949
 It is the part, plus whatever the
 
 9
-00:00:36,566 --> 00:00:39,365
+00:00:35,049 --> 00:00:38,220
 measurement process did on that occasion.
 
 10
-00:00:39,450 --> 00:00:42,824
+00:00:38,316 --> 00:00:41,469
 Watch the error, not the part. The part is
 
 11
-00:00:42,924 --> 00:00:46,381
+00:00:41,569 --> 00:00:44,799
 fixed. The error is a draw from the gauge's
 
 12
-00:00:46,481 --> 00:00:51,014
+00:00:44,899 --> 00:00:49,136
 own distribution, and it lands somewhere new every time.
 
 13
-00:00:51,100 --> 00:00:55,200
+00:00:49,233 --> 00:00:53,861
 That distribution is the thing this whole subject studies.
 
 14
-00:00:56,800 --> 00:01:01,716
+00:00:55,450 --> 00:01:00,366
 If the reading is the part plus an error, the spread you observe must
 
 15
-00:01:01,816 --> 00:01:06,588
+00:01:00,466 --> 00:01:05,238
 be wider than the spread of the parts. The question is by how much.
 
 16
-00:01:06,683 --> 00:01:10,111
+00:01:05,333 --> 00:01:09,025
 The tempting answer is that the two spreads add.
 
 17
-00:01:10,200 --> 00:01:13,796
+00:01:09,116 --> 00:01:12,962
 It is not. Independent variation adds the way
 
 18
-00:01:13,896 --> 00:01:16,508
+00:01:13,062 --> 00:01:15,856
 the sides of a right triangle do.
 
 19
-00:01:16,600 --> 00:01:20,988
+00:01:15,950 --> 00:01:20,578
 The variances add. The standard deviations do not.
 
 20
-00:01:21,083 --> 00:01:25,146
+00:01:20,666 --> 00:01:24,833
 Four point seven and one point four give four point
 
 21
-00:01:25,246 --> 00:01:28,983
+00:01:24,933 --> 00:01:28,765
 nine, not six point one. The gauge is a quarter
 
 22
-00:01:29,083 --> 00:01:32,575
+00:01:28,865 --> 00:01:32,446
 of the part spread and it costs 4.3 percent.
 
 23
-00:01:34,366 --> 00:01:37,207
+00:01:34,233 --> 00:01:37,141
 Sweep the gauge from perfect to as bad as
 
 24
-00:01:37,307 --> 00:01:40,506
+00:01:37,241 --> 00:01:40,517
 the parts themselves, and watch what it costs.
 
 25
-00:01:40,600 --> 00:01:44,540
+00:01:40,616 --> 00:01:44,485
 A gauge at a tenth of the part spread costs half a
 
 26
-00:01:44,640 --> 00:01:49,309
+00:01:44,585 --> 00:01:49,168
 percent. At a third it costs four. The curve is almost flat
 
 27
-00:01:49,409 --> 00:01:53,916
+00:01:49,268 --> 00:01:53,692
 here, which is why a mediocre gauge often goes unnoticed.
 
 28
-00:01:54,000 --> 00:01:56,803
+00:01:53,783 --> 00:01:56,775
 Then it bends. A gauge as noisy as the
 
 29
-00:01:56,903 --> 00:02:00,548
+00:01:56,875 --> 00:02:00,763
 parts inflates what you see by forty one percent.
 
 30
-00:02:00,633 --> 00:02:04,378
+00:02:00,850 --> 00:02:04,677
 Read it the other way and it is uncomfortable. Your
 
 31
-00:02:04,478 --> 00:02:08,222
+00:02:04,777 --> 00:02:08,604
 gauge may be nearly half the part spread before the
 
 32
-00:02:08,322 --> 00:02:12,821
+00:02:08,704 --> 00:02:13,302
 histogram is ten percent too wide. Small effects hide easily.
 
 33
-00:02:14,616 --> 00:02:18,742
+00:02:15,100 --> 00:02:19,320
 The obvious move is to measure each part several times
 
 34
-00:02:18,842 --> 00:02:22,028
+00:02:19,420 --> 00:02:22,680
 and average. It works, and it has a floor.
 
 35
-00:02:22,116 --> 00:02:27,185
+00:02:22,766 --> 00:02:27,712
 Averaging divides the measurement variance by the number of repeats. It
 
 36
-00:02:27,285 --> 00:02:31,408
+00:02:27,812 --> 00:02:31,833
 does nothing at all to the variation between the parts, so
 
 37
-00:02:31,508 --> 00:02:35,048
+00:02:31,933 --> 00:02:35,386
 the curve falls towards the part spread and stops.
 
 38
-00:02:35,133 --> 00:02:40,027
+00:02:35,483 --> 00:02:40,251
 Five repeats gets you within one percent of the floor and twenty-five
 
 39
-00:02:40,127 --> 00:02:44,732
+00:02:40,351 --> 00:02:44,838
 barely improves on that. So the honest question is never how good
 
 40
-00:02:44,832 --> 00:02:48,786
+00:02:44,938 --> 00:02:48,789
 is my gauge. It is how big is it, compared to something.
 
 41
-00:02:48,886 --> 00:02:53,129
+00:02:48,889 --> 00:02:53,023
 Level two asks whose spread we have actually been measuring.
 

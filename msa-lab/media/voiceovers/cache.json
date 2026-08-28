@@ -3,180 +3,220 @@
     "input_text": "This is one bore, machined once. It has exactly one size.",
     "input_data": {
       "input_text": "This is one bore, machined once. It has exactly one size.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "this-is-one-bore-machined-once-it-has-exactly-one-b6d8d537.mp3",
-    "final_audio": "this-is-one-bore-machined-once-it-has-exactly-one-b6d8d537.mp3"
+    "original_audio": "this-is-one-bore-machined-once-it-has-exactly-one-35cd7abf.mp3",
+    "final_audio": "this-is-one-bore-machined-once-it-has-exactly-one-35cd7abf.mp3"
   },
   {
     "input_text": "One size, and nothing has been measured yet.",
     "input_data": {
       "input_text": "One size, and nothing has been measured yet.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "one-size-and-nothing-has-been-measured-yet-c336fccf.mp3",
-    "final_audio": "one-size-and-nothing-has-been-measured-yet-c336fccf.mp3"
+    "original_audio": "one-size-and-nothing-has-been-measured-yet-7b6b900d.mp3",
+    "final_audio": "one-size-and-nothing-has-been-measured-yet-7b6b900d.mp3"
   },
   {
     "input_text": "Measure it once, and again, and two hundred times. The bore has not changed. The readings have a shape, a centre and a spread of their own.",
     "input_data": {
       "input_text": "Measure it once, and again, and two hundred times. The bore has not changed. The readings have a shape, a centre and a spread of their own.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "measure-it-once-and-again-and-two-hundred-times-84a2ab1b.mp3",
-    "final_audio": "measure-it-once-and-again-and-two-hundred-times-84a2ab1b.mp3"
+    "original_audio": "measure-it-once-and-again-and-two-hundred-times-04e0c39d.mp3",
+    "final_audio": "measure-it-once-and-again-and-two-hundred-times-04e0c39d.mp3"
   },
   {
     "input_text": "One true size. Seven microns of spread on the screen. That spread belongs to the gauge, not to the part.",
     "input_data": {
       "input_text": "One true size. Seven microns of spread on the screen. That spread belongs to the gauge, not to the part.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "one-true-size-seven-microns-of-spread-on-the-a1362080.mp3",
-    "final_audio": "one-true-size-seven-microns-of-spread-on-the-a1362080.mp3"
+    "original_audio": "one-true-size-seven-microns-of-spread-on-the-89f8f3bd.mp3",
+    "final_audio": "one-true-size-seven-microns-of-spread-on-the-89f8f3bd.mp3"
   },
   {
     "input_text": "So a reading is never just the part.",
     "input_data": {
       "input_text": "So a reading is never just the part.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "so-a-reading-is-never-just-the-part-cd4c4e24.mp3",
-    "final_audio": "so-a-reading-is-never-just-the-part-cd4c4e24.mp3"
+    "original_audio": "so-a-reading-is-never-just-the-part-9409d68c.mp3",
+    "final_audio": "so-a-reading-is-never-just-the-part-9409d68c.mp3"
   },
   {
     "input_text": "It is the part, plus whatever the measurement process did on that occasion.",
     "input_data": {
       "input_text": "It is the part, plus whatever the measurement process did on that occasion.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "it-is-the-part-plus-whatever-the-measurement-1b58e103.mp3",
-    "final_audio": "it-is-the-part-plus-whatever-the-measurement-1b58e103.mp3"
+    "original_audio": "it-is-the-part-plus-whatever-the-measurement-ccd3f47a.mp3",
+    "final_audio": "it-is-the-part-plus-whatever-the-measurement-ccd3f47a.mp3"
   },
   {
     "input_text": "Watch the error, not the part. The part is fixed. The error is a draw from the gauge's own distribution, and it lands somewhere new every time.",
     "input_data": {
       "input_text": "Watch the error, not the part. The part is fixed. The error is a draw from the gauge's own distribution, and it lands somewhere new every time.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "watch-the-error-not-the-part-the-part-is-fixed-the-b2b2e1f1.mp3",
-    "final_audio": "watch-the-error-not-the-part-the-part-is-fixed-the-b2b2e1f1.mp3"
+    "original_audio": "watch-the-error-not-the-part-the-part-is-fixed-the-a4c3fab5.mp3",
+    "final_audio": "watch-the-error-not-the-part-the-part-is-fixed-the-a4c3fab5.mp3"
   },
   {
     "input_text": "That distribution is the thing this whole subject studies.",
     "input_data": {
       "input_text": "That distribution is the thing this whole subject studies.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "that-distribution-is-the-thing-this-whole-subject-61e0d731.mp3",
-    "final_audio": "that-distribution-is-the-thing-this-whole-subject-61e0d731.mp3"
+    "original_audio": "that-distribution-is-the-thing-this-whole-subject-cb759e96.mp3",
+    "final_audio": "that-distribution-is-the-thing-this-whole-subject-cb759e96.mp3"
   },
   {
     "input_text": "If the reading is the part plus an error, the spread you observe must be wider than the spread of the parts. The question is by how much.",
     "input_data": {
       "input_text": "If the reading is the part plus an error, the spread you observe must be wider than the spread of the parts. The question is by how much.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "if-the-reading-is-the-part-plus-an-error-the-1d834019.mp3",
-    "final_audio": "if-the-reading-is-the-part-plus-an-error-the-1d834019.mp3"
+    "original_audio": "if-the-reading-is-the-part-plus-an-error-the-ecf89064.mp3",
+    "final_audio": "if-the-reading-is-the-part-plus-an-error-the-ecf89064.mp3"
   },
   {
     "input_text": "The tempting answer is that the two spreads add.",
     "input_data": {
       "input_text": "The tempting answer is that the two spreads add.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "the-tempting-answer-is-that-the-two-spreads-add-054bff69.mp3",
-    "final_audio": "the-tempting-answer-is-that-the-two-spreads-add-054bff69.mp3"
+    "original_audio": "the-tempting-answer-is-that-the-two-spreads-add-2cb1d84f.mp3",
+    "final_audio": "the-tempting-answer-is-that-the-two-spreads-add-2cb1d84f.mp3"
   },
   {
     "input_text": "It is not. Independent variation adds the way the sides of a right triangle do.",
     "input_data": {
       "input_text": "It is not. Independent variation adds the way the sides of a right triangle do.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "it-is-not-independent-variation-adds-the-way-the-29751998.mp3",
-    "final_audio": "it-is-not-independent-variation-adds-the-way-the-29751998.mp3"
+    "original_audio": "it-is-not-independent-variation-adds-the-way-the-4cbca4c4.mp3",
+    "final_audio": "it-is-not-independent-variation-adds-the-way-the-4cbca4c4.mp3"
   },
   {
     "input_text": "The variances add. The standard deviations do not.",
     "input_data": {
       "input_text": "The variances add. The standard deviations do not.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "the-variances-add-the-standard-deviations-do-not-8c36b5a9.mp3",
-    "final_audio": "the-variances-add-the-standard-deviations-do-not-8c36b5a9.mp3"
+    "original_audio": "the-variances-add-the-standard-deviations-do-not-19a08a90.mp3",
+    "final_audio": "the-variances-add-the-standard-deviations-do-not-19a08a90.mp3"
   },
   {
     "input_text": "Four point seven and one point four give four point nine, not six point one. The gauge is a quarter of the part spread and it costs 4.3 percent.",
     "input_data": {
       "input_text": "Four point seven and one point four give four point nine, not six point one. The gauge is a quarter of the part spread and it costs 4.3 percent.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "four-point-seven-and-one-point-four-give-four-bc1d6bd2.mp3",
-    "final_audio": "four-point-seven-and-one-point-four-give-four-bc1d6bd2.mp3"
+    "original_audio": "four-point-seven-and-one-point-four-give-four-82ade235.mp3",
+    "final_audio": "four-point-seven-and-one-point-four-give-four-82ade235.mp3"
   },
   {
     "input_text": "Sweep the gauge from perfect to as bad as the parts themselves, and watch what it costs.",
     "input_data": {
       "input_text": "Sweep the gauge from perfect to as bad as the parts themselves, and watch what it costs.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "sweep-the-gauge-from-perfect-to-as-bad-as-the-a11c9aa7.mp3",
-    "final_audio": "sweep-the-gauge-from-perfect-to-as-bad-as-the-a11c9aa7.mp3"
+    "original_audio": "sweep-the-gauge-from-perfect-to-as-bad-as-the-898e360a.mp3",
+    "final_audio": "sweep-the-gauge-from-perfect-to-as-bad-as-the-898e360a.mp3"
   },
   {
     "input_text": "A gauge at a tenth of the part spread costs half a percent. At a third it costs four. The curve is almost flat here, which is why a mediocre gauge often goes unnoticed.",
     "input_data": {
       "input_text": "A gauge at a tenth of the part spread costs half a percent. At a third it costs four. The curve is almost flat here, which is why a mediocre gauge often goes unnoticed.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "a-gauge-at-a-tenth-of-the-part-spread-costs-half-a-6a7cf10d.mp3",
-    "final_audio": "a-gauge-at-a-tenth-of-the-part-spread-costs-half-a-6a7cf10d.mp3"
+    "original_audio": "a-gauge-at-a-tenth-of-the-part-spread-costs-half-a-59497050.mp3",
+    "final_audio": "a-gauge-at-a-tenth-of-the-part-spread-costs-half-a-59497050.mp3"
   },
   {
     "input_text": "Then it bends. A gauge as noisy as the parts inflates what you see by forty one percent.",
     "input_data": {
       "input_text": "Then it bends. A gauge as noisy as the parts inflates what you see by forty one percent.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "then-it-bends-a-gauge-as-noisy-as-the-parts-d627d25a.mp3",
-    "final_audio": "then-it-bends-a-gauge-as-noisy-as-the-parts-d627d25a.mp3"
+    "original_audio": "then-it-bends-a-gauge-as-noisy-as-the-parts-bd1b60c5.mp3",
+    "final_audio": "then-it-bends-a-gauge-as-noisy-as-the-parts-bd1b60c5.mp3"
   },
   {
     "input_text": "Read it the other way and it is uncomfortable. Your gauge may be nearly half the part spread before the histogram is ten percent too wide. Small effects hide easily.",
     "input_data": {
       "input_text": "Read it the other way and it is uncomfortable. Your gauge may be nearly half the part spread before the histogram is ten percent too wide. Small effects hide easily.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "read-it-the-other-way-and-it-is-uncomfortable-your-8f864c28.mp3",
-    "final_audio": "read-it-the-other-way-and-it-is-uncomfortable-your-8f864c28.mp3"
+    "original_audio": "read-it-the-other-way-and-it-is-uncomfortable-your-a441a4c7.mp3",
+    "final_audio": "read-it-the-other-way-and-it-is-uncomfortable-your-a441a4c7.mp3"
   },
   {
     "input_text": "The obvious move is to measure each part several times and average. It works, and it has a floor.",
     "input_data": {
       "input_text": "The obvious move is to measure each part several times and average. It works, and it has a floor.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "the-obvious-move-is-to-measure-each-part-several-acfdeb54.mp3",
-    "final_audio": "the-obvious-move-is-to-measure-each-part-several-acfdeb54.mp3"
+    "original_audio": "the-obvious-move-is-to-measure-each-part-several-be4a6856.mp3",
+    "final_audio": "the-obvious-move-is-to-measure-each-part-several-be4a6856.mp3"
   },
   {
     "input_text": "Averaging divides the measurement variance by the number of repeats. It does nothing at all to the variation between the parts, so the curve falls towards the part spread and stops.",
     "input_data": {
       "input_text": "Averaging divides the measurement variance by the number of repeats. It does nothing at all to the variation between the parts, so the curve falls towards the part spread and stops.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "averaging-divides-the-measurement-variance-by-the-2effe687.mp3",
-    "final_audio": "averaging-divides-the-measurement-variance-by-the-2effe687.mp3"
+    "original_audio": "averaging-divides-the-measurement-variance-by-the-a093218d.mp3",
+    "final_audio": "averaging-divides-the-measurement-variance-by-the-a093218d.mp3"
   },
   {
     "input_text": "Five repeats gets you within one percent of the floor and twenty-five barely improves on that. So the honest question is never how good is my gauge. It is how big is it, compared to something. Level two asks whose spread we have actually been measuring.",
     "input_data": {
       "input_text": "Five repeats gets you within one percent of the floor and twenty-five barely improves on that. So the honest question is never how good is my gauge. It is how big is it, compared to something. Level two asks whose spread we have actually been measuring.",
-      "service": "gtts"
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
     },
-    "original_audio": "five-repeats-gets-you-within-one-percent-of-the-db09c241.mp3",
-    "final_audio": "five-repeats-gets-you-within-one-percent-of-the-db09c241.mp3"
+    "original_audio": "five-repeats-gets-you-within-one-percent-of-the-416d2365.mp3",
+    "final_audio": "five-repeats-gets-you-within-one-percent-of-the-416d2365.mp3"
   }
 ]
