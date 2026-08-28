@@ -7,3 +7,4 @@ media/Tex/
 __pycache__/
 .venv/
 .pytest_cache/
+tools/node_modules/

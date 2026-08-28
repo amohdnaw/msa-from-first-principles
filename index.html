@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSA from First Principles — a measurement-systems curriculum</title>
+<meta name="description" content="A seven-level curriculum on measurement system analysis. Every number on every page is computed at render time, and the tests check the same functions the pages read. Narrated video and interactive labs.">
+<link rel="icon" href="favicon.svg">
+<link rel="preload" as="font" type="font/woff2" href="fonts/eb-garamond-roman.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/ibm-plex-mono-400.woff2" crossorigin>
+<style>
+  /* self-hosted, two families, two voices — see DESIGN.md */
+  @font-face{font-family:'EB Garamond';src:url('fonts/eb-garamond-roman.woff2') format('woff2');
+    font-weight:400 600;font-style:normal;font-display:swap}
+  @font-face{font-family:'EB Garamond';src:url('fonts/eb-garamond-italic.woff2') format('woff2');
+    font-weight:400 500;font-style:italic;font-display:swap}
+  @font-face{font-family:'IBM Plex Mono';src:url('fonts/ibm-plex-mono-400.woff2') format('woff2');
+    font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'IBM Plex Mono';src:url('fonts/ibm-plex-mono-600.woff2') format('woff2');
+    font-weight:600;font-style:normal;font-display:swap}
+
+  /* Canonical DESIGN.md token names. The chart JS resolves these directly —
+     there is no legacy alias layer. Ground is the exact Manim frame colour;
+     do not re-pick it by eye. */
+  :root{
+    --ground:#0d1114;
+    --panel:#14181c;
+    --panel-high:#1b2026;
+    --rule:#2a3138;
+    --rule-strong:#3d4650;
+    --ink-dim:#7d8b98;
+    --ink:#d7dee4;
+    --ink-bright:#eef3f7;
+    --accent:#ffae00;
+    --accent-wash:rgba(255,174,0,0.14);
+    --signal-ok:#65ccaf;
+    --signal-alarm:#de6a5d;
+    --fill-ok:#2a534b;
+    --doc:'EB Garamond',Georgia,serif;
+    --inst:'IBM Plex Mono',ui-monospace,monospace;
+    --gutter:clamp(24px,5vw,72px);
+    --max:1240px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  /* typography hygiene (better-typography 3, 16): a missing weight must fail
+     visibly rather than render a faked bold, and macOS renders serif text
+     heavier than intended without grayscale smoothing. */
+  html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  html,body{font-synthesis:none}
+  /* text-transform:uppercase maps σ to Σ and λ to Λ — different symbols
+     entirely (summation, and the lambda of a different meaning). A label may
+     be uppercase and still carry a correct lowercase glyph: opt that span out. */
+  .nc{text-transform:none}
+  body{
+    background:var(--ground);color:var(--ink);
+    font-family:var(--doc);font-size:21px;font-weight:500;line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent);color:var(--ground)}
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding-inline:var(--gutter)}
+  /* 27em measures 64 characters in EB Garamond at 21px; 61ch measured 71,
+     which is outside the 58-64 the type scale freezes. */
+  .measure{max-width:27em}
+  .micro{font-family:var(--inst);font-size:11px;font-weight:600;text-transform:uppercase;
+    letter-spacing:.14em;color:var(--ink-dim)}
+  .num{font-variant-numeric:tabular-nums lining-nums}
+
+  h1,h2,h3{font-family:var(--doc);font-weight:400;line-height:1.08;letter-spacing:-.01em;color:var(--ink-bright)}
+  h1{font-size:clamp(33px,4.2vw,42px)}
+  h2{font-size:clamp(26px,3.2vw,33px)}
+  p+p{margin-top:16px}
+  .dek{font-family:var(--doc);font-style:italic;font-size:clamp(21px,2.2vw,26px);
+    line-height:1.35;color:var(--ink);max-width:46ch}
+  .link{color:var(--accent);border-bottom:1px solid var(--accent-wash);transition:border-color .18s}
+  .link:hover{border-bottom-color:var(--accent)}
+
+  /* ---------- nav — in flow, scrolls away. DESIGN.md bans fixed chrome. ---------- */
+  nav{border-bottom:1px solid var(--rule)}
+  .nav-in{max-width:var(--max);margin:0 auto;padding:20px var(--gutter);
+    display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+  .wordmark{font-family:var(--doc);font-size:21px;color:var(--ink-bright);white-space:nowrap}
+  .wordmark i{font-style:italic;color:var(--accent)}
+  .nav-links{display:flex;gap:24px;font-family:var(--inst);font-size:11px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.14em;color:var(--ink-dim);flex-wrap:wrap}
+  .nav-links a:hover{color:var(--ink-bright)}
+  .nav-links a.on{color:var(--accent)}
+
+  /* ---------- opening act ---------- */
+  .hero{padding-block:clamp(48px,7vw,96px) 0}
+  .hero h1{max-width:24ch;margin-bottom:24px}
+  .chart-block{margin-top:clamp(32px,5vw,64px);border-top:1px solid var(--rule)}
+  .chart-head{display:flex;justify-content:space-between;align-items:baseline;gap:24px;
+    flex-wrap:wrap;padding-block:16px}
+  .chart-head .status{font-family:var(--inst);font-size:11px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.14em;color:var(--signal-ok)}
+  #hero-chart{display:block;width:100%}
+
+  /* Three shared row bands so the label, title and link line up across all four
+     doors even when one label wraps ("corrective action"). Without subgrid this
+     degrades to plain stacking, which is what it looked like before. */
+  .phases{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto auto;
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .phase{display:grid;grid-template-rows:subgrid;grid-row:span 3;align-content:start;
+    padding:24px;border-right:1px solid var(--rule);transition:background .15s}
+  .phase:last-child{border-right:0}
+  .phase:hover,.phase:focus-visible{background:var(--panel)}
+  .phase .micro{display:block;margin-bottom:8px}
+  .phase .pt{display:block;font-family:var(--doc);font-size:21px;line-height:1.2;
+    color:var(--ink-bright);margin-bottom:8px}
+  .phase .pl{display:block;font-family:var(--inst);font-size:13px;color:var(--accent)}
+  .phase:hover .pl{text-decoration:underline}
+
+  /* ---------- readout strip (component 3, in flow, never fixed) ---------- */
+  .readouts{display:flex;flex-wrap:wrap;gap:32px 48px;
+    border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding-block:24px}
+  .ro dt{margin-bottom:8px}
+  .ro dd{font-family:var(--inst);font-size:26px;line-height:1;color:var(--ink-bright);
+    font-variant-numeric:tabular-nums lining-nums}
+  .ro dd.ok{color:var(--signal-ok)}
+
+  /* ---------- syllabus spine ---------- */
+  .spine{border-top:1px solid var(--rule-strong)}
+  .lv{display:grid;grid-template-columns:minmax(88px,9%) 1fr minmax(128px,15%);
+    gap:24px 48px;align-items:start;padding-block:clamp(32px,4vw,48px);
+    border-bottom:1px solid var(--rule);transition:background .15s}
+  .lv:hover{background:var(--panel)}
+  .lv-num{font-family:var(--doc);font-size:clamp(42px,5vw,56px);line-height:.9;
+    color:var(--ink-dim);font-variant-numeric:lining-nums}
+  .lv:hover .lv-num{color:var(--accent)}
+  .lv-title{font-family:var(--doc);font-size:clamp(26px,2.8vw,33px);line-height:1.1;
+    color:var(--ink-bright);margin-bottom:16px}
+  .lv-idea{max-width:58ch;color:var(--ink)}
+  .lv-hook{font-family:var(--inst);font-size:16px;color:var(--accent);text-align:right;
+    font-variant-numeric:tabular-nums;padding-top:10px}
+  /* Seven of the twelve are not written. They sit in the spine, inert and dimmed:
+     the gap is the honest thing to show, and it is what stops the arc reading as five. */
+  .lv.soon{cursor:default;opacity:.42}
+  .lv.soon:hover{background:transparent}
+  .lv.soon .lv-hook{color:var(--ink-dim);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+
+  /* ---------- figure + video (components 4, 8) ---------- */
+  figure{margin:0}
+  figure .hair{height:1px;background:var(--rule);margin-bottom:24px}
+  figure video,figure img{display:block;width:100%;height:auto;background:var(--ground)}
+  figcaption{margin-top:16px;display:flex;gap:16px;align-items:baseline;flex-wrap:wrap}
+  figcaption .fignum{font-family:var(--inst);font-size:13px;letter-spacing:.1em;
+    color:var(--accent);white-space:nowrap}
+  figcaption .figtext{color:var(--ink-dim);max-width:58ch}
+
+  /* ---------- SYS note (component 7) ---------- */
+  .sys{border-left:2px solid var(--accent);padding-left:24px}
+  /* pull-quote, so the line takes the 26px dek step — same component as the level
+     pages. 21px read as body text and lost the pull-quote's job. */
+  .sys p{font-style:italic;font-size:26px;line-height:1.35;color:var(--ink-bright);
+    margin-top:8px;max-width:34em}
+
+  /* ---------- applied ---------- */
+  .section{padding-block:clamp(64px,8vw,96px)}
+  .case{display:grid;grid-template-columns:minmax(88px,9%) 1fr;gap:24px 48px;
+    padding-block:clamp(32px,4vw,48px);border-top:1px solid var(--rule)}
+  .case-idx{font-family:var(--doc);font-style:italic;font-size:33px;color:var(--ink-dim)}
+  .case h3{font-size:clamp(21px,2.4vw,26px);margin-bottom:16px}
+  .case p{max-width:58ch}
+  .results{display:flex;flex-wrap:wrap;gap:8px 32px;margin-top:24px}
+  .results span{font-family:var(--inst);font-size:13px;color:var(--ink-dim);
+    font-variant-numeric:tabular-nums;text-transform:uppercase;letter-spacing:.08em}
+  .results b{color:var(--signal-ok);font-weight:400}
+
+  /* ---------- interactive labs ---------- */
+  .lab{border:1px solid var(--rule);margin-top:32px}
+  .lab-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+    flex-wrap:wrap;padding:12px 24px;background:var(--panel);border-bottom:1px solid var(--rule)}
+  .lab-head .status{font-family:var(--inst);font-size:11px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-dim)}
+  .lab-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:24px;padding:24px}
+  .lab svg{display:block;width:100%;height:auto}
+  .lab label{display:block;margin-bottom:8px}
+  .lab input[type=range]{width:100%;accent-color:var(--accent);background:var(--panel-high);height:24px}
+  .lab-readout{margin-top:24px;display:flex;flex-direction:column;gap:16px}
+  .lab-readout dt{margin-bottom:8px}
+  .lab-readout dd{font-family:var(--inst);font-size:21px;line-height:1;color:var(--signal-ok);
+    font-variant-numeric:tabular-nums lining-nums}
+  .lab-readout dd.bad{color:var(--signal-alarm)}
+  .lab-note{font-size:17px;color:var(--ink-dim);margin-top:24px;max-width:46ch}
+
+  /* ---------- two audiences ---------- */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-top:48px}
+  .two svg{display:block;width:100%;height:auto}
+  .toggle{display:flex;gap:0;margin-top:24px;border:1px solid var(--rule);width:max-content}
+  .toggle button{font-family:var(--inst);font-size:11px;font-weight:600;text-transform:uppercase;
+    letter-spacing:.14em;color:var(--ink-dim);background:none;border:0;padding:12px 24px;cursor:pointer}
+  .toggle button+button{border-left:1px solid var(--rule)}
+  .toggle button.on{background:var(--accent);color:var(--ground)}
+  .two-cap{margin-top:16px;font-size:17px;color:var(--ink-dim);max-width:58ch}
+  .two-cap b{color:var(--ink);font-weight:500}
+
+  /* ---------- toolbox band ---------- */
+  .tools{display:grid;grid-template-columns:repeat(3,1fr);gap:48px;
+    border-top:1px solid var(--rule);padding-top:32px;margin-top:32px}
+  .tools h3{font-family:var(--inst);font-size:11px;font-weight:600;text-transform:uppercase;
+    letter-spacing:.14em;color:var(--accent);margin-bottom:16px}
+  .tools ul{list-style:none}
+  .tools li{font-size:17px;color:var(--ink-dim);padding-block:4px}
+
+  /* ---------- contact + footer ---------- */
+  .contact{display:flex;flex-wrap:wrap;gap:16px 48px;margin-top:32px}
+  .contact a{font-family:var(--inst);font-size:16px;color:var(--accent);
+    border-bottom:1px solid var(--accent-wash)}
+  .contact a:hover{border-bottom-color:var(--accent)}
+  footer{border-top:1px solid var(--rule);margin-top:64px}
+  .foot-in{max-width:var(--max);margin:0 auto;padding:32px var(--gutter);
+    display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;
+    font-family:var(--inst);font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-dim)}
+
+  @media(max-width:1000px){
+    .lab-grid{grid-template-columns:1fr}
+    .two{grid-template-columns:1fr;gap:32px}
+    .two>div{min-width:0}
+    .tools{grid-template-columns:1fr 1fr;gap:32px}
+  }
+  @media(max-width:760px){
+    .phases{grid-template-columns:1fr 1fr}
+    .phase:nth-child(2n){border-right:0}
+    .phase:nth-child(-n+2){border-bottom:1px solid var(--rule)}
+    .lv{grid-template-columns:1fr;gap:16px}
+    .lv-num{font-size:33px}
+    .lv-hook{text-align:left;padding-top:0}
+    .case{grid-template-columns:1fr;gap:8px}
+    .case-idx{font-size:26px}
+  }
+  @media(max-width:560px){
+    body{font-size:19px}
+    .phases{grid-template-columns:1fr}
+    .phase{border-right:0;border-bottom:1px solid var(--rule)}
+    .phase:last-child{border-bottom:0}
+    .nav-links{gap:12px;font-size:10px;letter-spacing:.06em}
+    .wordmark{font-size:18px}
+    .tools{grid-template-columns:1fr}
+    .readouts{gap:24px 32px}
+    .ro dd{font-size:21px}
+    .sys p{font-size:21px}
+    /* two mono buttons side by side exceed a 320px viewport and drag the whole
+       grid column out with them — stack them instead */
+    .toggle{flex-direction:column;width:100%}
+    .toggle button{padding:12px 16px;text-align:left}
+    .toggle button+button{border-left:0;border-top:1px solid var(--rule)}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+
+  /* ---------- wide viewports (DESIGN.md §3, added 2026-08-27) ----------
+     The reading measure is untouched; the hub's figures and the gallery video
+     take the extra width, capped at the 1920 native of the Manim renders. */
+  @media (min-width:1440px){ :root{ --max:1344px } }
+  @media (min-width:1800px){ :root{ --max:1760px } }
+  @media (min-width:1440px){ figure video,figure img{max-width:1920px;margin-inline:auto} }
+
+  /* ---------- captions ----------
+     The tracks stay (WCAG 1.2.2 asks that captions be PROVIDED, not forced on) but
+     they are no longer `default`. Three reasons they were wrong on by default here:
+     the audio IS narration so the cues duplicate it, the page prose now carries the
+     same argument in text, and every Manim frame already has on-screen text - axis
+     labels and the readout column sit exactly where a cue lands. Turned on from the
+     player, they now render small and on a translucent ground instead of a slab. */
+  ::cue{
+    font-family:var(--mono, ui-monospace, monospace);
+    font-size:58%;
+    line-height:1.35;
+    color:#e8eef4;
+    background:rgba(13,17,20,.74);
+  }
+</style><body>
+
+<nav>
+  <div class="nav-in">
+    <a class="wordmark" href="index.html">Ammar Nawawi <span>/ MSA</span></a>
+    <div class="nav-links">
+      <a class="on" href="index.html">curriculum</a>
+      <a href="https://amohdnaw.github.io/spc-from-first-principles/" target="_blank" rel="noopener">SPC &#8599;</a>
+      <a href="https://msa.amohdnaw.xyz" target="_blank" rel="noopener">platform &#8599;</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <header class="hero wrap">
+    <span class="micro" style="display:block;margin-bottom:24px">An interactive curriculum · seven levels, one written · three minutes of narrated video</span>
+    <h1>A gauge is a process too.</h1>
+    <p class="dek">Everything a control chart tells you arrives through a measurement
+    system, and that system has variation of its own. This curriculum takes it apart in
+    seven levels — repeatability against reproducibility, Gage R&amp;R by ANOVA rather
+    than by table lookup, and what a percentage of a percentage is actually claiming.
+    Every constant on every page is computed at render time. Nothing is quoted.</p>
+  </header>
+
+  <div class="wrap">
+    <div class="hair"></div>
+
+    <section class="section">
+      <div class="measure">
+        <h2>Why a second site</h2>
+        <p>The <a href="https://amohdnaw.github.io/spc-from-first-principles/" target="_blank" rel="noopener">SPC
+        curriculum</a> derives control limits, capability and detection from first
+        principles across twelve levels. It stops at one boundary on purpose: it never
+        teaches gauge acceptance. This site is the other side of that boundary, and it
+        never teaches control limits.</p>
+        <p>The method is identical. A claim is made, the arithmetic that supports it is
+        computed in a Python library, the figures and the narration read that library,
+        and a test suite checks the same functions. If a number appears on screen, you
+        can find the function that produced it.</p>
+      </div>
+      <div class="readouts">
+        <dl class="ro"><dt class="micro">Levels</dt><dd class="num">7</dd></dl>
+        <dl class="ro"><dt class="micro">Written</dt><dd class="num">1</dd></dl>
+        <dl class="ro"><dt class="micro">Numbers asserted</dt><dd class="num ok">0</dd></dl>
+      </div>
+    </section>
+
+    <div class="hair"></div>
+
+    <section class="section">
+      <div class="measure">
+        <h2>The seven levels</h2>
+        <p>Seven, not twelve. The count comes from the subject rather than from matching
+        the sibling site: measurement systems need seven movements and padding them to
+        twelve would show.</p>
+      </div>
+    </section>
+
+    <div class="spine">
+      <a class="lv" href="level-01.html">
+        <div class="lv-num num">01</div>
+        <div>
+          <div class="lv-title">Measurement as a process</div>
+          <p class="lv-idea">One bore has one size, and two hundred readings of it have a
+          shape. The spread you observe is never the spread of the parts — and at a real
+          gauge on a real study, that effect is both certain and invisible.</p>
+        </div>
+        <div class="lv-hook">start here &rarr;</div>
+      </a>
+      <div class="lv soon">
+        <div class="lv-num num">02</div>
+        <div>
+          <div class="lv-title">Repeatability and reproducibility</div>
+          <p class="lv-idea">The same operator twice, or two operators once. Two different
+          questions that the plant calls one word.</p>
+        </div>
+        <div class="lv-hook">not written yet</div>
+      </div>
+      <div class="lv soon">
+        <div class="lv-num num">03</div>
+        <div>
+          <div class="lv-title">Gage R&amp;R by ANOVA</div>
+          <p class="lv-idea">Average-and-range gets an answer. ANOVA gets the same answer
+          plus the one term average-and-range cannot see, and that term often changes the
+          corrective action.</p>
+        </div>
+        <div class="lv-hook">not written yet</div>
+      </div>
+      <div class="lv soon">
+        <div class="lv-num num">04</div>
+        <div>
+          <div class="lv-title">%GRR, ndc, and against what</div>
+          <p class="lv-idea">A percentage of what? Study variation and tolerance answer
+          different questions and disagree on purpose.</p>
+        </div>
+        <div class="lv-hook">not written yet</div>
+      </div>
+      <div class="lv soon">
+        <div class="lv-num num">05</div>
+        <div>
+          <div class="lv-title">Bias, linearity, stability</div>
+          <p class="lv-idea">Precision is not accuracy. A gauge can repeat beautifully and
+          be wrong, be right in the middle and wrong at the ends, or be right today.</p>
+        </div>
+        <div class="lv-hook">not written yet</div>
+      </div>
+      <div class="lv soon">
+        <div class="lv-num num">06</div>
+        <div>
+          <div class="lv-title">Attribute agreement</div>
+          <p class="lv-idea">When the measurement is a judgement, percent agreement
+          flatters and kappa does not. What does agreeing by chance cost you?</p>
+        </div>
+        <div class="lv-hook">not written yet</div>
+      </div>
+      <div class="lv soon">
+        <div class="lv-num num">07</div>
+        <div>
+          <div class="lv-title">The handshake back</div>
+          <p class="lv-idea">A capability number is only as trustworthy as the gauge that
+          fed it. What an unfit gauge does to it, arithmetically.</p>
+        </div>
+        <div class="lv-hook">not written yet</div>
+      </div>
+    </div>
+
+    <div class="hair"></div>
+
+    <aside class="sys">
+      <span class="micro">SYS_MSG</span>
+      <p>This site never teaches control limits, and the SPC curriculum never teaches
+      gauge acceptance. One link each way, at the seam.</p>
+    </aside>
+
+  </div>
+</main>
+
+<footer>
+  <div class="foot-in">
+    <span class="micro">· MSA from first principles</span>
+    <span class="micro">All figures computed</span>
+    <a class="micro" href="https://amohdnaw.github.io/spc-from-first-principles/" target="_blank" rel="noopener">SPC curriculum &#8599;</a>
+    <span class="micro">&copy; 2026</span>
+  </div>
+</footer>
+
+</body>
+</html>

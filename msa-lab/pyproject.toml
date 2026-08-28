@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "msa-lab"
+version = "0.1.0"
+description = "Measurement System Analysis from first principles — every number computed, none quoted."
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Ammar" }]
+dependencies = ["numpy>=1.24", "matplotlib>=3.7", "scipy>=1.11"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
