@@ -900,5 +900,192 @@
     },
     "original_audio": "so-a-percentage-is-a-proxy-for-a-risk-and-it-does-a62a9b3c.mp3",
     "final_audio": "so-a-percentage-is-a-proxy-for-a-risk-and-it-does-a62a9b3c.mp3"
+  },
+  {
+    "input_text": "Four levels of arithmetic, and every number in it was built out of variances. Watch what happens when the gauge stops being centred.",
+    "input_data": {
+      "input_text": "Four levels of arithmetic, and every number in it was built out of variances. Watch what happens when the gauge stops being centred.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "four-levels-of-arithmetic-and-every-number-in-it-acec05a7.mp3",
+    "final_audio": "four-levels-of-arithmetic-and-every-number-in-it-acec05a7.mp3"
+  },
+  {
+    "input_text": "Here is the gauge, centred, inside the tolerance. And here are the two percentages Level 4 produced.",
+    "input_data": {
+      "input_text": "Here is the gauge, centred, inside the tolerance. And here are the two percentages Level 4 produced.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "here-is-the-gauge-centred-inside-the-tolerance-and-24f0fd09.mp3",
+    "final_audio": "here-is-the-gauge-centred-inside-the-tolerance-and-24f0fd09.mp3"
+  },
+  {
+    "input_text": "Now slide the whole thing three microns high. The parts have not changed, the noise has not changed - only the level. Watch the numbers.",
+    "input_data": {
+      "input_text": "Now slide the whole thing three microns high. The parts have not changed, the noise has not changed - only the level. Watch the numbers.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "now-slide-the-whole-thing-three-microns-high-the-3df5c8e2.mp3",
+    "final_audio": "now-slide-the-whole-thing-three-microns-high-the-3df5c8e2.mp3"
+  },
+  {
+    "input_text": "They did not move. Not approximately - not to four decimal places, because a standard deviation does not know where the readings sit. There is nowhere in either formula for a bias to enter.",
+    "input_data": {
+      "input_text": "They did not move. Not approximately - not to four decimal places, because a standard deviation does not know where the readings sit. There is nowhere in either formula for a bias to enter.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "they-did-not-move-not-approximately-not-to-four-5c75cf07.mp3",
+    "final_audio": "they-did-not-move-not-approximately-not-to-four-5c75cf07.mp3"
+  },
+  {
+    "input_text": "The percentages are blind, but a shop floor is not - because bias does something noise never does.",
+    "input_data": {
+      "input_text": "The percentages are blind, but a shop floor is not - because bias does something noise never does.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "the-percentages-are-blind-but-a-shop-floor-is-not-66cc1e49.mp3",
+    "final_audio": "the-percentages-are-blind-but-a-shop-floor-is-not-66cc1e49.mp3"
+  },
+  {
+    "input_text": "With no bias, half the scrapped parts are too big and half are too small. Add a bias and it all goes one way. By three microns, ninety nine percent of the rejections are at the upper limit - which is something an operator notices in a morning, and no variance ratio ever will.",
+    "input_data": {
+      "input_text": "With no bias, half the scrapped parts are too big and half are too small. Add a bias and it all goes one way. By three microns, ninety nine percent of the rejections are at the upper limit - which is something an operator notices in a morning, and no variance ratio ever will.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "with-no-bias-half-the-scrapped-parts-are-too-big-b90047f0.mp3",
+    "final_audio": "with-no-bias-half-the-scrapped-parts-are-too-big-b90047f0.mp3"
+  },
+  {
+    "input_text": "So how do you find it? Not by measuring the part again. Repeat a reading a thousand times and you learn the spread precisely and learn nothing at all about where it sits.",
+    "input_data": {
+      "input_text": "So how do you find it? Not by measuring the part again. Repeat a reading a thousand times and you learn the spread precisely and learn nothing at all about where it sits.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "so-how-do-you-find-it-not-by-measuring-the-part-34a5c1fe.mp3",
+    "final_audio": "so-how-do-you-find-it-not-by-measuring-the-part-34a5c1fe.mp3"
+  },
+  {
+    "input_text": "It takes a reference - something whose size you already know. Measure that, and the question becomes whether an interval on the average error still contains zero.",
+    "input_data": {
+      "input_text": "It takes a reference - something whose size you already know. Measure that, and the question becomes whether an interval on the average error still contains zero.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "it-takes-a-reference-something-whose-size-you-0ed26022.mp3",
+    "final_audio": "it-takes-a-reference-something-whose-size-you-0ed26022.mp3"
+  },
+  {
+    "input_text": "Take the readings one at a time. The interval starts wide enough to swallow zero, and it narrows.",
+    "input_data": {
+      "input_text": "Take the readings one at a time. The interval starts wide enough to swallow zero, and it narrows.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "take-the-readings-one-at-a-time-the-interval-9b262dff.mp3",
+    "final_audio": "take-the-readings-one-at-a-time-the-interval-9b262dff.mp3"
+  },
+  {
+    "input_text": "Eight readings settle a three micron bias. Halving the bias you want to catch does not double the work, it roughly quadruples it - and chasing three tenths of a micron takes nearly five hundred readings of a master. Accuracy is expensive in a way precision is not.",
+    "input_data": {
+      "input_text": "Eight readings settle a three micron bias. Halving the bias you want to catch does not double the work, it roughly quadruples it - and chasing three tenths of a micron takes nearly five hundred readings of a master. Accuracy is expensive in a way precision is not.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "eight-readings-settle-a-three-micron-bias-halving-20350b43.mp3",
+    "final_audio": "eight-readings-settle-a-three-micron-bias-halving-20350b43.mp3"
+  },
+  {
+    "input_text": "The second way to be wrong is to be right in the middle and wrong at the ends.",
+    "input_data": {
+      "input_text": "The second way to be wrong is to be right in the middle and wrong at the ends.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "the-second-way-to-be-wrong-is-to-be-right-in-the-7ffc7042.mp3",
+    "final_audio": "the-second-way-to-be-wrong-is-to-be-right-in-the-7ffc7042.mp3"
+  },
+  {
+    "input_text": "Turn the slope up. The gauge now reads high on the big parts and low on the small ones, which is a real defect with a real cause - a worn anvil, a fixture that does not locate the same way across the range.",
+    "input_data": {
+      "input_text": "Turn the slope up. The gauge now reads high on the big parts and low on the small ones, which is a real defect with a real cause - a worn anvil, a fixture that does not locate the same way across the range.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "turn-the-slope-up-the-gauge-now-reads-high-on-the-6571832d.mp3",
+    "final_audio": "turn-the-slope-up-the-gauge-now-reads-high-on-the-6571832d.mp3"
+  },
+  {
+    "input_text": "And look at what happened to the percentage. It got better. The gauge's error grows with the size of the part, so it widens the spread of the readings - which is the denominator. The instrument's own defect is counted as process variation and rewarded for it.",
+    "input_data": {
+      "input_text": "And look at what happened to the percentage. It got better. The gauge's error grows with the size of the part, so it widens the spread of the readings - which is the denominator. The instrument's own defect is counted as process variation and rewarded for it.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "and-look-at-what-happened-to-the-percentage-it-got-54f25df5.mp3",
+    "final_audio": "and-look-at-what-happened-to-the-percentage-it-got-54f25df5.mp3"
+  },
+  {
+    "input_text": "The third way to be wrong is to have been right. Run the same check on a master once a month for a year.",
+    "input_data": {
+      "input_text": "The third way to be wrong is to have been right. Run the same check on a master once a month for a year.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "the-third-way-to-be-wrong-is-to-have-been-right-7d89f861.mp3",
+    "final_audio": "the-third-way-to-be-wrong-is-to-have-been-right-7d89f861.mp3"
+  },
+  {
+    "input_text": "Month one: the interval contains zero, the repeatability is what it always was, and the R and R number is exactly what it was last time.",
+    "input_data": {
+      "input_text": "Month one: the interval contains zero, the repeatability is what it always was, and the R and R number is exactly what it was last time.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "month-one-the-interval-contains-zero-the-4fb6fb2c.mp3",
+    "final_audio": "month-one-the-interval-contains-zero-the-4fb6fb2c.mp3"
+  },
+  {
+    "input_text": "And here is what the gauge was actually doing. Six microns of drift - nearly three times the gauge's own sigma, and a fifth of the whole tolerance. Every single study was internally correct, because the bias is constant inside one afternoon. The drift only exists between studies, and only if somebody kept them.",
+    "input_data": {
+      "input_text": "And here is what the gauge was actually doing. Six microns of drift - nearly three times the gauge's own sigma, and a fifth of the whole tolerance. Every single study was internally correct, because the bias is constant inside one afternoon. The drift only exists between studies, and only if somebody kept them.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "and-here-is-what-the-gauge-was-actually-doing-six-0acda503.mp3",
+    "final_audio": "and-here-is-what-the-gauge-was-actually-doing-six-0acda503.mp3"
+  },
+  {
+    "input_text": "So five levels in, the honest summary is this. R and R answers one question about a measurement system, and it is not the question of whether the gauge is right. Which leaves one more assumption standing: that a reading is a number at all. Level six is about the gauge that says pass or fail.",
+    "input_data": {
+      "input_text": "So five levels in, the honest summary is this. R and R answers one question about a measurement system, and it is not the question of whether the gauge is right. Which leaves one more assumption standing: that a reading is a number at all. Level six is about the gauge that says pass or fail.",
+      "service": "kokoro",
+      "voice": "am_michael",
+      "speed": 0.92
+    },
+    "original_audio": "so-five-levels-in-the-honest-summary-is-this-r-and-67cf479f.mp3",
+    "final_audio": "so-five-levels-in-the-honest-summary-is-this-r-and-67cf479f.mp3"
   }
 ]

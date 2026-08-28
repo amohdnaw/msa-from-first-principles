@@ -86,6 +86,9 @@
   .wordmark i{font-style:italic;color:var(--accent)}
   .nav-links{display:flex;gap:24px;font-family:var(--inst);font-size:11px;font-weight:600;
     text-transform:uppercase;letter-spacing:.14em;color:var(--ink-dim);flex-wrap:wrap}
+  /* 24px minimum tap target (WCAG 2.5.8). At 11px uppercase the text box is
+     16px tall, so the padding is what makes these tappable on a phone. */
+  .nav-links a{display:inline-flex;align-items:center;min-height:24px}
   .nav-links a:hover{color:var(--ink-bright)}
   .nav-links a.on{color:var(--accent)}
 
@@ -215,6 +218,7 @@
   .foot-in{max-width:var(--max);margin:0 auto;padding:32px var(--gutter);
     display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;
     font-family:var(--inst);font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-dim)}
+  .foot-in a{display:inline-flex;align-items:center;min-height:24px}
 
   @media(max-width:1000px){
     .lab-grid{grid-template-columns:1fr}
@@ -287,7 +291,7 @@
 <main>
 
   <header class="hero wrap">
-    <span class="micro" style="display:block;margin-bottom:24px">An interactive curriculum · seven levels, four written · fourteen minutes of narrated video</span>
+    <span class="micro" style="display:block;margin-bottom:24px">An interactive curriculum · seven levels, five written · eighteen minutes of narrated video</span>
     <h1>A gauge is a process too.</h1>
     <p class="dek">Everything a control chart tells you arrives through a measurement
     system, and that system has variation of its own. This curriculum takes it apart in
@@ -374,15 +378,17 @@
         </div>
         <div class="lv-hook">open the lab &rarr;</div>
       </a>
-      <div class="lv soon">
+      <a class="lv" href="level-05.html">
         <div class="lv-num num">05</div>
         <div>
           <div class="lv-title">Bias, linearity, stability</div>
-          <p class="lv-idea">Precision is not accuracy. A gauge can repeat beautifully and
-          be wrong, be right in the middle and wrong at the ends, or be right today.</p>
+          <p class="lv-idea">Precision is not accuracy. Shift every reading three microns
+          and both of Level 4's percentages hold to the last decimal, while the scrap
+          quadruples and goes 99 % one-sided. Linearity is worse: it <em>improves</em>
+          the score, because the gauge's own defect is counted as process spread.</p>
         </div>
-        <div class="lv-hook">not written yet</div>
-      </div>
+        <div class="lv-hook">open the lab &rarr;</div>
+      </a>
       <div class="lv soon">
         <div class="lv-num num">06</div>
         <div>

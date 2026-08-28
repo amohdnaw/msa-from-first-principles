@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Level 6 — Control limits are a hypothesis test · SPC from First Principles</title>
+<meta name="description" content="A percentage of what? %GRR against study variation and against tolerance answer different questions and can land on opposite sides of the same printed gate. And ndc cannot disagree with either, because it is one of them rearranged.">
+
+<link rel="icon" href="favicon.svg">
+<link rel="preload" as="font" type="font/woff2" href="fonts/eb-garamond-roman.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/ibm-plex-mono-400.woff2" crossorigin>
+<link rel="stylesheet" href="vendor/katex/katex.css">
+
+<style>
+  /* ---------- self-hosted, two families, two voices ---------- */
+  @font-face{font-family:'EB Garamond';src:url('fonts/eb-garamond-roman.woff2') format('woff2');
+    font-weight:400 600;font-style:normal;font-display:swap}
+  @font-face{font-family:'EB Garamond';src:url('fonts/eb-garamond-italic.woff2') format('woff2');
+    font-weight:400 500;font-style:italic;font-display:swap}
+  @font-face{font-family:'IBM Plex Mono';src:url('fonts/ibm-plex-mono-400.woff2') format('woff2');
+    font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'IBM Plex Mono';src:url('fonts/ibm-plex-mono-600.woff2') format('woff2');
+    font-weight:600;font-style:normal;font-display:swap}
+
+  /* ---------- tokens: DESIGN.md ---------- */
+  :root{
+    --ground:#0d1114; --panel:#14181c; --panel-high:#1b2026;
+    --rule:#2a3138; --rule-strong:#3d4650;
+    --ink-dim:#7d8b98; --ink:#d7dee4; --ink-bright:#eef3f7;
+    --accent:#ffae00; --accent-wash:rgba(255,174,0,.14);
+    --signal-ok:#65ccaf; --signal-alarm:#de6a5d; --fill-ok:#2a534b;
+
+    --serif:'EB Garamond',Georgia,serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+
+    --measure:27em;              /* ≈60ch at 21px EB Garamond, measured */
+    --figure:44rem;              /* figures step wider than text, still not full bleed */
+    --gutter:clamp(24px,5vw,72px);
+    --rhythm:32px;
+  }
+
+  *{box-sizing:border-box}
+  /* typography hygiene (better-typography 3, 16) */
+  html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  html,body{font-synthesis:none}
+  .nc{text-transform:none}
+
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--ground);color:var(--ink);
+    font-family:var(--serif);font-size:21px;line-height:1.55;font-weight:500;
+    font-variant-numeric:oldstyle-nums;
+  }
+  ::selection{background:var(--accent);color:var(--ground)}
+
+  .wrap{max-width:76rem;margin:0 auto;padding:0 var(--gutter)}
+  .col{max-width:var(--measure)}
+
+  /* mono voice: labels, units, status, data */
+  .m{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .micro{font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
+
+  /* ---------- nav ---------- */
+  nav{position:sticky;top:0;z-index:30;background:var(--ground);
+    border-bottom:1px solid var(--rule)}
+  .nav-in{max-width:76rem;margin:0 auto;padding:14px var(--gutter);
+    display:flex;align-items:center;gap:28px}
+  .wordmark{font-family:var(--mono);font-size:13px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-bright);
+    text-decoration:none;white-space:nowrap}
+  .wordmark span{color:var(--accent)}
+  .rail{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap}
+  /* 24px minimum tap target (WCAG 2.5.8). These are 11-13px uppercase mono, so
+     their text boxes are 17-23px and the min-height is what makes them tappable.
+     Caught by the browser sweep on a 390px viewport, not by eye. */
+  .rail a,.wordmark,.foot-in a{display:inline-flex;align-items:center;min-height:24px}
+  .rail a{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-dim);text-decoration:none;
+    display:flex;align-items:center;gap:7px;padding:3px 0;transition:color .18s}
+  .rail a::before{content:"";width:7px;height:7px;background:var(--rule-strong);flex:none}
+  .rail a:hover{color:var(--ink)}
+  /* The rail wraps to two rows below 1024px. A sticky nav that tall is the
+     'fixed chrome squeezing the reading column' the ban list forbids, so it
+     only sticks while it is a single 52px row. */
+  @media(max-width:1023px){nav{position:static}}
+  .rail a[aria-current="page"]{color:var(--accent)}
+  /* Twelve slots, five written. The seven that are not are present and inert:
+     an explicit gap the reader can see, never a silent one. */
+  .rail span.soon{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+    color:var(--ink-dim);opacity:.45;display:inline-flex;align-items:center;gap:7px;cursor:default}
+  .rail span.soon::before{content:"";width:7px;height:7px;border:1px solid var(--rule-strong);flex:none}
+  .rail a[aria-current="page"]::before{background:var(--accent)}
+
+  /* ---------- level opener ---------- */
+  header.opener{padding:88px 0 0}
+  .eyebrow{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--accent);margin:0 0 20px}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(33px,5.2vw,56px);
+    line-height:1.04;letter-spacing:-.01em;color:var(--ink-bright);margin:0 0 20px;
+    max-width:20em}
+  .dek{font-style:italic;font-size:26px;line-height:1.4;color:var(--ink-dim);
+    margin:0 0 var(--rhythm);max-width:24em}
+
+  main{padding-bottom:64px}
+  section{padding-top:48px}
+  p{margin:0 0 var(--rhythm)}
+
+  /* ---------- equation ---------- */
+  .eq{display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px;
+    max-width:var(--measure);
+    margin:48px 0;padding:40px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .eq-body{font-size:33px;text-align:center;color:var(--ink-bright);letter-spacing:.02em}
+  .eq-num{font-family:var(--mono);font-size:13px;color:var(--ink-dim)}
+  .eq-cap{font-family:var(--mono);font-size:13px;color:var(--ink-dim);
+    margin:14px 0 0;text-align:center;grid-column:1/-1}
+
+  /* ---------- figures ---------- */
+  figure{margin:64px 0 0;max-width:var(--figure)}
+  figure .rule{height:1px;background:var(--rule);margin-bottom:20px}
+  figure img,figure video{display:block;width:100%;height:auto;background:var(--ground)}
+  figcaption{margin-top:16px;max-width:var(--measure)}
+  figcaption .fignum{font-family:var(--mono);font-size:13px;font-weight:600;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--accent);
+    display:block;margin-bottom:6px}
+  figcaption .figtext{font-size:17px;line-height:1.5;color:var(--ink-dim)}
+
+  /* ---------- interactive ---------- */
+  .lab{margin:64px 0 0;border:1px solid var(--rule);background:var(--panel)}
+  .lab-head{display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:11px 20px;border-bottom:1px solid var(--rule)}
+  .lab-head .status{font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--signal-ok)}
+  .lab-grid{display:grid;grid-template-columns:1fr 300px;gap:0}
+  .lab-canvas{padding:20px;border-right:1px solid var(--rule);min-width:0}
+  canvas{display:block;width:100%;height:300px}
+  .lab-ctl{padding:20px;display:flex;flex-direction:column;gap:20px}
+  .lab-ctl label{font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);
+    display:block;margin-bottom:12px}
+  .lab-ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+  input[type=range]{width:100%;accent-color:var(--accent);cursor:pointer;margin:0;
+    height:24px}  /* 24px touch height; the native track is ~16px */
+
+  .tiles{display:flex;flex-direction:column;gap:1px;background:var(--rule)}
+  .tile{background:var(--panel-high);padding:12px 14px}
+  .tile dt{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-dim);margin-bottom:6px}
+  .tile dd{margin:0;font-family:var(--mono);font-size:26px;font-weight:600;
+    font-variant-numeric:tabular-nums;line-height:1.1}
+  .tile dd.ok{color:var(--signal-ok)}
+  .tile dd.alarm{color:var(--signal-alarm)}
+  .tile dd.neutral{color:var(--ink-bright)}
+  .lab-note{font-size:17px;line-height:1.5;color:var(--ink-dim);margin:0}
+
+  /* ---------- SYS note ---------- */
+  /* component 7 is a pull-quote with an amber left border and NO fill — an amber
+     area carries no information, and DESIGN.md 6 bans decorative ornament. */
+  .sys{margin:64px 0 0;border-left:2px solid var(--accent);
+    padding-left:24px;max-width:34em}
+  .sys .micro{color:var(--accent);display:block;margin-bottom:8px}
+  .sys p{font-size:26px;line-height:1.35;color:var(--ink-bright);margin:0;font-style:italic}
+
+  /* ---------- next + footer ---------- */
+  .next{display:inline-flex;align-items:baseline;gap:12px;margin-top:96px;
+    padding-bottom:6px;border-bottom:1px solid var(--rule-strong);
+    color:var(--ink-bright);text-decoration:none;font-size:26px;transition:border-color .18s}
+  .next:hover{border-bottom-color:var(--accent)}
+  .next .m{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+
+  footer{border-top:1px solid var(--rule);margin-top:64px}
+  .foot-in{max-width:76rem;margin:0 auto;padding:24px var(--gutter);
+    display:flex;flex-wrap:wrap;gap:16px 32px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-dim)}
+  .foot-in a{color:var(--ink-dim);text-decoration:none}
+  .foot-in a:hover{color:var(--accent)}
+  .foot-in .sp{margin-left:auto}
+
+  @media(max-width:900px){
+    .lab-grid{grid-template-columns:1fr}
+    .lab-canvas{border-right:0;border-bottom:1px solid var(--rule)}
+  }
+  @media(max-width:560px){
+    body{font-size:19px}
+    .dek,.sys p,.next{font-size:21px}
+    /* long formulas (Level 9's EWMA limit) blow past a 320px viewport;
+       stack the reference number and let the expression wrap */
+    .eq{grid-template-columns:1fr;gap:10px}
+    .eq-num{justify-self:end}
+    .eq-body{font-size:26px;overflow-wrap:anywhere;line-height:1.35}
+    .rail{gap:12px;width:100%;margin-left:0}
+    .nav-in{flex-wrap:wrap;gap:12px}
+    /* the wrapped two-row rail would eat a quarter of a phone viewport;
+       fixed chrome must not squeeze the reading column (DESIGN.md ban list) */
+    nav{position:static}
+    header.opener{padding-top:48px}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+  /* maths — KaTeX, pre-rendered by tools/typeset.mjs. Computer Modern here for
+     the same reason the videos use it: a formula should read the same on the
+     page as it does in the act. */
+  .katex{color:var(--ink-bright);font-size:1em}
+  .eq-body .katex-display{margin:0}
+  .eq-body .katex{font-size:1.05em}
+  p .katex,figcaption .katex,li .katex{font-size:.98em}
+  /* Display maths cannot wrap. On a narrow screen it scrolls inside its own
+     block instead of dragging the page sideways — DESIGN.md bans the page
+     scrolling horizontally, not a figure doing it. min-width:0 is required or
+     the grid item refuses to shrink. */
+  .eq-body{min-width:0;max-width:100%;overflow-x:auto;overflow-y:hidden;
+           -webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  .eq-body .katex-display{margin:0;padding-bottom:2px}
+  @media (max-width:560px){ .eq-body .katex{font-size:.86em} }
+  @media (max-width:400px){ .eq-body .katex{font-size:.74em} }
+
+  /* ---------- wide viewports (DESIGN.md §3, added 2026-08-27) ----------
+     The measure never moves; figures spend the width the prose refuses.
+     Each figure is additionally capped at its own native resolution by an
+     inline max-width, so the band is a ceiling and never a stretch. */
+  /* A run of chart figures sits two-up once there is room for two of them
+     without either dropping below 560px. Videos never join a pair. */
+  .figpair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(560px,100%),1fr));
+    gap:var(--gutter);align-items:start;max-width:var(--figure)}
+  .figpair figure{margin:64px 0 0;max-width:none}
+
+  /* ---------- captions ----------
+     The tracks stay (WCAG 1.2.2 asks that captions be PROVIDED, not forced on) but
+     they are no longer `default`. Three reasons they were wrong on by default here:
+     the audio IS narration so the cues duplicate it, the page prose now carries the
+     same argument in text, and every Manim frame already has on-screen text - axis
+     labels and the readout column sit exactly where a cue lands. Turned on from the
+     player, they now render small and on a translucent ground instead of a slab. */
+  ::cue{
+    font-family:var(--mono, ui-monospace, monospace);
+    font-size:58%;
+    line-height:1.35;
+    color:#e8eef4;
+    background:rgba(13,17,20,.74);
+  }
+
+
+  /* ---------- DESIGN.md amendment 1: the stateful readout tile ----------
+     SPC's Component 2 colours only the value. MSA shows strips of tiles against
+     AIAG thresholds, so the tile itself carries the verdict: border, plus a 14 %
+     wash on the header. The washes are built from the sampled semantic pair -
+     never from a re-picked hue, and never from amber, which is wayfinding. */
+  .tile.pass{ border-color:var(--signal-ok) }
+  .tile.pass dt{ background:rgba(101,204,175,.14); color:var(--signal-ok);
+    border-bottom:1px solid var(--signal-ok) }
+  .tile.pass dd{ color:var(--signal-ok) }
+  .tile.fail{ border-color:var(--signal-alarm) }
+  .tile.fail dt{ background:rgba(222,106,93,.14); color:var(--signal-alarm);
+    border-bottom:1px solid var(--signal-alarm) }
+  .tile.fail dd{ color:var(--signal-alarm) }
+  /* amendment 2: the third state is neutral. No hue, because "conditional"
+     means no verdict yet, and a traffic light is the cliche this subject
+     invites. */
+  .tile.cond{ border-color:var(--rule-strong) }
+  .tile.cond dt{ background:var(--panel-high) }
+  .tile.cond dd{ color:var(--ink-bright) }
+</style>
+<style>
+  .lab-grid-tiles{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0 0 }
+  .lab-grid-tiles .tile{ margin:0 }
+
+  /* ---------- narrow-viewport lab fixes, added 2026-08-28 ----------
+     A `1fr` grid track has `min-width: auto`, so it cannot shrink below its
+     content's min-content width. Level 2's tile labels are longer than Level 1's,
+     and that alone pushed the lab column to 334 px inside a 270 px container -
+     39 px of horizontal overflow at 320 px wide, on a page whose CSS was
+     byte-identical to one that passed. min-width:0 is the fix, and it belongs
+     here rather than in one level's markup because every future lab inherits it. */
+  .lab-grid > *{ min-width:0 }
+  .lab-grid-tiles{ min-width:0 }
+  .lab-grid-tiles .tile dt{ overflow-wrap:anywhere }
+  .lab-ctl label{ overflow-wrap:anywhere }
+  /* KaTeX output is inline-block and never breaks, so a formula in a contents
+     entry runs off the edge instead of wrapping. */
+  .toc span.tex{ max-width:100%; overflow-x:auto }
+  /* and an inline code span with a long path does the same */
+  code{ overflow-wrap:anywhere }
+</style>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="wordmark" href="index.html">Ammar Nawawi <span>/ MSA</span></a>
+    <div class="rail">
+      <a href="level-01.html" title="Level 1 — Measurement as a process">01</a>
+      <a href="level-02.html" title="Level 2 — Repeatability and reproducibility">02</a>
+      <a href="level-03.html" title="Level 3 — Gage R&amp;R by ANOVA">03</a>
+      <a href="level-04.html" title="Level 4 — %GRR, ndc, and against what">04</a>
+      <a href="level-05.html" title="Level 5 — Bias, linearity, stability" aria-current="page">05</a>
+      <span class="soon" title="Level 6 — Attribute agreement — not written yet">06</span>
+      <span class="soon" title="Level 7 — The handshake back — not written yet">07</span>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <header class="opener">
+      <h1>Bias, linearity, stability</h1>
+      <p class="dek">Every number in the first four levels is built out of
+      variances, and every one of them assumed a mean of zero. A gauge that reads
+      three microns high has no extra variance at all &mdash; so the whole apparatus
+      is blind to it, while the scrap bill is not.</p>
+  </header>
+
+  <main>
+    <div class="col">
+
+      <figure>
+        <video controls preload="none" poster="posters/level05.jpg">
+          <source src="msa-lab/media/videos/level05_scene/1080p60/Level05.mp4" type="video/mp4">
+          <track kind="captions" src="captions/level05.vtt" srclang="en" label="English">
+        </video>
+        <figcaption><span class="fignum">Figure 5.1</span><span class="figtext">The two denominators drawn to scale, one ratio swept while the other refuses to move, the same gauge given opposite verdicts in two factories, and the decision the percentage was standing in for.</span></figcaption>
+      </figure>
+
+      <div class="rule"></div>
+
+      <div class="eq">
+        <div class="eq-body" data-tex="\%GRR_{study} = \frac{\sigma_{gauge}}{\sigma_{total}} \qquad \%GRR_{tol} = \frac{6\sigma_{gauge}}{tolerance}"></div>
+        <div class="eq-num">(4.1)</div>
+      </div>
+
+      <div class="rule"></div>
+
+      <figure>
+        <img src="msa-lab/docs/l05_1_precision_is_not_accuracy.png" width="1873" height="783"
+             loading="lazy" decoding="async"
+             alt="Left: the gauge spread drawn to scale beside the study spread and the tolerance. Right: a map of part spread against tolerance, shaded where the two AIAG gates give opposite verdicts for the same gauge.">
+        <figcaption><span class="fignum">Figure 5.2</span><span class="figtext">Same numerator, two denominators. The shaded region is where the two gates disagree &mdash; for one unchanged gauge.</span></figcaption>
+      </figure>
+
+      <div class="rule"></div>
+
+      <figure>
+        <img src="msa-lab/docs/l05_2_worse_than_invisible.png" width="1627" height="783"
+             loading="lazy" decoding="async"
+             alt="Left: ndc plotted against %GRR, a single curve, with both printed gates marked 2.9 points apart. Right: gauge readings against true sizes with the limits drawn, and the accepted bad parts and rejected good parts picked out.">
+        <figcaption><span class="fignum">Figure 5.3</span><span class="figtext">ndc is a curve, not a cloud: given %GRR it is determined. And the two gates printed beside each other are 2.9 points apart.</span></figcaption>
+      </figure>
+
+      <div class="rule"></div>
+
+      <div class="lab">
+        <div class="lab-head">
+          <span class="micro">Interactive &mdash; move the gauge off centre</span>
+          <span class="micro" id="lab-status">SYSTEM-OK</span>
+        </div>
+        <div class="lab-grid">
+          <div class="lab-canvas">
+            <canvas id="w-canvas" height="300" aria-label="The distribution of readings against the tolerance band as bias and linearity are added, with the rejections at each limit shaded"></canvas>
+          </div>
+          <div class="lab-ctl">
+            <label for="b-slider">Bias <b id="b-val">0.0</b>
+              <span class="nc">µm</span></label>
+            <input type="range" id="b-slider" min="0" max="60" value="0" step="1">
+            <label for="s-slider">Linearity slope <b id="s-val">0.00</b></label>
+            <input type="range" id="s-slider" min="0" max="40" value="0" step="1">
+            <dl class="lab-grid-tiles">
+              <div class="tile" id="t-study"><dt>against study %</dt><dd id="r-study">&mdash;</dd></div>
+              <div class="tile" id="t-tol"><dt>against tolerance %</dt><dd id="r-tol">&mdash;</dd></div>
+              <div class="tile" id="t-scrap"><dt>good parts rejected %</dt><dd id="r-scrap">&mdash;</dd></div>
+              <div class="tile" id="t-side"><dt>at the upper limit %</dt><dd id="r-side">&mdash;</dd></div>
+            </dl>
+            <p class="lab-note">Drag the bias. The two ratios do not move, because neither
+            formula contains a term the bias could enter &mdash; while the scrap climbs and goes
+            one-sided, which is the signature an operator sees. Then drag the linearity slope:
+            the ratios finally move, and they get <em>better</em>, because the gauge&rsquo;s own
+            error is being counted as part-to-part spread.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rule"></div>
+
+      <aside class="sys">
+        <span class="micro">SYS_MSG</span>
+        <p>Every number on this page is computed at render time by
+        <code>msalab.accuracy</code>. The test suite reads the same functions.</p>
+      </aside>
+
+    </div>
+
+    <a class="next" href="index.html">
+      <span class="m">Ammar / MSA</span>
+      <span>Back to the curriculum &rarr;</span>
+    </a>
+  </main>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <span class="micro">· MSA from first principles</span>
+    <span class="micro">All figures computed</span>
+    <a class="micro" href="https://portfolio.amohdnaw.xyz" target="_blank" rel="noopener">Portfolio &#8599;</a>
+    <span class="micro">&copy; 2026</span>
+  </div>
+</footer>
+
+<script src="vendor/katex/katex.js" defer></script>
+<script>
+(function () {
+  "use strict";
+  // Level 5's arithmetic, in the browser. The two ratios are Level 4's, unchanged
+  // and deliberately so - the whole claim is that they contain no term a bias
+  // could enter, and the way to show that is to compute them from the same
+  // formula while the bias moves.
+  const GAUGE = 2.0591260281974;      // sqrt(1.0^2 + 1.8^2), from Levels 2-3
+  const PART = 4.7, TOL = 30.0, HALF = TOL / 2;
+  const SQ2 = Math.SQRT2, SQ2PI = Math.sqrt(2 * Math.PI);
+
+  // erf to double precision. The page needs it because the misclassification
+  // rates are integrals of phi against Phi, and msalab.accuracy computes them by
+  // Simpson with math.erf - so an approximate erf here would show up as the lab
+  // and the library disagreeing in the fourth decimal the tiles print.
+  // Series below 3, continued fraction above; beyond 6 the tail is under 1e-17.
+  function erf(x) {
+    const a = Math.abs(x);
+    if (a > 6) return x > 0 ? 1 : -1;
+    if (a <= 3) {
+      // erf(x) = 2/sqrt(pi) * sum (-1)^n x^(2n+1) / (n! (2n+1))
+      let term = a, sum = a, n = 0;
+      while (Math.abs(term) > 1e-18 * Math.abs(sum) && n < 200) {
+        n += 1;
+        term *= -a * a / n;
+        sum += term / (2 * n + 1);
+      }
+      const r = 2 / Math.sqrt(Math.PI) * sum;
+      return x > 0 ? r : -r;
+    }
+    // erfc(a) by the Lentz continued fraction, then erf = 1 - erfc
+    const t2 = 2 * a * a;
+    let f = 0;
+    for (let k = 60; k >= 1; k -= 1) f = k / (t2 * (1 + f));
+    const erfc = Math.exp(-a * a) / (a * Math.sqrt(Math.PI)) / (1 + f);
+    const r = 1 - erfc;
+    return x > 0 ? r : -r;
+  }
+  const Phi = (z) => 0.5 * (1 + erf(z / SQ2));
+  const phi = (x, sd) => Math.exp(-0.5 * (x / sd) * (x / sd)) / (sd * SQ2PI);
+
+  // The same composite Simpson, same node count, as msalab.accuracy._simpson.
+  function simpson(f, a, b, n) {
+    const h = (b - a) / n;
+    let total = f(a) + f(b);
+    for (let i = 1; i < n; i += 1) total += f(a + i * h) * (i % 2 ? 4 : 2);
+    return total * h / 3;
+  }
+
+  function studyRatio(gauge, part) {
+    return gauge / Math.hypot(part, gauge) * 100;
+  }
+  function toleranceRatio(gauge, tol) { return 6 * gauge / tol * 100; }
+
+  // Linearity shears the error with the size of the part, so it inflates the
+  // spread of the readings - which is the denominator of the study ratio.
+  function ratiosWithLinearity(slope) {
+    const apparent = PART * (1 + slope);
+    const total = Math.hypot(apparent, GAUGE);
+    return { study: GAUGE / total * 100, tolerance: toleranceRatio(GAUGE, TOL),
+             apparent: apparent };
+  }
+
+  function misclassification(bias, slope) {
+    const lim = 12 * PART;
+    const pGood = 2 * Phi(HALF / PART) - 1;
+    const mean = (x) => x + bias + slope * x;
+    const upper = (x) => phi(x, PART) * Phi((mean(x) - HALF) / GAUGE);
+    const lower = (x) => phi(x, PART) * Phi((-HALF - mean(x)) / GAUGE);
+    const frHigh = simpson(upper, -HALF, HALF, 2000);
+    const frLow = simpson(lower, -HALF, HALF, 2000);
+    const fr = frHigh + frLow;
+    return {
+      goodRejected: fr / pGood * 100,
+      atUpper: fr > 0 ? frHigh / fr * 100 : 0,
+      atLower: fr > 0 ? frLow / fr * 100 : 0,
+    };
+  }
+
+  window.__msalabStudyRatio = studyRatio;
+  window.__msalabMisclassification = misclassification;
+  window.__msalabRatiosWithLinearity = ratiosWithLinearity;
+  window.__msalabErf = erf;
+
+  const $ = (id) => document.getElementById(id);
+  const cv = $("w-canvas");
+  if (!cv) return;
+  const ctx = cv.getContext("2d");
+  const css = getComputedStyle(document.documentElement);
+  const tok = (n, f) => (css.getPropertyValue(n) || f).trim();
+  const INK = tok("--ink", "#d7dee4"), DIM = tok("--ink-dim", "#7d8b98");
+  const RULE = tok("--rule", "#2a3138");
+  const ALARM = tok("--signal-alarm", "#e65ccf"), OK = tok("--signal-ok", "#65ccaf");
+  const TRUTH = tok("--data-truth", "#d7dee4");
+
+  function draw(bias, slope) {
+    const w = cv.clientWidth || 640, h = 300;
+    const dpr = window.devicePixelRatio || 1;
+    cv.width = w * dpr; cv.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    const L = 34, R = w - 12, T = 26, B = h - 30;
+    const xlo = -26, xhi = 26;
+    const X = (v) => L + (v - xlo) / (xhi - xlo) * (R - L);
+    const sd = Math.hypot(PART * (1 + slope), GAUGE);
+    const peak = 1 / (Math.hypot(PART, GAUGE) * SQ2PI);
+    const Y = (d) => B - d / peak * (B - T) * 0.92;
+
+    // the tolerance band, and the two limits
+    ctx.fillStyle = "rgba(125,139,152,0.10)";
+    ctx.fillRect(X(-HALF), T, X(HALF) - X(-HALF), B - T);
+    ctx.strokeStyle = TRUTH; ctx.lineWidth = 1.6;
+    for (const v of [-HALF, HALF]) {
+      ctx.beginPath(); ctx.moveTo(X(v), T); ctx.lineTo(X(v), B); ctx.stroke();
+    }
+
+    // the readings, shaded where they fall outside
+    const pts = [];
+    for (let i = 0; i <= 400; i += 1) {
+      const x = xlo + (xhi - xlo) * i / 400;
+      pts.push([x, phi(x - bias, sd)]);
+    }
+    for (const [side, from, to] of [["hi", HALF, xhi], ["lo", xlo, -HALF]]) {
+      ctx.beginPath(); ctx.moveTo(X(from), B);
+      for (const [x, d] of pts) if (x >= from && x <= to) ctx.lineTo(X(x), Y(d));
+      ctx.lineTo(X(to), B); ctx.closePath();
+      ctx.fillStyle = side === "hi" ? "rgba(230,92,207,0.30)"
+                                    : "rgba(101,204,175,0.22)";
+      ctx.fill();
+    }
+    ctx.beginPath();
+    pts.forEach(([x, d], k) => k ? ctx.lineTo(X(x), Y(d)) : ctx.moveTo(X(x), Y(d)));
+    ctx.strokeStyle = bias > 0.05 || slope > 0.005 ? ALARM : OK;
+    ctx.lineWidth = 2.4; ctx.stroke();
+
+    // the centred reference, so the offset is visible as an offset
+    if (bias > 0.05) {
+      ctx.beginPath();
+      for (let i = 0; i <= 400; i += 1) {
+        const x = xlo + (xhi - xlo) * i / 400;
+        const yy = Y(phi(x, Math.hypot(PART, GAUGE)));
+        i ? ctx.lineTo(X(x), yy) : ctx.moveTo(X(x), yy);
+      }
+      ctx.strokeStyle = "rgba(101,204,175,0.55)";
+      ctx.lineWidth = 1.4; ctx.stroke();
+    }
+
+    ctx.strokeStyle = RULE; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(L, B); ctx.lineTo(R, B); ctx.stroke();
+    ctx.fillStyle = DIM;
+    ctx.font = '11px ui-monospace, "SF Mono", Menlo, monospace';
+    ctx.textAlign = "center";
+    ctx.fillText("reading, \u00b5m from nominal", (L + R) / 2, h - 10);
+    ctx.fillText("LSL", X(-HALF), T - 8);
+    ctx.fillText("USL", X(HALF), T - 8);
+  }
+
+  function render() {
+    const bias = Number($("b-slider").value) / 10;
+    const slope = Number($("s-slider").value) / 100;
+    $("b-val").textContent = bias.toFixed(1);
+    $("s-val").textContent = slope.toFixed(2);
+
+    const r = ratiosWithLinearity(slope);
+    const m = misclassification(bias, slope);
+    $("r-study").textContent = r.study.toFixed(4);
+    $("r-tol").textContent = r.tolerance.toFixed(4);
+    $("r-scrap").textContent = m.goodRejected.toFixed(2);
+    $("r-side").textContent = m.atUpper.toFixed(1);
+
+    // the tiles that carry the argument: the ratios are inert under bias, and
+    // the scrap is not. Status names which of the two defects is acting.
+    const biased = bias > 0.05, sheared = slope > 0.005;
+    $("t-study").className = "tile" + (sheared ? " cond" : "");
+    $("t-tol").className = "tile";
+    $("t-scrap").className = "tile" + (m.goodRejected > 1 ? " fail"
+                                       : biased ? " cond" : "");
+    $("t-side").className = "tile" + (m.atUpper > 90 ? " fail"
+                                      : biased ? " cond" : "");
+    $("lab-status").textContent =
+      !biased && !sheared ? "CENTRED AND LINEAR"
+      : biased && !sheared ? "BIASED - RATIOS BLIND, SCRAP ONE-SIDED"
+      : !biased && sheared ? "NON-LINEAR - THE RATIOS IMPROVED"
+      : "BIASED AND NON-LINEAR";
+    draw(bias, slope);
+  }
+
+  for (const id of ["b-slider", "s-slider"]) {
+    $(id).addEventListener("input", render);
+  }
+  window.addEventListener("resize", render);
+  render();
+})();
+</script>
+
+</body>
+</html>

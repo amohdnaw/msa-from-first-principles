@@ -907,6 +907,197 @@ def chapter_04(K):
     ]
 
 
+def chapter_05(K):
+    from msalab.accuracy import (
+        APPARENT_INFLATION_PCT, BIAS, BIASED_MISS, BIASED_RATIOS, CLEAN_MISS,
+        CLEAN_RATIOS, DRIFT, DRIFT_PCT_TOL, DRIFT_OVER_GAUGE, DRIFT_PER_MONTH,
+        DRIFT_TOTAL, GAUGE_SIGMA, GRR_BY_MONTH, LINEARITY, LINEAR_RATIOS,
+        MASTER_CI, MASTER_READS, MONTHS, MONTH_MASTER_NOTICES, READS_FOR_BIAS,
+        READS_FOR_HALF, READS_FOR_TENTH, REPEAT_SPREAD, SCRAP_MULTIPLE,
+        STUDY_IMPROVEMENT,
+    )
+    return [
+        ("s1", "5.1", "Four levels with a mean of zero", [
+            para("Everything so far is made of variances. A repeatability, a "
+                 "reproducibility, an interaction, and two ratios built out of "
+                 "them. Not one of those quantities contains a term that says "
+                 "where the readings sit \u2014 only how far apart they are.",
+                 lead=True),
+            para(f"So take the gauge those levels built, "
+                 f"{GAUGE_SIGMA:.4f}&nbsp;\u00b5m, and make it read "
+                 f"{BIAS:.0f}&nbsp;\u00b5m high. Everywhere, on every part, all "
+                 f"day. Both of Level 4's percentages are unchanged \u2014 not "
+                 f"approximately, not to two figures, but to the last decimal the "
+                 f"arithmetic carries.",
+                 datanote(("against study, centred",
+                           f"{CLEAN_RATIOS['study']:.4f} %"),
+                          (f"against study, {BIAS:.0f} \u00b5m high",
+                           f"{BIASED_RATIOS['study']:.4f} %"),
+                          ("against tolerance, centred",
+                           f"{CLEAN_RATIOS['tolerance']:.4f} %"),
+                          (f"against tolerance, {BIAS:.0f} \u00b5m high",
+                           f"{BIASED_RATIOS['tolerance']:.4f} %"),
+                          k="the same gauge, moved off centre")),
+            para("A standard deviation is computed from the distances between "
+                 "readings and their own mean. Shift every reading by the same "
+                 "amount and those distances are identical. There is nowhere in "
+                 "either formula for a bias to enter, so this is not a weakness "
+                 "of the method \u2014 it is what the method is.",
+                 note("what R&R is for", text="It answers whether the gauge can "
+                      "distinguish. Whether it is correct is a different "
+                      "question, and it needs a different instrument.")),
+            K["fig"]("Level05.mp4"),
+        ]),
+        ("s2", "5.2", "The scrap bill is not blind", [
+            para("The percentages do not move. The factory does.", lead=True),
+            para(f"With the gauge centred, "
+                 f"{CLEAN_MISS['good_rejected_pct']:.2f}&nbsp;% of the parts that "
+                 f"are genuinely inside tolerance get rejected anyway, and the "
+                 f"mistakes split evenly between the two limits \u2014 exactly "
+                 f"evenly, because the arithmetic is symmetric. Add the "
+                 f"{BIAS:.0f}&nbsp;\u00b5m and that rate goes to "
+                 f"{BIASED_MISS['good_rejected_pct']:.2f}&nbsp;%, "
+                 f"{SCRAP_MULTIPLE:.1f} times higher, and "
+                 f"{BIASED_MISS['rejected_at_upper_pct']:.0f}&nbsp;% of it now "
+                 f"happens at one limit.",
+                 datanote(("good parts rejected, centred",
+                           f"{CLEAN_MISS['good_rejected_pct']:.4f} %"),
+                          ("of those, at the upper limit",
+                           f"{CLEAN_MISS['rejected_at_upper_pct']:.1f} %"),
+                          (f"good parts rejected, {BIAS:.0f} \u00b5m high",
+                           f"{BIASED_MISS['good_rejected_pct']:.4f} %"),
+                          ("of those, at the upper limit",
+                           f"{BIASED_MISS['rejected_at_upper_pct']:.1f} %"),
+                          k="what the same bias does to the decision")),
+            para("That asymmetry is the useful part, because noise cannot produce "
+                 "it. A gauge that is merely imprecise throws away good parts in "
+                 "both directions. When the rework bench only ever sees oversize "
+                 "parts, the gauge is a better suspect than the process.",
+                 note("what an operator sees", text="Not a percentage. A pattern "
+                      "in which direction the rejects fall.")),
+            K["fig"]("l05_1_precision_is_not_accuracy.png"),
+            K["lab"],
+        ]),
+        ("s3", "5.3", "You cannot find it by measuring again", [
+            para("Repeatability is measured by reading the same part twice. Bias "
+                 "cannot be, at any sample size, because both readings carry it "
+                 "equally. Ten thousand readings of an unknown part give a very "
+                 "precise estimate of the spread and no information at all about "
+                 "where that spread sits.",
+                 lead=True),
+            para(f"It takes a reference \u2014 something whose size is already "
+                 f"known by better means. Then the question is whether a "
+                 f"confidence interval on the mean error contains zero. "
+                 f"{MASTER_READS} readings of a master that is truly "
+                 f"{BIAS:.0f}&nbsp;\u00b5m out gave a mean error of "
+                 f"{MASTER_CI['mean']:+.3f}&nbsp;\u00b5m and an interval of "
+                 f"[{MASTER_CI['low']:+.3f}, {MASTER_CI['high']:+.3f}] \u2014 "
+                 f"clear of zero, so detected, but only just.",
+                 datanote(("readings of the master", f"{MASTER_READS}"),
+                          ("mean error", f"{MASTER_CI['mean']:+.3f} \u00b5m"),
+                          ("interval half-width",
+                           f"{MASTER_CI['half_width']:.3f} \u00b5m"),
+                          ("contains zero",
+                           "no" if MASTER_CI["detected"] else "yes"),
+                          k="one reference study")),
+            f'{P}<div class="eq"><div class="eq-body" data-tex="n \\ge '
+            f'\\left(\\frac{{(z_{{\\alpha/2}} + z_{{\\beta}})\\,'
+            f'\\sigma_{{gauge}}}}{{\\delta}}\\right)^{{2}}">'
+            f'</div><div class="eq-num">(5.1)</div></div>',
+            para(f"The bias you want to catch sits in the denominator, and it is "
+                 f"squared. Catching {BIAS:.0f}&nbsp;\u00b5m takes "
+                 f"{READS_FOR_BIAS} readings. Halving that to "
+                 f"{BIAS/2:.1f} does not double the work, it roughly quadruples "
+                 f"it: {READS_FOR_HALF}. Chasing {BIAS/10:.1f}&nbsp;\u00b5m "
+                 f"takes {READS_FOR_TENTH}. Precision gets cheaper with "
+                 f"repetition, because averaging divides it by the root of the "
+                 f"count. Accuracy does not, because it is not a spread.",
+                 note("the asymmetry", text="Level 1 showed averaging buying "
+                      "precision at one over root m. Here the same root works "
+                      "against you.")),
+        ]),
+        ("s4", "5.4", "Linearity does not hide \u2014 it flatters", [
+            para("The second way to be wrong is to be right in the middle and "
+                 "wrong at the ends: a worn anvil, a fixture that does not locate "
+                 "the same way across the range, a scale whose gain is off. The "
+                 "error is then a fraction of the reading rather than a constant.",
+                 lead=True),
+            para(f"A slope of {LINEARITY:.2f} means a part ten microns oversize "
+                 f"reads {10*LINEARITY:.1f}&nbsp;\u00b5m high. Because the error "
+                 f"now grows with the part, it widens the spread of the readings: "
+                 f"the apparent part variation rises from "
+                 f"{LINEAR_RATIOS['true_part']:.2f}&nbsp;\u00b5m to "
+                 f"{LINEAR_RATIOS['apparent_part']:.2f}, up "
+                 f"{APPARENT_INFLATION_PCT:.0f}&nbsp;%. That spread is the "
+                 f"denominator of the study ratio.",
+                 datanote(("slope", f"{LINEARITY:.2f}"),
+                          ("true part spread",
+                           f"{LINEAR_RATIOS['true_part']:.2f} \u00b5m"),
+                          ("apparent part spread",
+                           f"{LINEAR_RATIOS['apparent_part']:.2f} \u00b5m"),
+                          ("against study, linear",
+                           f"{CLEAN_RATIOS['study']:.1f} %"),
+                          ("against study, non-linear",
+                           f"{LINEAR_RATIOS['study']:.1f} %"),
+                          k="the defect that improves the score")),
+            para(f"So the ratio <em>improves</em>, by "
+                 f"{STUDY_IMPROVEMENT:.1f} points. The instrument's own defect is "
+                 f"counted as process variation and the gauge is rewarded for "
+                 f"having it. That is worse than a blind spot: a blind spot "
+                 f"reports nothing, and this reports good news.",
+                 note("why the tolerance ratio is unmoved", text="Its "
+                      "denominator came off a drawing, so nothing the gauge does "
+                      "can change it. Level 4, section two, in reverse.")),
+            K["fig"]("l05_2_worse_than_invisible.png"),
+        ]),
+        ("s5", "5.5", "And it was right in March", [
+            para("The third way to be wrong is to have been right. A gauge "
+                 "drifts: a reference surface wears, a temperature compensation "
+                 "goes stale, a battery sags. Nothing is wrong on any single day.",
+                 lead=True),
+            para(f"Run the same study on a master once a month for "
+                 f"{MONTHS} months, with the gauge drifting "
+                 f"{DRIFT_PER_MONTH}&nbsp;\u00b5m each month. By the end it "
+                 f"reads {DRIFT_TOTAL:.2f}&nbsp;\u00b5m high \u2014 "
+                 f"{DRIFT_OVER_GAUGE:.1f} times the gauge's own sigma and "
+                 f"{DRIFT_PCT_TOL:.0f}&nbsp;% of the whole tolerance. And every "
+                 f"study is internally fine: %GRR reads "
+                 f"{GRR_BY_MONTH[0]:.4f}&nbsp;% every single month, and the "
+                 f"repeatability estimates vary over only "
+                 f"{REPEAT_SPREAD:.3f}&nbsp;\u00b5m across the year.",
+                 datanote(("drift per month", f"{DRIFT_PER_MONTH} \u00b5m"),
+                          ("total drift", f"{DRIFT_TOTAL:.2f} \u00b5m"),
+                          ("as a share of tolerance",
+                           f"{DRIFT_PCT_TOL:.1f} %"),
+                          ("%GRR, every month", f"{GRR_BY_MONTH[0]:.4f} %"),
+                          ("months a master read 'no bias'",
+                           f"{DRIFT['months_undetected']} of {MONTHS}"),
+                          k="a year of correct studies")),
+            para(f"The reason is structural rather than statistical: the bias is "
+                 f"constant <em>inside</em> one afternoon, so a study run in one "
+                 f"afternoon has nothing to see. The drift exists only between "
+                 f"studies, which means it is only visible if somebody kept the "
+                 f"old ones and plotted them. Even with a master, a single month "
+                 f"first notices at month {MONTH_MASTER_NOTICES}, and "
+                 f"{DRIFT['months_undetected']} of the {MONTHS} months read as no "
+                 f"bias at all.",
+                 note("stability is a question about a sequence",
+                      text="No single study answers it at any sample size. It "
+                      "needs the old studies kept and compared, which is a "
+                      "different discipline from this one.")),
+            para("Five levels in, the honest summary is that R&amp;R answers one "
+                 "question about a measurement system, and it is not the question "
+                 "of whether the gauge is right. Which leaves one assumption "
+                 "still standing, and it is the largest: that a reading is a "
+                 "number at all.",
+                 note("the seam ahead", text="Level 6 is the gauge that says "
+                      "pass or fail. No variance, no sigma, no ratio \u2014 and "
+                      "the same questions still have to be answered.")),
+            K["sys"],
+        ]),
+    ]
+
+
 CHAPTERS = {
     "level-01.html": {
         "number": 1, "word": "one",
@@ -978,6 +1169,23 @@ CHAPTERS = {
                 ("4.5", "s5", "A percentage is a proxy for a risk",
                  "shift the process and the risk moves while %GRR does not")],
         "sections": chapter_04,
+    },
+    "level-05.html": {
+        "number": 5, "word": "five",
+        "before": "Level 4 \u2014 %GRR, ndc, and against what",
+        "after": "Level 6 \u2014 attribute agreement",
+        "estimate": "5 sections \u00b7 1 act \u00b7 1 interactive \u00b7 ~9 min read",
+        "toc": [("5.1", "s1", "Four levels with a mean of zero",
+                 "shift every reading and not one number moves"),
+                ("5.2", "s2", "The scrap bill is not blind",
+                 "four times the rejections, and 99 % at one limit"),
+                ("5.3", "s3", "You cannot find it by measuring again",
+                 "it takes a reference, and then it takes 498 readings"),
+                ("5.4", "s4", "Linearity does not hide \u2014 it flatters",
+                 "the gauge's own defect counted as process variation"),
+                ("5.5", "s5", "And it was right in March",
+                 "6 \u00b5m of drift while %GRR reads the same every month")],
+        "sections": chapter_05,
     },
 }
 
@@ -1123,6 +1331,22 @@ def main() -> int:
         if dek:
             html = html.replace('<p class="dek page-dek"></p>',
                                 f'<p class="dek">{dek.group(1).strip()}</p>', 1)
+
+    # Anything `extract` kept must actually reach the page. chapter_05 was
+    # written without K["lab"] and this shipped a level whose interactive was
+    # silently dropped - the source still had it, the build still succeeded, and
+    # only the browser noticed. A kept block that goes unused is a build error.
+    # "eq" is deliberately absent: each chapter spec writes its own equations,
+    # so the source's eq block is a template rather than something preserved.
+    for name in ("lab", "sys", "next"):
+        if keep[name] and keep[name] not in html:
+            sys.exit(f"chapterise: {p.name} dropped the {name!r} block that "
+                     f"the page source provides - the chapter spec never "
+                     f"emitted K[{name!r}]")
+    for fname, fig in keep["figs"].items():
+        if fname not in html:
+            sys.exit(f"chapterise: {p.name} dropped figure {fname} - "
+                     f"the chapter spec never emitted it")
 
     p.write_text(html)
     print(f"{p.name}: chapter {spec['number']} — {len(spec['toc'])} sections, "

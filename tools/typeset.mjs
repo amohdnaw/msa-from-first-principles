@@ -15,13 +15,19 @@
  *   node tools/typeset.mjs           # rewrite the pages
  *   node tools/typeset.mjs --check   # exit 1 if any page is out of date
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import katex from "katex";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const PAGES = ["index.html", "level-01.html", "level-02.html", "level-03.html", "level-04.html"];
+// Derived from disk, never listed by hand. A hardcoded list made `--check`
+// report clean on level-05 while that page had an unrendered formula on it -
+// the check passed because it had nothing to check. Anything matching
+// level-NN.html is now typeset the moment the file exists.
+const PAGES = ["index.html", ...readdirSync(ROOT)
+  .filter((f) => /^level-\d\d\.html$/.test(f))
+  .sort()];
 
 // `<div class="eq-body" data-tex="…">` renders in display mode,
 // `<span class="tex" data-tex="…">` renders inline.

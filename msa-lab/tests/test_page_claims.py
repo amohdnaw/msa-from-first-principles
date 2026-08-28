@@ -268,3 +268,39 @@ def test_the_contract_is_in_the_repo_and_names_its_checks():
     for phrase in ("exactly one", "Seven level pages exist",
                    "never teaches control limits"):
         assert phrase in t, f"the contract no longer says {phrase!r}"
+
+
+def test_every_page_declares_a_24px_tap_target():
+    """WCAG 2.5.8. The nav, rail, wordmark and footer links are 11-13px mono, so
+    their text boxes come out 16-23px tall and need an explicit min-height.
+
+    Found by a browser sweep at 390px, not by reading the CSS - four levels had
+    already shipped with rail links at 23px and footer links at 17px.
+    """
+    for p in sorted(REPO.glob("level-0*.html")) + [REPO / "index.html"]:
+        css = p.read_text()
+        assert "min-height:24px" in css, f"{p.name}: no 24px tap-target rule"
+
+
+def test_range_inputs_are_tall_enough_to_touch():
+    """A native range track is about 16px. Every lab slider sets its own height."""
+    for p in sorted(REPO.glob("level-0*.html")):
+        css = p.read_text()
+        if "type=\"range\"" not in css:
+            continue
+        i = css.index("input[type=range]{")
+        rule = css[i:css.index("}", i)]
+        assert "height:24px" in rule, f"{p.name}: slider under 24px"
+
+
+def test_no_kept_block_is_silently_dropped():
+    """chapterise exits if the spec forgets a block the source provides.
+
+    Level 5 shipped a build with its interactive missing because chapter_05 never
+    emitted K["lab"]: the source had it, extract kept it, the build succeeded and
+    the page had no lab. The tool now refuses; this holds the refusal in place.
+    """
+    src = (REPO / "tools" / "chapterise.py").read_text()
+    assert 'for name in ("lab", "sys", "next")' in src
+    assert "dropped the" in src
+    assert 'for fname, fig in keep["figs"].items()' in src
