@@ -194,6 +194,45 @@ def test_no_data_tex_is_left_unrendered():
             assert "katex" in m.group(1), f"{p.name}: a data-tex never rendered"
 
 
+# ------------------------------------- the page has to have a title at all
+def test_every_page_has_a_non_empty_title_and_dek():
+    """A page with no h1 shipped live, and no check noticed.
+
+    `build_main()` replaces everything between <main> and </main>, and the title
+    is folded in afterwards from a standalone `header.opener`. Put that opener
+    INSIDE main - as the first MSA page source did - and it is deleted before the
+    fold can read it, so the page renders with an empty `<h1 class="page-title">`.
+    The browser sweep passed: an empty heading overflows nothing.
+    """
+    for p in pages():
+        t = p.read_text()
+        m = re.search(r"<h1[^>]*>(.*?)</h1>", t, re.S)
+        assert m, f"{p.name} has no h1 at all"
+        title = re.sub(r"<[^>]+>", "", m.group(1)).strip()
+        assert len(title) > 3, f"{p.name} has an empty h1"
+        d = re.search(r'<p class="dek"[^>]*>(.*?)</p>', t, re.S)
+        assert d, f"{p.name} has no dek"
+        dek = re.sub(r"<[^>]+>", "", d.group(1)).strip()
+        assert len(dek) > 20, f"{p.name} has an empty dek"
+
+
+def test_the_chapter_block_is_centred_not_flush_left():
+    """The same root cause, measured structurally.
+
+    `div.wrap` carries `margin:0 auto`. It has to sit OUTSIDE main for the same
+    reason the opener does, and when it sat inside, the prose rendered at x = 0
+    against SPC's x = 253 at the same viewport - identical measure, identical
+    figure width, wrong position.
+    """
+    for p in written():
+        t = p.read_text()
+        wrap = t.index('<div class="wrap">')
+        main = t.index("<main")
+        assert wrap < main, (
+            f"{p.name}: div.wrap is inside main, so build_main deletes it and "
+            "the chapter loses its centring")
+
+
 # --------------------------- contract check 1: it is the same kind of artifact
 def test_the_pages_wear_the_inherited_ground_and_wordmark():
     for p in pages():
