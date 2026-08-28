@@ -1,151 +1,231 @@
-"""The index makes three counted claims about the curriculum. Pin them to reality.
+"""The gates that read the built pages rather than the library.
 
-`index.html` opens with "twelve levels, six written - sixteen minutes of narrated
-video". Every one of those numbers was typed by hand, and the runtime had already
-drifted twice: it read "eleven minutes" at five acts, "fourteen" at six, and was
-still saying fourteen when the six acts totalled 16:14.
+A library test proves the arithmetic. These prove the *site* says what the
+contract promised, and they exist because on the SPC build several defects lived
+entirely in the gap between the two: a runtime claim that drifted from the
+rendered videos, three `next` links that resolved while pointing past a level,
+and equations that shipped as literal words because the source was double-escaped.
 
-A typed number beside a measurable one is a claim waiting to go stale, so it gets
-the same treatment as the constants: computed from source, asserted here.
+Every check here maps to a numbered line in
+`specs/msa-curriculum-contract.md`. If a check has no contract line, it should
+not be here; if a contract line has no check, it is a promise nobody is keeping.
 """
-from __future__ import annotations
-
 import pathlib
 import re
-import subprocess
+
+import pytest
 
 REPO = pathlib.Path(__file__).resolve().parents[2]
 INDEX = REPO / "index.html"
+CONTRACT = REPO / "specs" / "msa-curriculum-contract.md"
 
-WORDS = {
-    "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6,
-    "seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11,
-    "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15,
-    "sixteen": 16, "seventeen": 17, "eighteen": 18, "nineteen": 19,
-    "twenty": 20,
-}
+SPC = "amohdnaw.github.io/spc-from-first-principles"
+PLATFORM = "msa.amohdnaw.xyz"
 
-
-def _claim() -> str:
-    hero = re.search(r'<span class="micro"[^>]*>An interactive curriculum[^<]*</span>',
-                     INDEX.read_text())
-    assert hero, "the index no longer opens with the curriculum claim"
-    return hero.group(0)
+WORDS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6,
+         "seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11,
+         "twelve": 12}
 
 
-TENS = {"twenty": 20, "thirty": 30, "forty": 40, "fifty": 50}
+def pages():
+    """Every page the site actually serves."""
+    return sorted(REPO.glob("level-[0-9][0-9].html")) + [INDEX]
 
 
-def _spelled(claim: str, unit: str) -> int:
-    """Parse the spelled number before `unit`, including "twenty-four".
+def written():
+    """Level pages that are real chapters rather than stubs."""
+    return [p for p in sorted(REPO.glob("level-[0-9][0-9].html"))
+            if 'class="sec-no"' in p.read_text()]
 
-    The first version matched `(\w+)`, which stops at the hyphen and read
-    "twenty-four minutes" as four. The runtime claim crossed twenty the moment
-    Level 5 rendered, so the gate failed for its own vocabulary rather than for
-    the page — a check that cannot read the site's own house style is a check
-    that will be silenced.
-    """
-    m = re.search(rf"([a-zA-Z]+(?:-[a-zA-Z]+)?) {unit}", claim)
-    assert m, f"no spelled number before {unit!r} in: {claim}"
+
+def _claim():
+    m = re.search(r"An interactive curriculum[^<]*", INDEX.read_text())
+    assert m, "the index has to state what it contains"
+    return m.group(0)
+
+
+def _spelled(text, unit):
+    m = re.search(r"(\w+)\s+" + unit, text)
+    assert m, f"no spelled number before {unit!r} in: {text!r}"
     word = m.group(1).lower()
-    if "-" in word:
-        tens, ones = word.split("-", 1)
-        assert tens in TENS and ones in WORDS, f"cannot read {word!r}"
-        return TENS[tens] + WORDS[ones]
-    if word in TENS:
-        return TENS[word]
     assert word in WORDS, f"unspelled or unknown number {word!r} before {unit!r}"
     return WORDS[word]
 
 
-def _act_seconds(mp4: pathlib.Path) -> float:
-    out = subprocess.run(
-        ["ffprobe", "-v", "error", "-show_entries", "format=duration",
-         "-of", "csv=p=0", str(mp4)],
-        capture_output=True, text=True, check=True).stdout
-    return float(out.strip())
+# ------------------------------------------------ contract check 11: the seam
+def test_exactly_one_outbound_link_to_the_spc_curriculum_sitewide():
+    """Contract check 11, and the reason it is counted rather than trusted.
 
-
-def test_written_levels_matches_the_pages_that_exist():
-    """The claimed written count must equal the level pages actually written.
-
-    Once every slot is filled the honest copy reads "all written" rather than
-    "twelve written", so `all` is accepted — and it then means *every slot*,
-    which keeps the check load-bearing: adding a thirteenth inert slot while the
-    index still says "all" fails here.
+    The first live deploy had four: one in the index nav, one in the index prose,
+    and one in the footer of every page — which means the count would have grown
+    by one with every level written. A per-page check would have passed on each
+    page individually.
     """
-    pages = sorted(REPO.glob("level-[0-9][0-9].html"))
-    # a redirect stub is not a written level; a chapter has numbered sections
-    written = [p for p in pages if 'class="sec-no"' in p.read_text()]
+    hits = {p.name: p.read_text().count(SPC) for p in pages()}
+    total = sum(hits.values())
+    assert total == 1, f"the seam is spent {total} times, not once: {hits}"
+
+
+def test_exactly_one_outbound_link_to_the_msa_platform_sitewide():
+    hits = {p.name: p.read_text().count(PLATFORM) for p in pages()}
+    total = sum(hits.values())
+    assert total == 1, f"the platform link is spent {total} times, not once: {hits}"
+
+
+def test_the_seam_links_are_safe_to_open():
+    for p in pages():
+        t = p.read_text()
+        for host in (SPC, PLATFORM):
+            for m in re.finditer(r'<a[^>]*' + re.escape(host) + r'[^>]*>', t):
+                assert 'rel="noopener"' in m.group(0), (
+                    f"{p.name}: outbound seam link without noopener")
+
+
+# -------------------------------------- contract check 12: the boundary rule
+@pytest.mark.parametrize("banned", [
+    "control limit", "control chart", "Shewhart", "Cpk", "Ppk",
+    "in control", "out of control",
+])
+def test_this_site_never_teaches_control_limits(banned):
+    """The boundary rule from §2 of the parent contract.
+
+    The index is allowed to *name* the sibling's subject when it explains why
+    two sites exist; a level page teaching it is the breach.
+    """
+    for p in written():
+        body = p.read_text()
+        main = body[body.index("<main"):body.index("</main>")]
+        assert banned.lower() not in main.lower(), (
+            f"{p.name} teaches {banned!r}, which belongs to the SPC site")
+
+
+# ------------------------------------ contract check 5: the count is honest
+def test_the_index_states_seven_levels():
+    assert _spelled(_claim(), "levels") == 7
+
+
+def test_the_written_count_matches_the_pages_that_exist():
     claim = _claim()
     if re.search(r"\ball written\b", claim):
-        total = _spelled(claim, "levels")
-        assert len(written) == total, (
-            f'index says "all written" but {len(written)} of {total} exist')
-        inert = len(re.findall(r'<div class="lv soon"', INDEX.read_text()))
-        assert inert == 0, f'index says "all written" with {inert} inert cards'
+        assert len(written()) == _spelled(claim, "levels")
         return
-    assert _spelled(claim, "written") == len(written), (
+    assert _spelled(claim, "written") == len(written()), (
         f"index claims {_spelled(claim, 'written')} written, "
-        f"found {len(written)}: {[p.name for p in written]}"
-    )
+        f"found {len(written())}: {[p.name for p in written()]}")
 
 
-def test_total_levels_matches_the_rail():
-    """"twelve levels" must equal the slots on the level rail."""
-    rail = re.search(r'<nav class="rail".*?</nav>', INDEX.read_text(), re.S)
-    slots = len(re.findall(r"<(?:a|span)[^>]*class=\"lv", rail.group(0))) if rail else 0
-    if slots == 0:  # the index carries spine cards rather than a rail
-        slots = len(re.findall(r'class="lv-num', INDEX.read_text()))
-    assert _spelled(_claim(), "levels") == slots, (
-        f"index claims {_spelled(_claim(), 'levels')} levels, rail shows {slots}"
-    )
+def test_the_spine_has_a_card_for_every_level():
+    t = INDEX.read_text()
+    live = len(re.findall(r'<a class="lv"', t))
+    inert = t.count('class="lv soon"')
+    assert live + inert == _spelled(_claim(), "levels")
+    assert live == len(written()), "a live card must have a written page behind it"
 
 
-def test_runtime_claim_matches_the_rendered_acts():
-    """The spoken runtime is the sum of the level acts, floored to the minute."""
-    acts = sorted((REPO / "spc-lab/media/videos").glob("level*_scene/1080p60/*.mp4"))
-    assert acts, "no level acts rendered - cannot check the runtime claim"
-    total = sum(_act_seconds(a) for a in acts)
-    claimed = _spelled(_claim(), "minutes")
-    assert claimed == int(total // 60), (
-        f"index claims {claimed} minutes; {len(acts)} level acts total "
-        f"{int(total)//60} min {int(total)%60:02d} s"
-    )
+# ------------------------------- contract check 9: the chain has to be walked
+def test_every_level_links_to_the_next_written_one_or_the_index():
+    """Resolving is not sufficient.
 
-
-def test_no_equation_is_double_escaped():
-    """`\\\\` in a one-line equation is a KaTeX line break, never what was meant.
-
-    Level 1's and Level 2's display equations shipped with doubled backslashes
-    because the source was written through a shell heredoc into a Python string.
-    KaTeX read `\\\\alpha` as "line break, then the word alpha", so the page
-    rendered the literal words `operatorname`, `sigma`, `alpha` and
-    `longrightarrow` — visible on the live site, and invisible to every check
-    that only asked whether KaTeX had produced *some* output.
+    The SPC build shipped three `next` links that returned 200 while pointing
+    *past* a level, so readers were walked straight over content that existed.
+    A link is correct only if it lands on the next written level, or on the index
+    when there is no next.
     """
-    offenders = []
-    pages = sorted(REPO.glob("*.html")) + sorted((REPO / "tools/page-sources").glob("*.html"))
-    for p in pages:
-        for m in re.finditer(r'data-tex="([^"]*)"', p.read_text()):
-            if r"\\" in m.group(1):
-                offenders.append(f"{p.name}: {m.group(1)[:60]}")
-    assert not offenders, "double-escaped equations:\n  " + "\n  ".join(offenders)
+    have = [p.name for p in written()]
+    for i, p in enumerate(written()):
+        m = re.search(r'<a class="next"[^>]*href="([^"]+)"', p.read_text())
+        assert m, f"{p.name} has no next link"
+        target = m.group(1)
+        expected = have[i + 1] if i + 1 < len(have) else "index.html"
+        assert target == expected, (
+            f"{p.name} points at {target}, skipping {expected}")
+        assert (REPO / target).exists(), f"{p.name} points at a missing {target}"
 
 
-def test_rendered_equations_contain_no_latex_command_words():
-    """The positive form: a rendered equation must not show a command as text."""
-    words = ("operatorname", "longrightarrow", "alpha", "sigma", "lambda",
-             "dfrac", "sqrt", "approx", "mathbb", "binom")
-    offenders = []
-    for p in sorted(REPO.glob("level-*.html")) + [INDEX]:
-        html = p.read_text()
-        # the visible KaTeX layer only; the MathML annotation legitimately holds the source
-        for m in re.finditer(r'<span class="katex-html"[^>]*>(.*?)</span></span></span>',
-                             html, re.S):
+# ------------------------- contract check 6: media exists and is opt-in only
+def test_every_written_level_has_its_act_poster_and_captions():
+    for p in written():
+        t = p.read_text()
+        src = re.search(r'<source src="([^"]+\.mp4)"', t)
+        assert src, f"{p.name} has no act"
+        assert (REPO / src.group(1)).exists(), f"{p.name}: missing {src.group(1)}"
+        poster = re.search(r'poster="([^"]+)"', t)
+        assert poster and (REPO / poster.group(1)).exists(), f"{p.name}: no poster"
+        track = re.search(r'<track[^>]*src="([^"]+\.vtt)"', t)
+        assert track and (REPO / track.group(1)).exists(), f"{p.name}: no captions"
+
+
+def test_no_caption_track_is_forced_on():
+    """WCAG 1.2.2 asks that captions be available, not enabled."""
+    for p in pages():
+        for m in re.finditer(r"<track[^>]*>", p.read_text()):
+            assert "default" not in m.group(0), f"{p.name}: a track is defaulted on"
+
+
+# ------------------- contract check 8: no number on the page is asserted
+def test_the_equations_render_as_maths_and_not_as_words():
+    """The SPC build shipped two pages whose equations read as the literal words
+    `alpha` and `longrightarrow`, because a heredoc doubled every backslash and
+    KaTeX read the result as a line break. Every existing check passed, because
+    they all asked whether KaTeX emitted anything.
+    """
+    for p in pages():
+        t = p.read_text()
+        # KaTeX emits two layers: a `katex-mathml` block whose <annotation> holds
+        # the LaTeX source verbatim, and a `katex-html` block that is what a
+        # sighted reader sees. Stripping tags reads the source and can never
+        # pass. The visible layer is the only one that answers the question.
+        for m in re.finditer(r'class="katex-html"(.*?)</span></span>', t, re.S):
             visible = re.sub(r"<[^>]+>", "", m.group(1))
-            for w in words:
-                if w in visible:
-                    offenders.append(f"{p.name}: rendered {w!r}")
-                    break
-    assert not offenders, "LaTeX commands rendered as text:\n  " + "\n  ".join(sorted(set(offenders)))
+            for word in ("sigma", "alpha", "dfrac", "sqrt", "longrightarrow",
+                         "operatorname", "\\\\"):
+                assert word not in visible, (
+                    f"{p.name}: an equation rendered {word!r} as text: "
+                    f"{visible[:70]!r}")
+        # and the source layer must still be present, or there is no maths at all
+        if 'class="eq-body"' in t:
+            assert 'class="katex-mathml"' in t, f"{p.name}: no maths rendered"
+
+
+def test_no_data_tex_is_left_unrendered():
+    for p in pages():
+        t = p.read_text()
+        for m in re.finditer(r'<[^>]*data-tex="[^"]*"[^>]*>(.*?)</', t, re.S):
+            assert "katex" in m.group(1), f"{p.name}: a data-tex never rendered"
+
+
+# --------------------------- contract check 1: it is the same kind of artifact
+def test_the_pages_wear_the_inherited_ground_and_wordmark():
+    for p in pages():
+        t = p.read_text()
+        assert "--ground:#0d1114" in t.replace(" ", ""), f"{p.name}: wrong ground"
+        assert "/ MSA" in t, f"{p.name}: wrong wordmark"
+        assert "/ SPC<" not in t, f"{p.name}: SPC wordmark leaked in"
+
+
+def test_amber_never_encodes_data():
+    """DESIGN.md: amber is wayfinding. A verdict class may not carry it."""
+    for p in pages():
+        t = p.read_text()
+        for m in re.finditer(r"\.tile\.(pass|fail|cond)[^{]*\{([^}]*)\}", t):
+            assert "--accent" not in m.group(2), (
+                f"{p.name}: a verdict state uses the wayfinding accent")
+
+
+def test_the_conditional_state_has_no_hue():
+    """Amendment 2: conditional is neutral, never a third colour."""
+    for p in pages():
+        for m in re.finditer(r"\.tile\.cond[^{]*\{([^}]*)\}", p.read_text()):
+            body = m.group(1)
+            assert "--signal-ok" not in body and "--signal-alarm" not in body, (
+                f"{p.name}: the conditional state took a semantic colour")
+
+
+# ------------------------------------------- the contract itself has to exist
+def test_the_contract_is_in_the_repo_and_names_its_checks():
+    t = CONTRACT.read_text()
+    assert "## 1. What you will see" in t
+    assert t.count("\n1. ") >= 1
+    for phrase in ("exactly one", "Seven level pages exist",
+                   "never teaches control limits"):
+        assert phrase in t, f"the contract no longer says {phrase!r}"
