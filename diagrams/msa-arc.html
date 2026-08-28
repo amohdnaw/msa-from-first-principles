@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MSA curriculum — how a level gets built</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ground:#0d1114; --panel:#14181c; --panel-high:#1b2026;
+    --rule:#2a3138; --rule-strong:#3d4650;
+    --ink-dim:#7d8b98; --ink:#d7dee4; --ink-bright:#eef3f7;
+    --accent:#ffae00; --accent-wash:rgba(255,174,0,0.14);
+    --signal-ok:#65ccaf; --signal-alarm:#de6a5d;
+    --serif:'EB Garamond',Georgia,serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; background:var(--ground); color:var(--ink);
+    font-family:var(--serif); font-size:19px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  .micro {
+    font-family:var(--mono); font-size:11px; font-weight:600;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--ink-dim);
+  }
+  header { border-bottom:1px solid var(--rule); padding:44px 40px 30px; }
+  .wrap { max-width:1240px; margin:0 auto; }
+  h1 { font-size:40px; font-weight:500; margin:12px 0 10px; color:var(--ink-bright); letter-spacing:-.01em; }
+  .dek { color:var(--ink-dim); max-width:66ch; margin:0; }
+  main { padding:36px 40px 80px; }
+  h2 {
+    font-size:26px; font-weight:500; color:var(--ink-bright);
+    margin:52px 0 6px; letter-spacing:-.005em;
+  }
+  h2 .n { font-family:var(--mono); font-size:13px; color:var(--accent); letter-spacing:.1em; display:block; margin-bottom:6px; }
+  .lede { color:var(--ink-dim); max-width:66ch; margin:0 0 26px; }
+
+  /* ---- swimlanes ---- */
+  .lanes { display:grid; grid-template-columns:repeat(6,1fr); gap:0; border:1px solid var(--rule); }
+  .lane { border-right:1px solid var(--rule); }
+  .lane:last-child { border-right:0; }
+  .lane-head {
+    background:var(--panel-high); border-bottom:1px solid var(--rule);
+    padding:10px 12px; display:flex; flex-direction:column; gap:3px;
+  }
+  .lane-head .who { font-family:var(--mono); font-size:10.5px; color:var(--ink-dim); letter-spacing:.1em; text-transform:uppercase; }
+  .lane-head .what { font-family:var(--mono); font-size:12.5px; font-weight:600; color:var(--ink-bright); }
+  .step { padding:13px 12px; border-bottom:1px solid var(--rule); }
+  .step:last-child { border-bottom:0; }
+  .step b { display:block; font-family:var(--mono); font-size:11.5px; color:var(--accent); font-weight:600; margin-bottom:5px; letter-spacing:.04em; }
+  .step p { margin:0; font-size:15.5px; line-height:1.5; color:var(--ink); }
+  .step code { font-family:var(--mono); font-size:12.5px; color:var(--ink-bright); background:var(--panel-high); padding:1px 4px; }
+  .gotcha {
+    margin-top:9px; padding-left:9px; border-left:2px solid var(--signal-alarm);
+    font-size:14.5px; line-height:1.46; color:var(--ink-dim);
+  }
+  .gotcha em { font-style:normal; color:var(--signal-alarm); font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; display:block; margin-bottom:2px; }
+
+  /* ---- tables ---- */
+  table { width:100%; border-collapse:collapse; margin:8px 0 4px; font-size:16px; }
+  th {
+    text-align:left; font-family:var(--mono); font-size:10.5px; font-weight:600;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--ink-dim);
+    border-bottom:1px solid var(--rule-strong); padding:8px 12px 8px 0;
+  }
+  td { border-bottom:1px solid var(--rule); padding:11px 12px 11px 0; vertical-align:top; }
+  td code, td.p { font-family:var(--mono); font-size:13px; color:var(--ink-bright); white-space:nowrap; }
+  td.why { color:var(--ink-dim); font-size:15.5px; }
+
+  /* ---- verdict tiles: the one design delta, shown live ---- */
+  .tiles { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:10px 0 6px; }
+  .tile { border:1px solid var(--rule); background:var(--panel); }
+  .tile .hd {
+    font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--ink-dim); padding:6px 10px; border-bottom:1px solid var(--rule);
+  }
+  .tile .v {
+    font-family:var(--mono); font-size:30px; font-weight:600; padding:12px 10px 6px;
+    color:var(--ink-bright); font-variant-numeric:tabular-nums;
+  }
+  .tile .u { font-family:var(--mono); font-size:10.5px; color:var(--ink-dim); padding:0 10px 11px; letter-spacing:.06em; text-transform:uppercase; }
+  .tile.fail { border-color:var(--signal-alarm); }
+  .tile.fail .hd { background:rgba(222,106,93,.14); color:var(--signal-alarm); border-bottom-color:var(--signal-alarm); }
+  .tile.fail .v { color:var(--signal-alarm); }
+  .tile.pass { border-color:var(--signal-ok); }
+  .tile.pass .hd { background:rgba(101,204,175,.14); color:var(--signal-ok); border-bottom-color:var(--signal-ok); }
+  .tile.pass .v { color:var(--signal-ok); }
+  .tile.cond .hd { background:var(--panel-high); }
+  .tile.cond .v { color:var(--ink-bright); }
+  .cap { font-family:var(--mono); font-size:12px; color:var(--ink-dim); margin:6px 0 0; }
+
+  figure { margin:22px 0 6px; }
+  figure img { width:100%; height:auto; display:block; }
+  figcaption { font-family:var(--mono); font-size:12px; color:var(--ink-dim); margin-top:10px; }
+  a { color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent-wash); }
+  footer { border-top:1px solid var(--rule); padding:22px 40px 60px; }
+  @media (max-width:1000px) { .lanes { grid-template-columns:1fr 1fr; } .tiles { grid-template-columns:1fr 1fr; } }
+  @media (max-width:620px) { .lanes,.tiles { grid-template-columns:1fr; } main,header,footer { padding-left:20px; padding-right:20px; } }
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <span class="micro">Ammar Nawawi / MSA &middot; build explainer</span>
+  <h1>How one MSA level gets built</h1>
+  <p class="dek">Companion to <code style="font-family:var(--mono);font-size:15px">specs/msa-curriculum-contract.md</code>.
+  Seven levels, each carrying a narrated act and an interactive lab, on a design system inherited
+  from the SPC curriculum. This page is the pipeline, the gotchas that already cost time on the
+  SPC build, and where each artifact lives.</p>
+</div></header>
+
+<main class="wrap">
+
+  <h2><span class="n">§ 1</span>The arc, and the seam</h2>
+  <p class="lede">Seven levels, one per movement of the parent contract's §2. Each ends by raising
+  the question the next answers &mdash; that chain is the structure and there is no other. The two
+  heavy arrows are the seam: exactly one link each way, and the inbound half does not exist yet.</p>
+  <figure>
+    <img src="msa-arc.png" alt="Seven-level MSA arc with the seam to the SPC curriculum at Level 11 in and Level 7 out">
+    <figcaption>FIGURE 1 &middot; the arc. Source of truth is <code style="font-family:var(--mono)">msa-arc.mmd</code>; the
+    <code style="font-family:var(--mono)">.excalidraw</code> opens at excalidraw.com if a box needs moving.</figcaption>
+  </figure>
+
+  <h2><span class="n">§ 2</span>Six lanes, one level</h2>
+  <p class="lede">A level is not written once; it passes through six owners. The rule that makes it
+  work is that the library computes every number and everything downstream only reads &mdash; so a
+  figure, a video frame, a page and a test can never disagree.</p>
+
+  <div class="lanes">
+    <div class="lane">
+      <div class="lane-head"><span class="who">lane 1</span><span class="what">msalab</span></div>
+      <div class="step"><b>the maths</b><p>One module per level in <code>src/msalab/</code>. Every claim the level makes is a function here, returning a number.</p>
+        <div class="gotcha"><em>rule</em>No number may exist anywhere else. If a page needs it, it imports it.</div></div>
+      <div class="step"><b>the seed</b><p>Studies generated from a seeded model so any reader can reproduce a figure exactly.</p></div>
+    </div>
+    <div class="lane">
+      <div class="lane-head"><span class="who">lane 2</span><span class="what">tests</span></div>
+      <div class="step"><b>claims, pinned</b><p>One test per sentence the level asserts. Published AIAG values are checked against the library, never quoted.</p></div>
+      <div class="step"><b>sabotage</b><p>Break the library deliberately, watch each gate fail, restore.</p>
+        <div class="gotcha"><em>earned on SPC</em>A sabotage that survives means the test is decoration. Tightening a tolerance is the wrong fix &mdash; find the exact algebraic identity.</div></div>
+    </div>
+    <div class="lane">
+      <div class="lane-head"><span class="who">lane 3</span><span class="what">figure sheets</span></div>
+      <div class="step"><b>matplotlib</b><p>Two static sheets per level, rendered on the exact ground colour so they sit on the page seamlessly.</p></div>
+      <div class="step"><b>read them back</b><p>Open every rendered PNG and look. Labels collide, legends land on data, y-labels clip the frame.</p>
+        <div class="gotcha"><em>earned on SPC</em>Never place a label on the mark it labels. Roughly one sheet in two needed a collision fix that only a human eye caught.</div></div>
+    </div>
+    <div class="lane">
+      <div class="lane-head"><span class="who">lane 4</span><span class="what">the act</span></div>
+      <div class="step"><b>Manim</b><p><code>NarratedScene</code> / <code>NarratedCameraScene</code>: the narration script <em>is</em> the pacing, so silent and voiced cuts need no separate tuning.</p></div>
+      <div class="step"><b>derive by motion</b><p>Numbers arrive as the result of a movement, not typed. Every play carries a deliberate <code>rate_func</code>.</p>
+        <div class="gotcha"><em>earned on SPC</em>Contact-sheet the render at 2s intervals and look at every frame. Overflow guards catch labels leaving the frame; nothing catches a label landing on the fulcrum but your eye.</div></div>
+    </div>
+    <div class="lane">
+      <div class="lane-head"><span class="who">lane 5</span><span class="what">the page</span></div>
+      <div class="step"><b>chapterise</b><p>A chapter spec of sections, prose, notes and figures; the generator emits the HTML. Numbers interpolated from the library at build time.</p></div>
+      <div class="step"><b>the lab</b><p>JS recomputes the same formulas in the browser, and a browser test proves it agrees with Python to the printed precision.</p>
+        <div class="gotcha"><em>earned on SPC</em>Two implementations of one formula will diverge at a boundary. Drag the control onto the exact threshold &mdash; that is where a tie, a clamp or an off-by-one lives.</div></div>
+      <div class="step"><b>typeset</b><p><code>typeset.mjs</code> renders maths with KaTeX; <code>--check</code> proves the pass is idempotent.</p>
+        <div class="gotcha"><em>earned on SPC</em>A KaTeX <code>&lt;annotation&gt;</code> holds the source even when the visible layer is broken, so "did it emit anything" is a vacuous gate. Ask what the <em>rendered text</em> says.</div></div>
+    </div>
+    <div class="lane">
+      <div class="lane-head"><span class="who">lane 6</span><span class="what">ship</span></div>
+      <div class="step"><b>sweep</b><p>Seven widths, 320&ndash;2560: overflow, symmetric margins, one left edge, no Greek under uppercase, no LaTeX as text, canvas sized to column.</p></div>
+      <div class="step"><b>walk the chain</b><p>Follow every <code>next</code> link on the live site, hop by hop.</p>
+        <div class="gotcha"><em>earned on SPC</em>Three links resolved 200 while pointing <em>past</em> a level. "Working" is not sufficient; the chain has to be walked.</div></div>
+      <div class="step"><b>Pages</b><p>Push, then request a build directly &mdash; a wedged Actions run can sit queued for 40 minutes and cancel refuses it.</p></div>
+    </div>
+  </div>
+
+  <h2><span class="n">§ 3</span>The one design delta, rendered</h2>
+  <p class="lede">The site inherits the SPC design system whole. The single addition is that a
+  readout tile carries its own state: border and header wash, not just coloured digits. And there is
+  deliberately no third hue for the conditional band &mdash; AIAG's 10&ndash;30&nbsp;% means "no verdict
+  yet", which ink says better than amber would.</p>
+  <div class="tiles">
+    <div class="tile fail"><div class="hd">%GRR (ANOVA)</div><div class="v">31.7</div><div class="u">% of study var &middot; reject</div></div>
+    <div class="tile cond"><div class="hd">%GRR (tolerance)</div><div class="v">18.4</div><div class="u">% of tolerance &middot; conditional</div></div>
+    <div class="tile pass"><div class="hd">repeatability</div><div class="v">6.1</div><div class="u">% of study var &middot; accept</div></div>
+    <div class="tile fail"><div class="hd">ndc</div><div class="v">2.9</div><div class="u">distinct categories &middot; needs 5</div></div>
+  </div>
+  <p class="cap">FOUR TILES, THREE STATES. AMBER APPEARS NOWHERE &mdash; IT IS WAYFINDING ONLY.</p>
+
+  <h2><span class="n">§ 4</span>Where things live</h2>
+  <table>
+    <thead><tr><th>Artifact</th><th>Path</th><th>Inherited from</th><th>Why it is there</th></tr></thead>
+    <tbody>
+      <tr><td class="p">contract</td><td class="p">specs/msa-curriculum-contract.md</td><td class="why">new</td><td class="why">The approval artifact. Checks are re-read from it, never from memory.</td></tr>
+      <tr><td class="p">design authority</td><td class="p">DESIGN.md</td><td class="why">portfolio/DESIGN.md</td><td class="why">Inheritance header plus two amendments. One authority, a short diff, never a fork.</td></tr>
+      <tr><td class="p">the maths</td><td class="p">src/msalab/</td><td class="why">new</td><td class="why">Shares method with <code>spclab</code>, not code &mdash; the two sites must move independently.</td></tr>
+      <tr><td class="p">page generator</td><td class="p">tools/chapterise.py</td><td class="why">portfolio (1836 lines)</td><td class="why">Chapter spec to built HTML, with the note/figure/lab grammar already solved.</td></tr>
+      <tr><td class="p">maths pass</td><td class="p">tools/typeset.mjs</td><td class="why">portfolio</td><td class="why">KaTeX plus the <code>--check</code> idempotence gate.</td></tr>
+      <tr><td class="p">narration base</td><td class="p">src/msalab/narration.py</td><td class="why">spclab/narration.py</td><td class="why">Narration drives pacing, so one script gives a silent and a voiced cut.</td></tr>
+      <tr><td class="p">media build</td><td class="p">build-media.sh</td><td class="why">spc-lab</td><td class="why">Render, caption, score a poster frame, in one command.</td></tr>
+      <tr><td class="p">fonts</td><td class="p">fonts/*.woff2</td><td class="why">portfolio</td><td class="why">Self-hosted, so Manim renders the same outlines the browser gets.</td></tr>
+      <tr><td class="p">this diagram</td><td class="p">diagrams/msa-arc.{mmd,svg,png,excalidraw}</td><td class="why">new</td><td class="why"><code>.mmd</code> is the source of truth; the scene is editable at excalidraw.com.</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="n">§ 5</span>What is deliberately absent</h2>
+  <table>
+    <thead><tr><th>Not here</th><th>Because</th></tr></thead>
+    <tbody>
+      <tr><td class="p">control limits, Cpk, Shewhart</td><td class="why">The boundary rule. This site never teaches them; one Level 7 sentence hands them back.</td></tr>
+      <tr><td class="p">a second MSA link</td><td class="why">§2 allows exactly one each way. Level 4 spends the platform link; Level 7 spends the SPC one.</td></tr>
+      <tr><td class="p">real company studies</td><td class="why">No <code>.xls</code>, no tool IDs, no PIC names, anonymised or otherwise. Simulated throughout.</td></tr>
+      <tr><td class="p">twelve levels</td><td class="why">The count is derived from the subject. Seven, and the index says seven.</td></tr>
+      <tr><td class="p">sampling plans, AQL, Weibull, GUM</td><td class="why">Each is plausibly MSA-adjacent and each is a different subject.</td></tr>
+      <tr><td class="p">a third verdict colour</td><td class="why">Conditional is neutral. Nothing on the site is a traffic light.</td></tr>
+    </tbody>
+  </table>
+
+</main>
+
+<footer class="wrap">
+  <span class="micro">MSA from first principles &middot; build explainer &middot; 2026-08-28 &middot;
+  gotchas marked "earned on SPC" are real failures from the twelve-level build, not hypotheticals</span>
+</footer>
+
+</body>
+</html>

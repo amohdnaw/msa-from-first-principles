@@ -1,0 +1,32 @@
+graph TD
+  L1["01 · Measurement as a process<br/>a gauge is a process, and it has variation"]
+  L2["02 · Repeatability and reproducibility<br/>same operator twice, or two operators once"]
+  L3["03 · GRR by ANOVA<br/>the term average-and-range cannot see"]
+  L4["04 · %GRR, ndc, and against what<br/>%study and %tolerance disagree on purpose"]
+  L5["05 · Bias, linearity, stability<br/>precision is not accuracy"]
+  L6["06 · Attribute agreement<br/>percent agreement flatters, kappa does not"]
+  L7["07 · The handshake back<br/>what an unfit gauge does to a Cpk"]
+  IDX["index · seven levels<br/>the count is derived, not matched to twelve"]
+
+  L1 -->|"so a reading has<br/>its own spread"| L2
+  L2 -->|"two questions,<br/>one word"| L3
+  L3 -->|"so which<br/>percentage?"| L4
+  L4 -->|"all of it assumed<br/>the gauge is centred"| L5
+  L5 -->|"and when the<br/>reading is a judgement?"| L6
+  L6 -->|"so what is any of it<br/>worth downstream?"| L7
+  L7 --> IDX
+
+  PLAT["MSA platform · msa.amohdnaw.xyz<br/>runs these studies for real"]
+  SPC8["SPC curriculum · Level 8<br/>Capability, the number a bad gauge voids"]
+  SPC11["SPC curriculum · Level 11<br/>ends on variance components"]
+
+  L4 -.->|"the only outbound<br/>platform link"| PLAT
+  L7 ==>|"THE SEAM · out"| SPC8
+  SPC11 ==>|"THE SEAM · in<br/>retargeted from the platform"| L1
+
+  classDef lvl fill:#14181c,stroke:#2a3138,color:#d7dee4
+  classDef seam fill:#1b2026,stroke:#ffae00,color:#eef3f7
+  classDef out fill:#0d1114,stroke:#65ccaf,color:#d7dee4
+  class L1,L2,L3,L4,L5,L6 lvl
+  class L7,IDX seam
+  class PLAT,SPC8,SPC11 out

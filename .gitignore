@@ -1,0 +1,9 @@
+media/videos/**/480p15/
+media/videos/**/*.wav
+media/voiceovers/
+media/texts/
+media/images/
+media/Tex/
+__pycache__/
+.venv/
+.pytest_cache/
