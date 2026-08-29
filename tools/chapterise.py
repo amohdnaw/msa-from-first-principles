@@ -1282,6 +1282,211 @@ def chapter_06(K):
     ]
 
 
+def chapter_07(K):
+    from msalab.handshake import (
+        AIAG_GATES, ARLS, CAP, CEILINGS, DRIFT_CHART, INFLATION, LIMITS,
+        SAME_CHART, SUBGROUP, WITHIN, WRONG_N, arl, grr_for_cpk,
+    )
+    from msalab.accuracy import GAUGE_SIGMA
+    from msalab.against_what import TOLERANCE
+    from msalab.measurement import PART_SIGMA
+    a1 = next(r for r in ARLS if r["shift"] == 1.0)
+    a05 = next(r for r in ARLS if r["shift"] == 0.5)
+    reach = grr_for_cpk(1.33)
+    return [
+        ("s1", "7.1", "The chart already contains the gauge", [
+            para("Six levels have described a measurement system. Not one of them "
+                 "said what it is for. A gauge exists because somebody is watching "
+                 "a process, and everything computed so far has to be handed to "
+                 "that person in a form they can use.",
+                 lead=True),
+            para(f"Start with what they are looking at. Subgroup means, and limits "
+                 f"set three standard errors either side. Those limits are "
+                 f"computed from readings, and Level 1 settled what a reading is: "
+                 f"the part plus the gauge, with the variances adding. So the "
+                 f"limits are wider than the process earned by exactly "
+                 f"{INFLATION:.4f} &mdash; "
+                 f"{LIMITS['wider_pct']:.2f}&nbsp;% on this gauge.",
+                 datanote(("the limits the process earned",
+                           f"±{LIMITS['true_half_width']:.4f} µm"),
+                          ("the limits the chart draws",
+                           f"±{LIMITS['observed_half_width']:.4f} µm"),
+                          ("inflation", f"{INFLATION:.4f}"),
+                          ("wider by", f"{LIMITS['wider_pct']:.2f} %"),
+                          k=f"subgroups of {SUBGROUP}")),
+            para("Half a micron, which is why nobody has noticed. The subgroup "
+                 "size does not help: it divides the true standard error and the "
+                 "observed one equally, so the widening is the same at any "
+                 "<em>n</em>. Every chart in every plant is drawn around a spread "
+                 "that includes its own instrument, and nothing on the chart says "
+                 "so.",
+                 note("not a mistake anybody made", text="There is no other way "
+                      "to do it. You cannot chart parts you cannot measure.")),
+            K["fig"]("Level07.mp4"),
+        ]),
+        ("s2", "7.2", "And pays for it in waiting", [
+            para("A wider limit is a later signal, and that is the first real cost "
+                 "of measurement error to somebody who is not doing a gauge study.",
+                 lead=True),
+            para(f"A real shift moves the readings by the same physical amount "
+                 f"whatever the gauge is doing, but it is judged against the "
+                 f"inflated spread &mdash; so the signal is smaller in the only "
+                 f"units the chart has. At one part-sigma the wait grows from "
+                 f"{a1['arl_if_gauge_were_perfect']:.2f} subgroups to "
+                 f"{a1['arl_as_charted']:.2f}, "
+                 f"{(a1['penalty_ratio'] - 1) * 100:.0f}&nbsp;% longer. At half a "
+                 f"sigma it is {a05['arl_if_gauge_were_perfect']:.0f} against "
+                 f"{a05['arl_as_charted']:.0f} &mdash; "
+                 f"{a05['subgroups_lost']:.0f} subgroups of product made while "
+                 f"nobody knew.",
+                 datanote(*[(f"a {r['shift']:.1f}σ shift",
+                             f"{r['arl_if_gauge_were_perfect']:.2f} → "
+                             f"{r['arl_as_charted']:.2f} subgroups")
+                            for r in ARLS[:4]],
+                          k="subgroups until it is caught")),
+            para("A three-sigma shift is caught immediately either way, and a very "
+                 "small one is missed either way. The bill lands in between, which "
+                 "is exactly the range a chart is run to cover.",
+                 note("the false alarm rate does not move", text="Both sides are "
+                      "standardised against their own spread, so an unchanged "
+                      "process signals just as rarely. Only real shifts get "
+                      "harder to see.")),
+        ]),
+        ("s3", "7.3", "Then the two curricula turn out to be one", [
+            para("Level 4 defined a percentage: six gauge standard deviations "
+                 "against the tolerance. Turn it upside down.",
+                 lead=True),
+            f'{P}<div class="eq"><div class="eq-body" data-tex="Cpk_{{max}} = '
+            f'\\frac{{T}}{{6\\sigma_{{gauge}}}} = '
+            f'\\frac{{100}}{{\\%GRR_{{tol}}}}">'
+            f'</div><div class="eq-num">(7.1)</div></div>',
+            para(f"Nothing has been assumed and nothing estimated. A capability "
+                 f"index is half a tolerance over three standard deviations; put "
+                 f"the gauge&rsquo;s standard deviation there, which is what "
+                 f"remains when the process is perfect, and the result is the "
+                 f"reciprocal of the percentage Level 4 already computed. "
+                 f"%GRR against tolerance <em>is</em> a capability ceiling, "
+                 f"written as a percentage.",
+                 datanote(("T / 6σ_gauge", f"{CAP['ceiling']:.6f}"),
+                          ("100 / %GRR_tol", f"{CAP['ceiling_from_grr']:.6f}"),
+                          ("identical", "yes" if CAP["identity_holds"] else "no"),
+                          ("%GRR of tolerance",
+                           f"{CAP['grr_tolerance_pct']:.4f} %"),
+                          k="an identity, not an approximation")),
+            para("Which restates every published gauge gate as something the "
+                 "quality manual never puts beside it.",
+                 datanote(*[(f"%GRR_tol {r['grr_tolerance_pct']:.0f} %",
+                             f"Cpk can never exceed {r['cpk_ceiling']:.3f}")
+                            for r in CEILINGS],
+                          k="the gates, restated")),
+            K["fig"]("l07_1_the_identity.png"),
+            para(f"On the gauge these six levels built &mdash; "
+                 f"{CAP['grr_tolerance_pct']:.1f}&nbsp;% of tolerance, which Level "
+                 f"4 already called a reject &mdash; the ceiling is "
+                 f"{CAP['ceiling']:.2f}. This plant cannot report a capability "
+                 f"above that with a better process, with more parts, or with a "
+                 f"longer study. Only by changing the instrument.",
+                 note("and it bites harder than the ceiling suggests",
+                      text=f"Reported capability here is "
+                      f"{CAP['observed_cpk']:.4f} against a true "
+                      f"{CAP['true_cpk']:.4f}. The gauge alone moves this process "
+                      f"across one.")),
+            para(f"Read backwards it is sharper still. A promise of Cpk 1.33 is a "
+                 f"promise that the whole observed spread fits inside "
+                 f"{reach['observed_sigma_budget']:.3f}&nbsp;µm &mdash; and the "
+                 f"parts alone are {PART_SIGMA}. On this process that target is "
+                 f"unreachable with a perfect gauge, which is a different "
+                 f"conversation from buying a better one.",
+                 note("the useful question", text="Not 'is the gauge acceptable' "
+                      "but 'what is the most this measurement system will ever "
+                      "let us claim'. The identity answers it in one division.")),
+            K["lab"],
+        ]),
+        ("s4", "7.4", "What the chart cannot take back out", [
+            para("One thing remains impossible from the chart&rsquo;s side. The "
+                 "spread it estimates inside a subgroup is the sum of two things: "
+                 "parts differing from each other, and the gauge failing to repeat.",
+                 lead=True),
+            para(f"On our numbers that estimate is "
+                 f"{WITHIN['within_estimate']:.4f}&nbsp;µm, of which "
+                 f"{WITHIN['gauge_share_of_variance']:.2f}&nbsp;% of the variance "
+                 f"is repeatability. But the share is not the point &mdash; the "
+                 f"point is that it cannot be recovered. Every split below "
+                 f"produces the <em>identical</em> number on the chart, while the "
+                 f"real capability underneath ranges over more than a factor of "
+                 f"two.",
+                 datanote(*[(f"{r['gauge_share_of_variance']:.0f} % gauge",
+                             f"parts {r['part']:.3f}, gauge {r['repeat']:.3f} → "
+                             f"true Cpk {r['true_cpk']:.2f}")
+                            for r in SAME_CHART],
+                          k=f"all read as {SAME_CHART[0]['within_estimate']:.4f} µm")),
+            K["fig"]("l07_2_what_the_chart_cannot_see.png"),
+            para("A capable process with a poor gauge and a poor process with a "
+                 "perfect one look identical from there. No amount of charting "
+                 "separates them, because charting never posed the question. That "
+                 "is the structural reason a gauge study is a separate study, and "
+                 "the reason this site exists beside the other one rather than "
+                 "inside it.",
+                 note("which way round it goes", text="Holding the chart&rsquo;s "
+                      "number fixed, a larger gauge share means the real parts are "
+                      "<em>tighter</em> than they look. The pessimistic reading is "
+                      "not the safe one.")),
+        ]),
+        ("s5", "7.5", "What each side owes the other", [
+            para("So the handover has terms, and both sides have obligations that "
+                 "are usually left unstated.",
+                 lead=True),
+            para(f"The chart is entitled to assume a stable gauge, and Level 5 "
+                 f"showed that assumption is not free. A gauge drifting "
+                 f"{DRIFT_CHART['drift_per_subgroup']}&nbsp;µm per subgroup never "
+                 f"leaves the limits across "
+                 f"{DRIFT_CHART['subgroups']} subgroups &mdash; it reaches "
+                 f"{DRIFT_CHART['total_drift']:.2f}&nbsp;µm against limits at "
+                 f"±{DRIFT_CHART['limit_half_width']:.2f} &mdash; but it puts a "
+                 f"run of seven on one side of centre by subgroup "
+                 f"{DRIFT_CHART['first_run_of_seven']}, and that will be "
+                 f"investigated as a process change. Somebody will adjust a "
+                 f"machine that was fine.",
+                 datanote(("drift per subgroup",
+                           f"{DRIFT_CHART['drift_per_subgroup']} µm"),
+                          ("total after "
+                           f"{DRIFT_CHART['subgroups']} subgroups",
+                           f"{DRIFT_CHART['total_drift']:.2f} µm"),
+                          ("points outside the limits",
+                           f"{DRIFT_CHART['points_outside']}"),
+                          ("first run of seven",
+                           f"subgroup {DRIFT_CHART['first_run_of_seven']}"),
+                          k="a gauge problem, wearing a process costume")),
+            para(f"And the study owes the chart its own structure. Level 1 showed "
+                 f"averaging divides the gauge term by the root of the count and "
+                 f"never touches the parts &mdash; so a study reporting the gauge "
+                 f"as a mean of {WRONG_N['study_averages']} readings has described "
+                 f"an instrument nobody is using. It calls the gauge "
+                 f"{WRONG_N['gauge_as_studied']:.4f}&nbsp;µm where the chart uses "
+                 f"{WRONG_N['gauge_as_used']:.4f}, and the limits come out "
+                 f"{WRONG_N['limits_understated_pct']:.2f}&nbsp;% wider than the "
+                 f"study predicted.",
+                 note("match the structure", text="If the chart reads one part "
+                      "once, the study must report the gauge for one reading.")),
+            para("Seven levels. A gauge is a process and it has variation. Two "
+                 "questions hiding inside one word. The term average-and-range has "
+                 "no room for. A percentage, and what it is a percentage of. "
+                 "Precision is not accuracy. The gauge that says pass. And this "
+                 "&mdash; the handshake back, which turned out to be an identity.",
+                 note("what was never asserted", text="Every number on these seven "
+                      "pages was computed when the page was built, by the same "
+                      "library the tests read. None of it was typed in.")),
+            f'{P}<p>The chart that consumes all of this is on the other site. Its '
+            f'Level 8 is capability, and it computes a Cpk without once asking '
+            f'what measured it &mdash; which is the gap equation (7.1) closes. '
+            f'<a href="https://amohdnaw.github.io/spc-from-first-principles/" '
+            f'target="_blank" rel="noopener">SPC from first principles</a> starts '
+            f'where this ends.</p>',
+            K["sys"],
+        ]),
+    ]
+
+
 CHAPTERS = {
     "level-01.html": {
         "number": 1, "word": "one",
@@ -1387,6 +1592,24 @@ CHAPTERS = {
                 ("6.5", "s5", "The band, and the bill",
                  "6 % of production, 99 % of the mistakes, 457 bad parts")],
         "sections": chapter_06,
+    },
+    "level-07.html": {
+        "number": 7, "word": "seven",
+        "before": "Level 6 \u2014 attribute agreement",
+        "after": "nothing \u2014 this is where the curriculum ends",
+        "estimate": "5 sections \u00b7 1 act \u00b7 1 interactive \u00b7 ~9 min read",
+        "toc": [("7.1", "s1", "The chart already contains the gauge",
+                 "limits 9.18 % wider than the process, and nothing says so"),
+                ("7.2", "s2", "And pays for it in waiting",
+                 "a one-sigma shift takes 30 % longer to find"),
+                ("7.3", "s3", "Then the two curricula turn out to be one",
+                 tex(r"Cpk_{max} = 100/\%GRR_{tol}")
+                 + " \u2014 an identity, not a guideline"),
+                ("7.4", "s4", "What the chart cannot take back out",
+                 "five factories, one number, true Cpk from 1.04 to 2.33"),
+                ("7.5", "s5", "What each side owes the other",
+                 "a stable gauge, and a study shaped like the chart")],
+        "sections": chapter_07,
     },
 }
 

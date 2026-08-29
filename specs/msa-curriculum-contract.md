@@ -52,6 +52,10 @@ Checkable after each level ships, and re-read from this file rather than from me
 10. Level 7 is the handshake back and contains **exactly one** link to the SPC curriculum,
     landing on Level 8 (Capability), on the argument that a Cpk is only as trustworthy as
     the gage that fed it.
+    *2026-08-29: until Level 7 existed this link lived in the index prose, because §11 caps
+    the site at one and the index was the only page that could justify it. Writing Level 7
+    moves it, rather than adding a second — the count stays at one throughout, which is
+    what the check measures.*
 11. Sitewide there is **exactly one** outbound link to the SPC curriculum and **exactly
     one** to the MSA platform, and a check counts them.
 12. This site **never teaches control limits**, and the SPC site never teaches GR&R. Each
@@ -109,7 +113,31 @@ amendments, so there is one design authority and a short diff, never a fork.
 ## 3. Not in scope
 
 - **No control-limit teaching.** No control charts, no Shewhart, no capability indices
-  taught here beyond the single Level 7 sentence that hands them back. §2 boundary rule.
+  taught here. §2 boundary rule.
+
+  **Amendment 1, 2026-08-29 — Level 7 may state the seam identity.** Writing Level 7's
+  library produced an exact result that neither site currently states:
+
+      Cpk_max = T / (6·σ_gauge) = 100 / %GRR_tol
+
+  It is an identity, not an approximation, and it means an MSA verdict is already a
+  capability verdict: AIAG's 10 % gate is a Cpk ceiling of 10, its 30 % reject line a
+  ceiling of 3.33. §10 already contracted Level 7 to argue "a Cpk is only as trustworthy
+  as the gage that fed it", so the argument was always in scope; what was not clear was
+  whether the arithmetic could be shown.
+
+  It can, on Level 7 only, and narrowly:
+
+  - Level 7 **may name** `Cpk`, a control chart, and control limits, and may state and use
+    the identity above, the detection cost of measurement error, and the inseparability of
+    gauge repeatability from the within-subgroup spread.
+  - Level 7 **may not build** either thing: no limit formula, no `UCL`/`LCL`, no A2/D3/D4
+    constants, no run-rule catalogue, no Shewhart, no worked capability calculation beyond
+    the identity and what it bounds.
+  - Levels 1–6 keep the **absolute** ban, and the gate is now scoped per level so it can
+    fail in both directions: naming it on Levels 1–6, or building it on Level 7.
+
+  Rewording to evade the check — "capability index" for `Cpk` — is a breach, not a fix.
 - **No second MSA link.** The live MSA *platform* is a tool this site points at once. Its
   app, its auth, its registry and its report layouts are untouched by this work.
 - **No twelve levels.** The spine is seven and the index says so.

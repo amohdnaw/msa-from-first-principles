@@ -86,17 +86,67 @@ def test_the_seam_links_are_safe_to_open():
     "control limit", "control chart", "Shewhart", "Cpk", "Ppk",
     "in control", "out of control",
 ])
-def test_this_site_never_teaches_control_limits(banned):
-    """The boundary rule from §2 of the parent contract.
+def test_levels_one_to_six_never_name_the_siblings_subject(banned):
+    """The boundary rule from §2 of the parent contract, absolute for 1-6.
 
     The index is allowed to *name* the sibling's subject when it explains why
-    two sites exist; a level page teaching it is the breach.
+    two sites exist; a level page teaching it is the breach. Level 7 is scoped
+    separately by Amendment 1 - its whole subject is the boundary.
     """
     for p in written():
+        if p.name == "level-07.html":
+            continue
         body = p.read_text()
         main = body[body.index("<main"):body.index("</main>")]
         assert banned.lower() not in main.lower(), (
             f"{p.name} teaches {banned!r}, which belongs to the SPC site")
+
+
+# ---------- contract Amendment 1, 2026-08-29: Level 7 names it, never builds it
+LEVEL7_MAY_NAME = ("Cpk", "control chart", "control limit")
+LEVEL7_MAY_NOT_BUILD = (
+    "Shewhart", "Ppk", "UCL", "LCL", "A2", "D3", "D4",
+    "western electric", "run rule", "zone a", "nelson rule",
+)
+
+
+def _level7_main():
+    p = REPO / "level-07.html"
+    if not p.exists():
+        pytest.skip("Level 7 not written yet")
+    body = p.read_text()
+    return body[body.index("<main"):body.index("</main>")]
+
+
+def test_level_seven_states_the_seam_identity():
+    """The reason the amendment was granted. If the identity is not on the page,
+    the exception is being spent on nothing."""
+    main = _level7_main()
+    assert "Cpk" in main, "Level 7 must name the thing it bounds"
+    # the identity itself, in either of the two forms the level uses
+    assert ("100" in main and "GRR" in main), (
+        "Level 7 must state the ceiling against %GRR")
+
+
+def test_level_seven_never_builds_a_chart_or_an_index():
+    """The other half of the amendment: naming is allowed, construction is not.
+
+    A2 and D4 are the chart constants; UCL and LCL are its limits; the run-rule
+    catalogue is the SPC site's Level 7. Any of them here means this page started
+    teaching the sibling's subject instead of handing to it.
+    """
+    main = _level7_main().lower()
+    found = [b for b in LEVEL7_MAY_NOT_BUILD if b.lower() in main]
+    assert found == [], f"level-07.html builds what it may only name: {found}"
+
+
+def test_the_amendment_is_recorded_in_the_contract():
+    """A scoped exception that exists only in the test file is an undocumented
+    exception. The contract is the authority; this holds them together."""
+    spec = (REPO / "specs" / "msa-curriculum-contract.md").read_text()
+    assert "Amendment 1" in spec
+    assert "100 / %GRR_tol" in spec
+    assert "may not build" in spec
 
 
 # ------------------------------------ contract check 5: the count is honest
@@ -365,8 +415,10 @@ def test_every_asset_the_site_serves_is_tracked():
                                  check=True).stdout.split())
     missing = []
     for p in sorted(REPO.glob("level-0*.html")) + [REPO / "index.html"]:
-        for ref in re.findall(r'(?:src|href)="((?:msa-lab|posters|captions|'
-                              r'vendor|fonts)/[^"]+)"', p.read_text()):
+        # `poster=` was missing from this list, so a video poster could have gone
+        # untracked and 404'd exactly the way katex.js did
+        for ref in re.findall(r'(?:src|href|poster)="((?:msa-lab|posters|'
+                              r'captions|vendor|fonts)/[^"]+)"', p.read_text()):
             if ref not in tracked:
                 missing.append(f"{p.name} -> {ref}")
     assert missing == [], f"referenced but untracked: {missing[:4]}"
