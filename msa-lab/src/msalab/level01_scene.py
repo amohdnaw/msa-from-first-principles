@@ -26,7 +26,7 @@ from __future__ import annotations
 import numpy as np
 from manim import (
     Axes, Create, DashedLine, Dot, FadeIn, FadeOut, Group, Line, MathTex,
-    Rectangle, Restore, TransformMatchingTex, VGroup, Write,
+    Rectangle, Restore, Transform, TransformMatchingTex, VGroup, Write,
     always_redraw, rate_functions as rf,
     DOWN, LEFT, RIGHT, UP,
     ValueTracker,
@@ -34,7 +34,12 @@ from manim import (
 
 from msalab.act_style import (
     ACCENT, DATA_GAUGE, DATA_OBSERVED, DATA_TRUTH, INK, INK_BRIGHT, INK_DIM,
-    RULE, SIGNAL_ALARM, gauge, micro, panel_label, prose, within_frame,
+    RULE, SIGNAL_ALARM, SIGNAL_OK, gauge, micro, panel_label, prose,
+    within_frame,
+)
+from msalab.opening import (
+    closed_jaws, gauge_jaws, hand_off, part_block, plain, record_strip,
+    thing_caption, tick, two_panel, value_label,
 )
 from msalab.measurement import (
     FLOOR, GAUGE_SIGMA, ONE_PART_READS, ONE_PART_SD, ONE_PART_TRUE, OBSERVED_EXACT,
@@ -46,11 +51,111 @@ from msalab.narration import NarratedCameraScene
 
 class Level01(NarratedCameraScene):
     def construct(self):
+        self.part0_opening()
         self.part1_one_part_is_a_distribution()
         self.part2_a_reading_is_truth_plus_error()
         self.part3_variances_add()
         self.part4_cheap_then_brutal()
         self.part5_the_floor()
+
+    # ------------------------------------------------------------- part 0
+    def part0_opening(self):
+        """The plain-language opening. specs/act-opening-contract.md.
+
+        The readings here are the *same* draws part 1 then counts - same seed,
+        same generator, same order - so the dots the reader watches land are
+        literally the first dots of part 1's figure. And the strip they land on
+        finishes by moving to where part 1's x-axis is about to be drawn, which
+        is what makes the join a fade instead of a cut.
+        """
+        panels = two_panel("the thing", "the record")
+        block = part_block()
+        cap = thing_caption("one bore, drilled once", block)
+        jaws = gauge_jaws(block)
+        strip = record_strip(-4.2, 4.2, "how far off it is, in microns")
+
+        with self.say("On the left, one bore. Somebody drilled it once, and it "
+                      "has a real size that is not going to change while we "
+                      "watch it."):
+            self.play(FadeIn(panels["all"]), run_time=0.9,
+                      rate_func=rf.ease_out_sine)
+            self.play(FadeIn(block, shift=RIGHT * 0.14), run_time=0.7,
+                      rate_func=rf.ease_out_sine)
+            self.play(FadeIn(cap), run_time=0.5, rate_func=rf.ease_out_sine)
+
+        with self.say("On the right, everything we are ever going to know about "
+                      "it."):
+            self.play(FadeIn(strip["all"]), run_time=0.8,
+                      rate_func=rf.ease_out_sine)
+
+        # ---- the graft from Direction A: the jaws close on the thing
+        with self.say("The gauge is the thing in your hand. Close it onto the "
+                      "bore and it gives you a number."):
+            self.play(FadeIn(jaws), run_time=0.6, rate_func=rf.ease_out_sine)
+            self.play(Transform(jaws, closed_jaws(block)), run_time=1.1,
+                      rate_func=rf.ease_in_out_sine)
+
+        rng = np.random.default_rng(21)
+        reads = ONE_PART_TRUE + rng.normal(0.0, GAUGE_SIGMA, ONE_PART_READS)
+
+        d0 = tick(strip["at"](reads[0]), SIGNAL_OK)
+        v0 = value_label(f"{reads[0]:+.2f}", strip["at"](reads[0]), SIGNAL_OK)
+        with self.say("One number. Write it down."):
+            self.play(FadeIn(d0, scale=2.0), FadeIn(v0), run_time=0.7,
+                      rate_func=rf.ease_out_back)
+
+        d1 = tick(strip["at"](reads[1]))
+        v1 = value_label(f"{reads[1]:+.2f}", strip["at"](reads[1]), SIGNAL_ALARM)
+        with self.say("Now put it down, pick it up, and measure the same bore "
+                      "again. Nothing has been touched. The number is not the "
+                      "same."):
+            self.play(d0.animate.set_color(INK_DIM), FadeOut(v0), run_time=0.4)
+            self.play(FadeIn(d1, scale=2.0), FadeIn(v1), run_time=0.7,
+                      rate_func=rf.ease_out_back)
+
+        # contract check 5: the left panel says so while the right one fills up
+        still = within_frame(
+            panel_label("still the same bore", 18, INK_DIM)
+            .move_to(panels["left_heading"].get_center()),
+            "opening left heading, unchanged")
+
+        rest = VGroup(*[tick(strip["at"](r)) for r in reads[2:20]])
+        with self.say("Twenty times. The same bore, the same gauge, the same "
+                      "afternoon, one person."):
+            self.play(FadeOut(v1), run_time=0.3)
+            self.play(Transform(panels["left_heading"], still), run_time=0.5,
+                      rate_func=rf.ease_in_out_sine)
+            for i in range(0, 18, 3):
+                self.play(FadeIn(rest[i:i + 3], scale=1.6), run_time=0.34,
+                          rate_func=rf.ease_out_back)
+
+        verdict = within_frame(
+            plain("the part never moved. the numbers did.", 29, INK_BRIGHT)
+            .move_to([3.0, 1.55, 0]), "opening verdict")
+        with self.say("The bore never moved. The numbers did. That is the whole "
+                      "subject of this level, and everything after this is about "
+                      "the shape those numbers make."):
+            self.play(FadeIn(verdict, shift=DOWN * 0.10), run_time=1.0,
+                      rate_func=rf.ease_out_sine)
+
+        self.beat(0.7)
+        hand_off(self, VGroup(block, cap, jaws), panels)
+
+        # ---- and the strip walks to where part 1's x-axis is about to appear
+        dots = VGroup(d0, d1, *rest)
+        target = record_strip(-4.2, 4.2, "reading, µm from nominal",
+                              y=-2.45, left=-4.7, right=4.7)
+        with self.say("Here is that shape, one reading at a time."):
+            self.play(
+                Transform(strip["line"], target["line"]),
+                FadeOut(strip["label"]),
+                FadeOut(verdict),
+                *[d.animate.move_to(target["at"](r))
+                  for d, r in zip(dots, [reads[0], reads[1], *reads[2:20]])],
+                run_time=1.5, rate_func=rf.ease_in_out_sine,
+            )
+        self.play(FadeOut(Group(strip["line"], dots)), run_time=0.5,
+                  rate_func=rf.ease_in_sine)
 
     # ------------------------------------------------------------- part 1
     def part1_one_part_is_a_distribution(self):

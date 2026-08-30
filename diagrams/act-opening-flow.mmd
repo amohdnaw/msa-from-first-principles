@@ -1,0 +1,36 @@
+graph LR
+  C["specs/act-opening-contract.md<br/>the approved outcome"]
+  O["msalab/opening.py<br/>schematic grammar, shared"]
+  S["level0N_scene.py<br/>part0_opening, new"]
+  P["parts 1-5<br/>untouched"]
+  N["narration.py<br/>say() drives pacing"]
+  M["manim 1080p60"]
+  B["build-media.sh"]
+  A["posters/ + captions/"]
+  V["Level0N.mp4"]
+  H["level-0N.html"]
+  G1["voice_check<br/>100-130 Hz"]
+  G2["pytest<br/>parts 1-5 byte-identical"]
+  G3["browser sweep<br/>8 pages x 8 widths"]
+
+  C --> O
+  O --> S
+  S -->|"fade handoff"| P
+  S --> N
+  P --> N
+  N --> M
+  M --> B
+  B --> A
+  B --> V
+  V --> H
+  A --> H
+  M --> G1
+  S --> G2
+  H --> G3
+
+  classDef new fill:#1b2026,stroke:#ffae00,color:#eef3f7
+  classDef keep fill:#14181c,stroke:#3d4650,color:#7d8b98
+  classDef gate fill:#0d1114,stroke:#65ccaf,color:#65ccaf
+  class C,O,S new
+  class P,N,M,B,A,V,H keep
+  class G1,G2,G3 gate
