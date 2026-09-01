@@ -22,7 +22,7 @@ from __future__ import annotations
 import numpy as np
 from manim import (
     Axes, Create, DashedLine, Dot, FadeIn, FadeOut, Group, Line, MathTex,
-    Rectangle, TransformMatchingTex, VGroup, Write,
+    Rectangle, Transform, TransformMatchingTex, VGroup, Write,
     always_redraw, rate_functions as rf,
     DOWN, LEFT, RIGHT, UP,
     ValueTracker,
@@ -37,6 +37,10 @@ from msalab.anova import (
     BAD_INTERACTION, CLEAN_ANOVA, CLEAN_XBAR, OPERATORS, PARTS, SWEEP, TRIALS,
     anova, average_and_range, rr_from_anova, study,
 )
+from msalab.opening import (
+    closed_jaws, gauge_jaws, hand_off, part_block, plain, record_strip,
+    thing_caption, tick, two_panel, value_label,
+)
 from msalab.narration import NarratedCameraScene
 
 OP_COLOURS = [DATA_GAUGE, DATA_OBSERVED, ACCENT]
@@ -50,11 +54,89 @@ def _centred(interaction: float) -> np.ndarray:
 
 class Level03(NarratedCameraScene):
     def construct(self):
+        self.part0_opening()
         self.part1_two_arithmetics()
         self.part2_the_term_appears()
         self.part3_nothing_left_over()
         self.part4_where_it_goes()
         self.part5_the_sweep()
+
+    # ------------------------------------------------------------- part 0
+    def part0_opening(self):
+        """Plain-language opening. specs/act-opening-contract.md, mode B.
+
+        Level 2 ended on an assumption nobody states: that a person who reads
+        high, reads high on everything. This opening breaks it with two parts and
+        three people, before any arithmetic is named.
+        """
+        panels = two_panel("the things", "the record")
+        b1 = part_block(centre=LEFT * 4.5 + UP * 1.15)
+        b2 = part_block(centre=LEFT * 4.5 + DOWN * 1.35)
+        c1 = thing_caption("a small bore", b1)
+        c2 = thing_caption("a big bore", b2)
+
+        with self.say("Two bores this time, one small and one large, and three "
+                      "people who will each measure both."):
+            self.play(FadeIn(panels["all"]), run_time=0.9,
+                      rate_func=rf.ease_out_sine)
+            self.play(FadeIn(b1), FadeIn(c1), run_time=0.6,
+                      rate_func=rf.ease_out_sine)
+            self.play(FadeIn(b2), FadeIn(c2), run_time=0.6,
+                      rate_func=rf.ease_out_sine)
+
+        # the record: three rows of two readings, one row per person
+        who = ("first person", "second person", "third person")
+        colours = (SIGNAL_OK, INK, SIGNAL_ALARM)
+        small = (0.4, 1.5, 2.6)
+        big = (2.5, 1.4, 0.5)          # the order reverses: that IS the level
+        rows = VGroup()
+        marks = []
+        for i, (name, col) in enumerate(zip(who, colours)):
+            y = 1.35 - i * 0.95
+            lab = within_frame(plain(name, 19, col).move_to([1.15, y, 0]),
+                               f"opening row {i} label")
+            line = Line([2.6, y, 0], [6.3, y, 0], stroke_color=RULE,
+                        stroke_width=1.2)
+            rows.add(lab, line)
+            marks.append((y, col, small[i], big[i], line))
+
+        with self.say("One row each, and a line to put their numbers on."):
+            self.play(FadeIn(rows), run_time=0.9, rate_func=rf.ease_out_sine)
+
+        def at(line, v):
+            lo, hi = line.get_start()[0], line.get_end()[0]
+            return [lo + (v / 3.0) * (hi - lo), line.get_center()[1], 0]
+
+        d_small = VGroup(*[Dot(at(ln, s), radius=0.07, color=col)
+                           for (y, col, s, bg, ln) in marks])
+        with self.say("Here is the small bore. The first person reads it low, "
+                      "the third reads it high, and the second sits between "
+                      "them. So far this is exactly Level two."):
+            self.play(FadeIn(d_small, scale=1.7), run_time=1.0,
+                      rate_func=rf.ease_out_back)
+
+        d_big = VGroup(*[Dot(at(ln, bg), radius=0.07, color=col).set_opacity(0.55)
+                         for (y, col, s, bg, ln) in marks])
+        with self.say("Now the large bore, with the same three people. And the "
+                      "order has turned over. The one who read low now reads "
+                      "high."):
+            self.play(FadeIn(d_big, scale=1.7), run_time=1.1,
+                      rate_func=rf.ease_out_back)
+
+        verdict = within_frame(
+            plain("the disagreement changes with the part.", 26,
+                  INK_BRIGHT).move_to([2.9, -1.85, 0]), "opening verdict")
+        with self.say("So the disagreement between people is not one number. It "
+                      "depends on which part they are holding, and that is a "
+                      "third thing neither of the first two levels has a name "
+                      "for."):
+            self.play(FadeIn(verdict, shift=DOWN * 0.10), run_time=1.0,
+                      rate_func=rf.ease_out_sine)
+
+        self.beat(0.9)
+        hand_off(self, VGroup(b1, b2, c1, c2), panels)
+        self.play(FadeOut(Group(rows, d_small, d_big, verdict)), run_time=0.6,
+                  rate_func=rf.ease_in_sine)
 
     # ------------------------------------------------------------- part 1
     def part1_two_arithmetics(self):

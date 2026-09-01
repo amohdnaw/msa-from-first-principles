@@ -1,230 +1,282 @@
 WEBVTT
 
 1
-00:00:00.000 --> 00:00:03.839
-Level one left us with a gauge that has a size. Ask how
+00:00:00.000 --> 00:00:03.179
+The same bore, and the same gauge. Nothing
 
 2
-00:00:03.939 --> 00:00:09.212
-it was measured and there are two different questions hiding in the answer.
+00:00:03.279 --> 00:00:06.380
+about the hardware changes in this level.
 
 3
-00:00:09.300 --> 00:00:12.272
-Here is one part, and three operators who
+00:00:06.466 --> 00:00:09.846
+One person picks it up and measures twice.
 
 4
-00:00:12.372 --> 00:00:15.344
-are each going to measure it three times.
+00:00:09.933 --> 00:00:14.376
+Two numbers, close together. That gap is the gauge failing
 
 5
-00:00:16.033 --> 00:00:20.100
-Operator A goes first. Three readings of one part,
+00:00:14.476 --> 00:00:18.449
+to repeat itself, and Level one already measured it.
 
 6
-00:00:20.200 --> 00:00:24.851
-and they do not agree. That disagreement is repeatability
+00:00:18.533 --> 00:00:21.157
+Now somebody else picks up the same
 
 7
-00:00:24.951 --> 00:00:28.269
-- one person, one part, one gauge, again.
+00:00:21.257 --> 00:00:24.193
+gauge and measures the same bore twice.
 
 8
-00:00:28.366 --> 00:00:32.226
-Call it the width of one operator's own answer.
+00:00:24.283 --> 00:00:26.965
+Their two numbers are just as close to
 
 9
-00:00:32.316 --> 00:00:36.128
-Now hand the same part to two other operators.
+00:00:27.065 --> 00:00:29.967
+each other. And the whole pair has moved.
 
 10
-00:00:36.216 --> 00:00:41.063
-Each operator has an average, and the averages are not the same.
+00:00:30.066 --> 00:00:34.279
+So there are two disagreements here, not one. How much a person
 
 11
-00:00:41.163 --> 00:00:46.628
-That is a second distance, and it is a different thing: reproducibility.
+00:00:34.379 --> 00:00:39.483
+disagrees with themselves, and how much two people disagree with each other.
 
 12
-00:00:46.716 --> 00:00:50.648
-One word, R and R, covers both. They are not the
+00:00:39.583 --> 00:00:42.974
+The rest of this level is about keeping them apart.
 
 13
-00:00:50.748 --> 00:00:54.344
-same size and they do not have the same fix.
+00:00:45.066 --> 00:00:48.062
+Both distances, on one line.
 
 14
-00:00:56.033 --> 00:01:00.475
-Whether that second distance is real depends on one thing:
+00:00:48.650 --> 00:00:52.489
+Level one left us with a gauge that has a size. Ask how
 
 15
-00:01:00.575 --> 00:01:04.861
-does it persist? Measure every part with every operator.
+00:00:52.589 --> 00:00:57.862
+it was measured and there are two different questions hiding in the answer.
 
 16
-00:01:04.950 --> 00:01:08.570
-Operator A reads low on every part.
+00:00:57.950 --> 00:01:00.922
+Here is one part, and three operators who
 
 17
-00:01:08.666 --> 00:01:10.606
-B reads higher.
+00:01:01.022 --> 00:01:03.994
+are each going to measure it three times.
 
 18
-00:01:10.700 --> 00:01:13.799
-C sits close to B. The gaps hold across
+00:01:04.683 --> 00:01:08.750
+Operator A goes first. Three readings of one part,
 
 19
-00:01:13.899 --> 00:01:17.656
-all ten parts, so they belong to the operators.
+00:01:08.850 --> 00:01:13.501
+and they do not agree. That disagreement is repeatability
 
 20
-00:01:17.750 --> 00:01:22.334
-Roughly parallel lines. An offset that travels with the person
+00:01:13.601 --> 00:01:16.919
+- one person, one part, one gauge, again.
 
 21
-00:01:22.434 --> 00:01:27.093
-is reproducibility; if these lines crossed each other the story
+00:01:17.016 --> 00:01:20.876
+Call it the width of one operator's own answer.
 
 22
-00:01:27.193 --> 00:01:30.418
-would be different, and that is level three.
+00:01:20.966 --> 00:01:24.778
+Now hand the same part to two other operators.
 
 23
-00:01:31.216 --> 00:01:34.884
-Level one called the whole thing the gauge term.
+00:01:24.866 --> 00:01:29.713
+Each operator has an average, and the averages are not the same.
 
 24
-00:01:34.983 --> 00:01:37.649
-It splits the same way everything
+00:01:29.813 --> 00:01:35.278
+That is a second distance, and it is a different thing: reproducibility.
 
 25
-00:01:37.749 --> 00:01:40.835
-in this subject splits. Variances add.
+00:01:35.366 --> 00:01:39.298
+One word, R and R, covers both. They are not the
 
 26
-00:01:40.933 --> 00:01:45.273
-Now improve one of them and watch what the gauge does.
+00:01:39.398 --> 00:01:42.994
+same size and they do not have the same fix.
 
 27
-00:01:45.366 --> 00:01:50.572
-Halve the repeatability and the gauge improves by nine percent. Halve
+00:01:44.683 --> 00:01:49.125
+Whether that second distance is real depends on one thing:
 
 28
-00:01:50.672 --> 00:01:56.109
-the reproducibility instead and it improves by thirty five. Same effort,
+00:01:49.225 --> 00:01:53.511
+does it persist? Measure every part with every operator.
 
 29
-00:01:56.209 --> 00:02:00.800
-nearly four times the return, and the only thing that decided
+00:01:53.600 --> 00:01:57.220
+Operator A reads low on every part.
 
 30
-00:02:00.900 --> 00:02:04.106
-it was which term was bigger to begin with.
+00:01:57.316 --> 00:01:59.256
+B reads higher.
 
 31
-00:02:04.200 --> 00:02:09.068
-Which is why telling somebody to fix the gauge is not advice.
+00:01:59.350 --> 00:02:02.449
+C sits close to B. The gaps hold across
 
 32
-00:02:10.866 --> 00:02:14.807
-There is a trap in measuring the operator term. Each
+00:02:02.549 --> 00:02:06.306
+all ten parts, so they belong to the operators.
 
 33
-00:02:14.907 --> 00:02:19.392
-operator's average is itself made of noisy readings, so the
+00:02:06.400 --> 00:02:10.984
+Roughly parallel lines. An offset that travels with the person
 
 34
-00:02:19.492 --> 00:02:23.822
-spread of those averages carries repeatability inside it.
+00:02:11.084 --> 00:02:15.743
+is reproducibility; if these lines crossed each other the story
 
 35
-00:02:23.916 --> 00:02:28.725
-On a gauge whose repeatability is large, this matters a lot.
+00:02:15.843 --> 00:02:19.068
+would be different, and that is level three.
 
 36
-00:02:28.825 --> 00:02:33.224
-The real operator term here is four tenths of a micron.
+00:02:19.866 --> 00:02:23.534
+Level one called the whole thing the gauge term.
 
 37
-00:02:33.316 --> 00:02:37.985
-With only a handful of readings behind each average, the spread
+00:02:23.633 --> 00:02:26.299
+It splits the same way everything
 
 38
-00:02:38.085 --> 00:02:42.301
-of the averages is nearly double the truth. Almost all of
+00:02:26.399 --> 00:02:29.485
+in this subject splits. Variances add.
 
 39
-00:02:42.401 --> 00:02:46.464
-what it is reporting is the instrument, not the people.
+00:02:29.583 --> 00:02:33.923
+Now improve one of them and watch what the gauge does.
 
 40
-00:02:46.550 --> 00:02:51.209
-Grow the study and the borrowed part shrinks, because it enters
+00:02:34.016 --> 00:02:39.222
+Halve the repeatability and the gauge improves by nine percent. Halve
 
 41
-00:02:51.309 --> 00:02:55.666
-divided by the number of readings. It never quite vanishes.
+00:02:39.322 --> 00:02:44.759
+the reproducibility instead and it improves by thirty five. Same effort,
 
 42
-00:02:55.750 --> 00:03:00.834
-So the honest estimate subtracts the borrowed term. That subtraction
+00:02:44.859 --> 00:02:49.450
+nearly four times the return, and the only thing that decided
 
 43
-00:03:00.934 --> 00:03:04.493
-is not a refinement. On this gauge two thirds of
+00:02:49.550 --> 00:02:52.756
+it was which term was bigger to begin with.
 
 44
-00:03:04.593 --> 00:03:08.610
-the naive number was never about the operators at all.
+00:02:52.850 --> 00:02:57.718
+Which is why telling somebody to fix the gauge is not advice.
 
 45
-00:03:10.400 --> 00:03:15.142
-Subtracting one estimate from another has a consequence. The
+00:02:59.516 --> 00:03:03.457
+There is a trap in measuring the operator term. Each
 
 46
-00:03:15.242 --> 00:03:18.532
-answer is not guaranteed to be a variance.
+00:03:03.557 --> 00:03:08.042
+operator's average is itself made of noisy readings, so the
 
 47
-00:03:18.616 --> 00:03:23.053
-Run study after study on that same noisy gauge. Every
+00:03:08.142 --> 00:03:12.472
+spread of those averages carries repeatability inside it.
 
 48
-00:03:23.153 --> 00:03:28.275
-time the subtraction lands below zero, the result is reported
+00:03:12.566 --> 00:03:17.375
+On a gauge whose repeatability is large, this matters a lot.
 
 49
-00:03:28.375 --> 00:03:31.356
-as zero - no operator effect at all.
+00:03:17.475 --> 00:03:21.874
+The real operator term here is four tenths of a micron.
 
 50
-00:03:31.450 --> 00:03:35.626
-On this gauge it happens about 47 percent of the time.
+00:03:21.966 --> 00:03:26.635
+With only a handful of readings behind each average, the spread
 
 51
-00:03:35.726 --> 00:03:39.824
-And because zero is a floor and not a correction, the
+00:03:26.735 --> 00:03:30.951
+of the averages is nearly double the truth. Almost all of
 
 52
-00:03:39.924 --> 00:03:44.576
-reported number now runs low - the uncorrected one ran high.
+00:03:31.051 --> 00:03:35.114
+what it is reporting is the instrument, not the people.
 
 53
-00:03:44.676 --> 00:03:47.982
-The same study is wrong in both directions.
+00:03:35.200 --> 00:03:39.859
+Grow the study and the borrowed part shrinks, because it enters
 
 54
-00:03:48.066 --> 00:03:52.574
-Three operators give 2 degrees of freedom on the operator term,
+00:03:39.959 --> 00:03:44.316
+divided by the number of readings. It never quite vanishes.
 
 55
-00:03:52.674 --> 00:03:56.598
-which is about fifty percent of error. So we have split
+00:03:44.400 --> 00:03:49.484
+So the honest estimate subtracts the borrowed term. That subtraction
 
 56
-00:03:56.698 --> 00:04:01.352
-the gauge, and we still cannot see whether the operators disagree
+00:03:49.584 --> 00:03:53.143
+is not a refinement. On this gauge two thirds of
 
 57
-00:04:01.452 --> 00:04:04.790
+00:03:53.243 --> 00:03:57.260
+the naive number was never about the operators at all.
+
+58
+00:03:59.050 --> 00:04:03.792
+Subtracting one estimate from another has a consequence. The
+
+59
+00:04:03.892 --> 00:04:07.182
+answer is not guaranteed to be a variance.
+
+60
+00:04:07.266 --> 00:04:11.703
+Run study after study on that same noisy gauge. Every
+
+61
+00:04:11.803 --> 00:04:16.925
+time the subtraction lands below zero, the result is reported
+
+62
+00:04:17.025 --> 00:04:20.006
+as zero - no operator effect at all.
+
+63
+00:04:20.100 --> 00:04:24.276
+On this gauge it happens about 47 percent of the time.
+
+64
+00:04:24.376 --> 00:04:28.474
+And because zero is a floor and not a correction, the
+
+65
+00:04:28.574 --> 00:04:33.226
+reported number now runs low - the uncorrected one ran high.
+
+66
+00:04:33.326 --> 00:04:36.632
+The same study is wrong in both directions.
+
+67
+00:04:36.716 --> 00:04:41.224
+Three operators give 2 degrees of freedom on the operator term,
+
+68
+00:04:41.324 --> 00:04:45.248
+which is about fifty percent of error. So we have split
+
+69
+00:04:45.348 --> 00:04:50.002
+the gauge, and we still cannot see whether the operators disagree
+
+70
+00:04:50.102 --> 00:04:53.440
 about particular parts. That is the next level.
 

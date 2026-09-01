@@ -21,7 +21,7 @@ from __future__ import annotations
 import numpy as np
 from manim import (
     Axes, Create, DashedLine, Dot, FadeIn, FadeOut, Group, Line, MathTex,
-    Rectangle, Restore, TransformMatchingTex, VGroup, Write,
+    Rectangle, Restore, Transform, TransformMatchingTex, VGroup, Write,
     always_redraw, rate_functions as rf,
     DOWN, LEFT, RIGHT, UP,
     ValueTracker,
@@ -37,6 +37,10 @@ from msalab.reproducibility import (
     REPRODUCE_DF, SIGMA_REPEAT, SIGMA_REPRODUCE, TRIALS, expected_naive,
     fix_value, gauge_sigma, operator_mean_spread, reproducibility, study,
 )
+from msalab.opening import (
+    closed_jaws, gauge_jaws, hand_off, part_block, plain, record_strip,
+    thing_caption, tick, two_panel, value_label, walk_to_axis,
+)
 from msalab.narration import NarratedCameraScene
 
 OP_COLOURS = [DATA_GAUGE, DATA_OBSERVED, ACCENT]
@@ -44,11 +48,95 @@ OP_COLOURS = [DATA_GAUGE, DATA_OBSERVED, ACCENT]
 
 class Level02(NarratedCameraScene):
     def construct(self):
+        self.part0_opening()
         self.part1_two_distances()
         self.part2_the_offset_persists()
         self.part3_the_same_law_again()
         self.part4_the_estimator_borrows()
         self.part5_the_boundary()
+
+    # ------------------------------------------------------------- part 0
+    def part0_opening(self):
+        """Plain-language opening. specs/act-opening-contract.md, mode A.
+
+        Level 1 left the reader with one person measuring one bore many times.
+        This opening does the one thing that separates this level from that one:
+        it lets a second person pick up the same gauge.
+        """
+        panels = two_panel("the thing", "the record")
+        block = part_block()
+        cap = thing_caption("the same bore as before", block)
+        jaws = gauge_jaws(block)
+        strip = record_strip(-0.6, 2.6, "how far off it is, in microns")
+
+        with self.say("The same bore, and the same gauge. Nothing about the "
+                      "hardware changes in this level."):
+            self.play(FadeIn(panels["all"]), run_time=0.9,
+                      rate_func=rf.ease_out_sine)
+            self.play(FadeIn(block, shift=RIGHT * 0.14), FadeIn(cap),
+                      run_time=0.7, rate_func=rf.ease_out_sine)
+            self.play(FadeIn(strip["all"]), run_time=0.7,
+                      rate_func=rf.ease_out_sine)
+
+        rng = np.random.default_rng(202)
+        # one person, twice: only the gauge repeating itself badly
+        a = 0.55 + rng.normal(0.0, 0.12, 2)
+        # a second person, twice: their own offset, plus the same repeating
+        b = 1.75 + rng.normal(0.0, 0.12, 2)
+
+        with self.say("One person picks it up and measures twice."):
+            self.play(FadeIn(jaws), run_time=0.5, rate_func=rf.ease_out_sine)
+            self.play(Transform(jaws, closed_jaws(block)), run_time=0.9,
+                      rate_func=rf.ease_in_out_sine)
+        da = VGroup(*[tick(strip["at"](v), SIGNAL_OK) for v in a])
+        la = within_frame(
+            plain("one person, twice", 20, SIGNAL_OK)
+            .move_to([strip["at"](a.mean())[0], 0.95, 0]),
+            "opening cluster a label")
+        with self.say("Two numbers, close together. That gap is the gauge "
+                      "failing to repeat itself, and Level one already measured "
+                      "it."):
+            self.play(FadeIn(da, scale=1.8), FadeIn(la), run_time=0.9,
+                      rate_func=rf.ease_out_back)
+
+        with self.say("Now somebody else picks up the same gauge and measures "
+                      "the same bore twice."):
+            self.play(Transform(jaws, gauge_jaws(block)), run_time=0.7,
+                      rate_func=rf.ease_in_out_sine)
+            self.play(Transform(jaws, closed_jaws(block)), run_time=0.9,
+                      rate_func=rf.ease_in_out_sine)
+        db = VGroup(*[tick(strip["at"](v)) for v in b])
+        lb = within_frame(
+            plain("somebody else, twice", 20, SIGNAL_ALARM)
+            .move_to([strip["at"](b.mean())[0], 1.62, 0]),
+            "opening cluster b label")
+        with self.say("Their two numbers are just as close to each other. And "
+                      "the whole pair has moved."):
+            self.play(FadeIn(db, scale=1.8), FadeIn(lb), run_time=0.9,
+                      rate_func=rf.ease_out_back)
+
+        verdict = within_frame(
+            plain("two words for two different disagreements.", 28, INK_BRIGHT)
+            .move_to([3.0, -1.35, 0]), "opening verdict")
+        with self.say("So there are two disagreements here, not one. How much a "
+                      "person disagrees with themselves, and how much two people "
+                      "disagree with each other. The rest of this level is about "
+                      "keeping them apart."):
+            self.play(FadeIn(verdict, shift=DOWN * 0.10), run_time=1.0,
+                      rate_func=rf.ease_out_sine)
+
+        self.beat(0.7)
+        hand_off(self, VGroup(block, cap, jaws), panels)
+
+        # part 1: Axes(x_range=[-0.6, 2.6], x_length=8.6, y_length=4.3)
+        # shifted DOWN 0.35 -> x-axis at -0.35 - 2.15, spanning +/-4.3
+        dots = VGroup(*da, *db)
+        with self.say("Both distances, on one line."):
+            self.play(FadeOut(verdict), FadeOut(la), FadeOut(lb), run_time=0.35)
+            walk_to_axis(self, strip, dots, [*a, *b], -0.6, 2.6,
+                         "microns", axis_y=-2.5, half_width=4.3)
+        self.play(FadeOut(Group(strip["line"], dots)), run_time=0.5,
+                  rate_func=rf.ease_in_sine)
 
     # ------------------------------------------------------------- part 1
     def part1_two_distances(self):

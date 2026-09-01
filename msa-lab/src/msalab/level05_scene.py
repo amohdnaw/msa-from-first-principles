@@ -27,6 +27,7 @@ from manim import (
     always_redraw, rate_functions as rf,
     DOWN, LEFT, RIGHT, UP,
     ValueTracker,
+    Transform,
 )
 
 from msalab.act_style import (
@@ -42,6 +43,10 @@ from msalab.accuracy import (
 )
 from msalab.against_what import TOLERANCE
 from msalab.measurement import PART_SIGMA
+from msalab.opening import (
+    closed_jaws, gauge_jaws, hand_off, part_block, plain, record_strip,
+    thing_caption, tick, two_panel, value_label, walk_to_axis,
+)
 from msalab.narration import NarratedCameraScene
 
 TOTAL_SIGMA = math.hypot(PART_SIGMA, GAUGE_SIGMA)
@@ -54,11 +59,105 @@ def _pdf(x, mu, sd):
 
 class Level05(NarratedCameraScene):
     def construct(self):
+        self.part0_opening()
         self.part1_the_number_does_not_move()
         self.part2_one_sided()
         self.part3_it_takes_a_master()
         self.part4_linearity_flatters()
         self.part5_stability()
+
+    # ------------------------------------------------------------- part 0
+    def part0_opening(self):
+        """Plain-language opening. specs/act-opening-contract.md, mode A.
+
+        Every level so far has been about readings disagreeing with each other.
+        This opening puts a known size on the strip and lets them agree with
+        each other while all being wrong, which is the distinction the level
+        exists to make.
+        """
+        panels = two_panel("the thing", "the record")
+        block = part_block()
+        cap = thing_caption("a bore whose real size we know", block)
+        jaws = gauge_jaws(block)
+        strip = record_strip(-24, 24, "how far off it is, in microns")
+
+        truth = Line([strip["at"](0.0)[0], -0.28, 0],
+                     [strip["at"](0.0)[0], 0.62, 0],
+                     stroke_color=DATA_TRUTH, stroke_width=2.6)
+        truth_lab = within_frame(
+            plain("its real size", 20, DATA_TRUTH)
+            .move_to([strip["at"](0.0)[0] - 0.95, 1.05, 0]),
+            "opening truth label")
+
+        with self.say("This time we already know how big the bore really is. "
+                      "Somebody measured it on better equipment, and that mark "
+                      "is the truth."):
+            self.play(FadeIn(panels["all"]), run_time=0.9,
+                      rate_func=rf.ease_out_sine)
+            self.play(FadeIn(block, shift=RIGHT * 0.14), FadeIn(cap),
+                      run_time=0.7, rate_func=rf.ease_out_sine)
+            self.play(FadeIn(strip["all"]), run_time=0.6,
+                      rate_func=rf.ease_out_sine)
+            self.play(Create(truth), FadeIn(truth_lab), run_time=0.8,
+                      rate_func=rf.ease_out_sine)
+
+        rng = np.random.default_rng(505)
+        reads = 3.0 + rng.normal(0.0, 1.1, 12)
+
+        with self.say("Now measure it with our own gauge, twelve times."):
+            self.play(FadeIn(jaws), run_time=0.5, rate_func=rf.ease_out_sine)
+            self.play(Transform(jaws, closed_jaws(block)), run_time=0.9,
+                      rate_func=rf.ease_in_out_sine)
+
+        dots = VGroup()
+        for i in range(0, 12, 3):
+            grp = VGroup(*[tick(strip["at"](r)) for r in reads[i:i + 3]])
+            dots.add(*grp)
+            self.play(FadeIn(grp, scale=1.7), run_time=0.42,
+                      rate_func=rf.ease_out_back)
+
+        tight = within_frame(
+            plain("they agree with each other", 22, SIGNAL_OK)
+            .move_to([strip["at"](reads.mean())[0] + 1.15, 1.72, 0]),
+            "opening tight label")
+        with self.say("Look how tightly they agree. On every measure this level "
+                      "has used so far, that is a good gauge."):
+            self.play(FadeIn(tight), run_time=0.8, rate_func=rf.ease_out_sine)
+
+        miss = Line([strip["at"](0.0)[0], -1.02, 0],
+                    [strip["at"](reads.mean())[0], -1.02, 0],
+                    stroke_color=SIGNAL_ALARM, stroke_width=2.4)
+        miss_lab = within_frame(
+            plain("and every one of them is on the same side of the truth", 22,
+                  SIGNAL_ALARM)
+            .move_to([3.1, -1.52, 0]), "opening miss label")
+        with self.say("And not one of them is near the mark. They are all high, "
+                      "by about the same amount, every single time."):
+            self.play(Create(miss), FadeIn(miss_lab), run_time=1.0,
+                      rate_func=rf.ease_out_sine)
+
+        verdict = within_frame(
+            plain("tight, and wrong.", 30, INK_BRIGHT).move_to([4.05, 2.28, 0]),
+            "opening verdict")
+        with self.say("Tight, and wrong. Those are different faults, and "
+                      "everything the first four levels built can only see the "
+                      "first one."):
+            self.play(FadeIn(verdict, shift=DOWN * 0.10), run_time=1.0,
+                      rate_func=rf.ease_out_sine)
+
+        self.beat(0.8)
+        hand_off(self, VGroup(block, cap, jaws), panels)
+
+        # part 1: Axes(x_range=[-24, 24], x_length=9.6, y_length=3.7)
+        # shifted DOWN 0.85 -> x-axis at -0.85 - 1.85, spanning +/-4.8
+        with self.say("Put the whole picture on one axis."):
+            self.play(FadeOut(VGroup(verdict, tight, miss, miss_lab, truth,
+                                     truth_lab)), run_time=0.45)
+            walk_to_axis(self, strip, dots, list(reads), -24, 24,
+                         "reading, µm from nominal",
+                         axis_y=-2.70, half_width=4.8)
+        self.play(FadeOut(Group(strip["line"], dots)), run_time=0.5,
+                  rate_func=rf.ease_in_sine)
 
     # ------------------------------------------------------------- part 1
     def part1_the_number_does_not_move(self):

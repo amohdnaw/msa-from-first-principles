@@ -1,226 +1,270 @@
 WEBVTT
 
 1
-00:00:00.000 --> 00:00:04.766
-Three levels of arithmetic have produced variances. A verdict
+00:00:00.000 --> 00:00:03.594
+Three levels have measured how much this gauge
 
 2
-00:00:04.866 --> 00:00:07.957
-is not a variance. To get one you divide
+00:00:03.694 --> 00:00:06.164
+wobbles. Here it is, as a width.
 
 3
-00:00:08.057 --> 00:00:11.228
-- and the question is what you divide by.
+00:00:06.250 --> 00:00:11.406
+That is the whole of what the first three levels produced. One width.
 
 4
-00:00:11.316 --> 00:00:14.693
-Here is the gauge, drawn to scale. And here are the
+00:00:11.500 --> 00:00:14.366
+Now: a width on its own means nothing. It
 
 5
-00:00:14.793 --> 00:00:18.307
-two things you might compare it to: the spread of the
+00:00:14.466 --> 00:00:17.621
+has to be held against something. Here is one
 
 6
-00:00:18.407 --> 00:00:21.920
-parts you measured, and the tolerance on the drawing.
+00:00:17.721 --> 00:00:21.456
+candidate, how much the parts differ from each other.
 
 7
-00:00:22.016 --> 00:00:26.674
-Same numerator. Two denominators. Two questions - can this gauge
+00:00:21.550 --> 00:00:25.171
+And here is another, completely unrelated to the
 
 8
-00:00:26.774 --> 00:00:30.465
-tell these parts apart, and can it decide whether a
+00:00:25.271 --> 00:00:28.506
+first: how much room the drawing gives you.
 
 9
-00:00:30.565 --> 00:00:34.999
-part conforms. Neither is wrong, and the standard prints both
+00:00:28.600 --> 00:00:32.079
+The gauge fits inside both of them, and it fits by
 
 10
-00:00:35.099 --> 00:00:37.972
-without saying which one you are asking.
+00:00:32.179 --> 00:00:36.948
+different amounts. So when somebody hands you a percentage, the only
 
 11
-00:00:39.766 --> 00:00:43.289
-Watch what happens to each of them when the process
+00:00:37.048 --> 00:00:41.244
+question that matters is which of these two they divided by.
 
 12
-00:00:43.389 --> 00:00:46.770
-gets better and the gauge does not change at all.
+00:00:44.133 --> 00:00:48.899
+Three levels of arithmetic have produced variances. A verdict
 
 13
-00:00:46.866 --> 00:00:52.574
-The tolerance ratio is a flat line. It does not know the parts exist.
+00:00:48.999 --> 00:00:52.090
+is not a variance. To get one you divide
 
 14
-00:00:52.666 --> 00:00:56.987
-The study ratio climbs, and it climbs steeply. Make the parts
+00:00:52.190 --> 00:00:55.361
+- and the question is what you divide by.
 
 15
-00:00:57.087 --> 00:01:01.988
-nearly identical and it approaches a hundred percent, because a gauge
+00:00:55.450 --> 00:00:58.827
+Here is the gauge, drawn to scale. And here are the
 
 16
-00:01:02.088 --> 00:01:06.772
-measuring parts that do not differ cannot tell them apart. Nothing
+00:00:58.927 --> 00:01:02.440
+two things you might compare it to: the spread of the
 
 17
-00:01:06.872 --> 00:01:10.830
-about the instrument got worse. The question got harder.
+00:01:02.540 --> 00:01:06.054
+parts you measured, and the tolerance on the drawing.
 
 18
-00:01:12.616 --> 00:01:15.789
-So put one gauge - this gauge, two point
+00:01:06.150 --> 00:01:10.807
+Same numerator. Two denominators. Two questions - can this gauge
 
 19
-00:01:15.889 --> 00:01:19.716
-zero six microns - into two different factories.
+00:01:10.907 --> 00:01:14.598
+tell these parts apart, and can it decide whether a
 
 20
-00:01:19.816 --> 00:01:24.377
-In the first, the parts barely vary and the drawing is generous.
+00:01:14.698 --> 00:01:19.132
+part conforms. Neither is wrong, and the standard prints both
 
 21
-00:01:24.477 --> 00:01:28.602
-The gauge cannot tell the parts apart at all - fifty seven
+00:01:19.232 --> 00:01:22.106
+without saying which one you are asking.
 
 22
-00:01:28.702 --> 00:01:34.428
-percent, reject - and it decides conformance comfortably, eight percent, accept.
+00:01:23.900 --> 00:01:27.423
+Watch what happens to each of them when the process
 
 23
-00:01:34.516 --> 00:01:38.466
-In the second, exactly the reverse. It sorts the parts
+00:01:27.523 --> 00:01:30.904
+gets better and the gauge does not change at all.
 
 24
-00:01:38.566 --> 00:01:42.816
-easily and it cannot be trusted with the conformance call.
+00:01:31.000 --> 00:01:36.708
+The tolerance ratio is a flat line. It does not know the parts exist.
 
 25
-00:01:42.916 --> 00:01:46.952
-One gauge. Two rows. Opposite verdicts off the same
+00:01:36.800 --> 00:01:41.121
+The study ratio climbs, and it climbs steeply. Make the parts
 
 26
-00:01:47.052 --> 00:01:50.520
-printed table, and neither row is a mistake.
+00:01:41.221 --> 00:01:46.121
+nearly identical and it approaches a hundred percent, because a gauge
 
 27
-00:01:51.316 --> 00:01:55.103
-The standard prints a third number beside those two:
+00:01:46.221 --> 00:01:50.905
+measuring parts that do not differ cannot tell them apart. Nothing
 
 28
-00:01:55.203 --> 00:01:58.989
-the number of distinct categories. It is supposed to
+00:01:51.005 --> 00:01:54.964
+about the instrument got worse. The question got harder.
 
 29
-00:01:59.089 --> 00:02:02.352
-say how many groups the gauge can tell apart.
+00:01:56.750 --> 00:01:59.922
+So put one gauge - this gauge, two point
 
 30
-00:02:02.450 --> 00:02:06.591
-Plot it against the study ratio and it is a curve. Not
+00:02:00.022 --> 00:02:03.850
+zero six microns - into two different factories.
 
 31
-00:02:06.691 --> 00:02:11.305
-a cloud - a curve. Given the study ratio, ndc is determined,
+00:02:03.950 --> 00:02:08.511
+In the first, the parts barely vary and the drawing is generous.
 
 32
-00:02:11.405 --> 00:02:16.646
-because it is that same ratio with the algebra rearranged. It cannot
+00:02:08.611 --> 00:02:12.735
+The gauge cannot tell the parts apart at all - fifty seven
 
 33
-00:02:16.746 --> 00:02:21.046
-carry information the first number did not already have.
+00:02:12.835 --> 00:02:18.562
+percent, reject - and it decides conformance comfortably, eight percent, accept.
 
 34
-00:02:21.133 --> 00:02:26.117
-Now put both of the standard's own gates on it. The rule says
+00:02:18.650 --> 00:02:22.600
+In the second, exactly the reverse. It sorts the parts
 
 35
-00:02:26.217 --> 00:02:31.785
-reject above thirty percent. The rule also says ndc must reach five.
+00:02:22.700 --> 00:02:26.950
+easily and it cannot be trusted with the conformance call.
 
 36
-00:02:31.883 --> 00:02:36.136
-Those are not the same line. Ndc reaching five happens at
+00:02:27.033 --> 00:02:31.069
+One gauge. Two rows. Opposite verdicts off the same
 
 37
-00:02:36.236 --> 00:02:41.329
-twenty seven point one percent, nearly three points tighter than the
+00:02:31.169 --> 00:02:34.637
+printed table, and neither row is a mistake.
 
 38
-00:02:41.429 --> 00:02:45.759
-thirty printed beside it. A gauge can satisfy one rule and
+00:02:35.433 --> 00:02:39.219
+The standard prints a third number beside those two:
 
 39
-00:02:45.859 --> 00:02:49.807
-fail the other, in the same table, on the same study.
+00:02:39.319 --> 00:02:43.106
+the number of distinct categories. It is supposed to
 
 40
-00:02:51.700 --> 00:02:56.245
-None of those three numbers is the thing you actually care about.
+00:02:43.206 --> 00:02:46.469
+say how many groups the gauge can tell apart.
 
 41
-00:02:56.345 --> 00:03:00.747
-A conformance decision compares a reading to a limit, so a good
+00:02:46.566 --> 00:02:50.708
+Plot it against the study ratio and it is a curve. Not
 
 42
-00:03:00.847 --> 00:03:04.392
-part can be rejected and a bad part can be shipped.
+00:02:50.808 --> 00:02:55.421
+a cloud - a curve. Given the study ratio, ndc is determined,
 
 43
-00:03:04.483 --> 00:03:08.080
-The dashed lines are the truth's limits. The solid
+00:02:55.521 --> 00:03:00.763
+because it is that same ratio with the algebra rearranged. It cannot
 
 44
-00:03:08.180 --> 00:03:11.703
-lines are where the gauge's reading crosses them.
+00:03:00.863 --> 00:03:05.162
+carry information the first number did not already have.
 
 45
-00:03:11.800 --> 00:03:15.252
-Five hundred parts, measured once each.
+00:03:05.250 --> 00:03:10.234
+Now put both of the standard's own gates on it. The rule says
 
 46
-00:03:15.350 --> 00:03:20.207
-The salmon points are out of tolerance and were accepted. The amber
+00:03:10.334 --> 00:03:15.902
+reject above thirty percent. The rule also says ndc must reach five.
 
 47
-00:03:20.307 --> 00:03:25.534
-ones were inside and got scrapped. Twenty eight percent of the genuinely
+00:03:16.000 --> 00:03:20.253
+Those are not the same line. Ndc reaching five happens at
 
 48
-00:03:25.634 --> 00:03:29.530
-bad parts pass, on a centred process, with this gauge.
+00:03:20.353 --> 00:03:25.446
+twenty seven point one percent, nearly three points tighter than the
 
 49
-00:03:29.616 --> 00:03:34.715
-Now move the process off centre without touching the gauge. Scrap goes
+00:03:25.546 --> 00:03:29.876
+thirty printed beside it. A gauge can satisfy one rule and
 
 50
-00:03:34.815 --> 00:03:38.353
-from a tenth of a percent to five and a half. The
+00:03:29.976 --> 00:03:33.924
+fail the other, in the same table, on the same study.
 
 51
-00:03:38.453 --> 00:03:43.552
-gauge is identical, so every percentage from the first three levels is
+00:03:35.816 --> 00:03:40.361
+None of those three numbers is the thing you actually care about.
 
 52
-00:03:43.652 --> 00:03:47.636
-identical, and the risk has moved by a factor of forty.
+00:03:40.461 --> 00:03:44.864
+A conformance decision compares a reading to a limit, so a good
 
 53
-00:03:47.733 --> 00:03:51.160
-So a percentage is a proxy for a risk, and it does
+00:03:44.964 --> 00:03:48.508
+part can be rejected and a bad part can be shipped.
 
 54
-00:03:51.260 --> 00:03:55.604
-not know where your process is sitting. Which is the last thing
+00:03:48.600 --> 00:03:52.196
+The dashed lines are the truth's limits. The solid
 
 55
-00:03:55.704 --> 00:04:00.613
-we have been assuming without checking: that the gauge is merely noisy,
+00:03:52.296 --> 00:03:55.820
+lines are where the gauge's reading crosses them.
 
 56
-00:04:00.713 --> 00:04:05.057
+00:03:55.916 --> 00:03:59.368
+Five hundred parts, measured once each.
+
+57
+00:03:59.466 --> 00:04:04.323
+The salmon points are out of tolerance and were accepted. The amber
+
+58
+00:04:04.423 --> 00:04:09.651
+ones were inside and got scrapped. Twenty eight percent of the genuinely
+
+59
+00:04:09.751 --> 00:04:13.646
+bad parts pass, on a centred process, with this gauge.
+
+60
+00:04:13.733 --> 00:04:18.831
+Now move the process off centre without touching the gauge. Scrap goes
+
+61
+00:04:18.931 --> 00:04:22.470
+from a tenth of a percent to five and a half. The
+
+62
+00:04:22.570 --> 00:04:27.668
+gauge is identical, so every percentage from the first three levels is
+
+63
+00:04:27.768 --> 00:04:31.753
+identical, and the risk has moved by a factor of forty.
+
+64
+00:04:31.850 --> 00:04:35.277
+So a percentage is a proxy for a risk, and it does
+
+65
+00:04:35.377 --> 00:04:39.721
+not know where your process is sitting. Which is the last thing
+
+66
+00:04:39.821 --> 00:04:44.729
+we have been assuming without checking: that the gauge is merely noisy,
+
+67
+00:04:44.829 --> 00:04:49.174
 and not wrong. Level five asks what happens when it reads high.
 

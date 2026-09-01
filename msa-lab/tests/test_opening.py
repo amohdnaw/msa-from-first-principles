@@ -38,6 +38,20 @@ def test_the_guard_refuses_symbols_and_bare_variables(txt):
         plain(txt)
 
 
+@pytest.mark.parametrize("txt", [
+    "a bore whose real size we know",
+    "a gauge and a part",
+    "I measured it twice",
+    "the same bore as before",
+])
+def test_the_guard_allows_the_english_one_letter_words(txt):
+    """The bare-variable rule was borrowed from `act_style`, where a lone letter
+    is always a variable. In prose it is sometimes an article or a pronoun, and
+    the first version rejected "a bore whose real size we know" - about as plain
+    as a sentence gets. Anything other than a/A/i/I is still refused."""
+    assert plain(txt) is not None
+
+
 def test_the_guard_passes_ordinary_english():
     for txt in ("the part never moved. the numbers did.",
                 "one bore, drilled once",

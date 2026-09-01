@@ -1,234 +1,270 @@
 WEBVTT
 
 1
-00:00:00.000 --> 00:00:05.321
-Six levels have described a measurement system. Not one of them said what
+00:00:00.000 --> 00:00:05.112
+Two separate things have been going on for six levels. The parts really
 
 2
-00:00:05.421 --> 00:00:10.148
-it is for. A gauge exists because somebody is watching a process.
+00:00:05.212 --> 00:00:09.812
+do differ from each other. And the gauge wobbles on top of that.
 
 3
-00:00:10.233 --> 00:00:14.055
-So start with what they are drawing. Subgroup means,
+00:00:09.900 --> 00:00:12.442
+Here they are as two widths, and this
 
 4
-00:00:14.155 --> 00:00:17.525
-and a pair of limits at three standard errors.
+00:00:12.542 --> 00:00:15.800
+whole course has been about telling them apart.
 
 5
-00:00:17.616 --> 00:00:21.260
-These are the limits the process itself has earned -
+00:00:15.883 --> 00:00:21.232
+But nobody on the floor receives two widths. They receive readings, and a
 
 6
-00:00:21.360 --> 00:00:25.004
-computed from the parts, if you could see the parts.
+00:00:21.332 --> 00:00:25.935
+reading has both in it. One width, with no seam in it anywhere.
 
 7
-00:00:25.100 --> 00:00:29.189
-But nobody sees parts. They see readings. And Level one
+00:00:26.033 --> 00:00:29.653
+They only ever get the sum. This level is about what
 
 8
-00:00:29.289 --> 00:00:33.075
-settled what a reading is: the part plus the gauge,
+00:00:29.753 --> 00:00:33.659
+that costs them, and about the one number that turns out
 
 9
-00:00:33.175 --> 00:00:36.808
-with the variances adding. So bring the gauge in.
+00:00:33.759 --> 00:00:37.021
+to join the two halves of this subject exactly.
 
 10
-00:00:36.900 --> 00:00:41.005
-Nine percent is half a micron on this chart, which is
+00:00:39.916 --> 00:00:45.237
+Six levels have described a measurement system. Not one of them said what
 
 11
-00:00:41.105 --> 00:00:45.608
-why nobody has ever noticed it. Look closely at one limit.
+00:00:45.337 --> 00:00:50.064
+it is for. A gauge exists because somebody is watching a process.
 
 12
-00:00:47.600 --> 00:00:51.588
-Every chart in every plant is drawn around a spread that
+00:00:50.150 --> 00:00:53.972
+So start with what they are drawing. Subgroup means,
 
 13
-00:00:51.688 --> 00:00:56.116
-includes its own instrument, and nothing on the chart says so.
+00:00:54.072 --> 00:00:57.442
+and a pair of limits at three standard errors.
 
 14
-00:00:58.000 --> 00:01:01.777
-A wider limit is a later signal. Here is how long
+00:00:57.533 --> 00:01:01.177
+These are the limits the process itself has earned -
 
 15
-00:01:01.877 --> 00:01:06.684
-a chart waits before it notices that something real has moved.
+00:01:01.277 --> 00:01:04.921
+computed from the parts, if you could see the parts.
 
 16
-00:01:06.783 --> 00:01:12.014
-A three sigma shift is caught immediately whatever the gauge does, and a
+00:01:05.016 --> 00:01:09.106
+But nobody sees parts. They see readings. And Level one
 
 17
-00:01:12.114 --> 00:01:16.752
-very small one is missed either way. The bill lands in between -
+00:01:09.206 --> 00:01:12.991
+settled what a reading is: the part plus the gauge,
 
 18
-00:01:16.852 --> 00:01:21.342
-which is exactly the range a chart is run to cover. Around one
+00:01:13.091 --> 00:01:16.724
+with the variances adding. So bring the gauge in.
 
 19
-00:01:21.442 --> 00:01:25.859
-sigma the wait is thirty percent longer than it needed to be.
+00:01:16.816 --> 00:01:20.922
+Nine percent is half a micron on this chart, which is
 
 20
-00:01:27.750 --> 00:01:30.541
-Which brings the last thing, and it is
+00:01:21.022 --> 00:01:25.524
+why nobody has ever noticed it. Look closely at one limit.
 
 21
-00:01:30.641 --> 00:01:34.193
-the reason this level exists. Level four defined
+00:01:27.516 --> 00:01:31.505
+Every chart in every plant is drawn around a spread that
 
 22
-00:01:34.293 --> 00:01:38.378
-a percentage: the gauge's spread against the tolerance.
+00:01:31.605 --> 00:01:36.032
+includes its own instrument, and nothing on the chart says so.
 
 23
-00:01:38.466 --> 00:01:41.102
-There it is, unchanged.
+00:01:37.916 --> 00:01:41.694
+A wider limit is a later signal. Here is how long
 
 24
-00:01:41.200 --> 00:01:46.222
-Turn it upside down. Nothing has been assumed and nothing estimated
+00:01:41.794 --> 00:01:46.600
+a chart waits before it notices that something real has moved.
 
 25
-00:01:46.322 --> 00:01:50.580
-- this is the same statement written the other way round.
+00:01:46.700 --> 00:01:51.930
+A three sigma shift is caught immediately whatever the gauge does, and a
 
 26
-00:01:50.666 --> 00:01:54.509
-And the left hand side is a capability index. Half a
+00:01:52.030 --> 00:01:56.669
+very small one is missed either way. The bill lands in between -
 
 27
-00:01:54.609 --> 00:02:00.576
-tolerance over three standard deviations, with the gauge's standard deviation in
+00:01:56.769 --> 00:02:01.259
+which is exactly the range a chart is run to cover. Around one
 
 28
-00:02:00.676 --> 00:02:04.443
-place of the process's - which is what you get when
+00:02:01.359 --> 00:02:05.776
+sigma the wait is thirty percent longer than it needed to be.
 
 29
-00:02:04.543 --> 00:02:08.614
-the process is perfect and only the instrument is left.
+00:02:07.666 --> 00:02:10.457
+Which brings the last thing, and it is
 
 30
-00:02:10.300 --> 00:02:15.259
-Which means every published gauge gate is a capability ceiling
+00:02:10.557 --> 00:02:14.109
+the reason this level exists. Level four defined
 
 31
-00:02:15.359 --> 00:02:19.665
-that nobody prints beside it. Ten percent allows a Cpk
+00:02:14.209 --> 00:02:18.294
+a percentage: the gauge's spread against the tolerance.
 
 32
-00:02:19.765 --> 00:02:23.827
-of ten. Twenty allows five. Thirty - the line above
+00:02:18.383 --> 00:02:21.019
+There it is, unchanged.
 
 33
-00:02:23.927 --> 00:02:28.152
-which a gauge is rejected - allows three point three.
+00:02:21.116 --> 00:02:26.138
+Turn it upside down. Nothing has been assumed and nothing estimated
 
 34
-00:02:29.650 --> 00:02:34.566
-One curve, and it joins the two subjects at every point along it.
+00:02:26.238 --> 00:02:30.496
+- this is the same statement written the other way round.
 
 35
-00:02:34.650 --> 00:02:39.130
-And here is where the gauge these six levels built comes out.
+00:02:30.583 --> 00:02:34.426
+And the left hand side is a capability index. Half a
 
 36
-00:02:39.230 --> 00:02:44.010
-Forty one percent of tolerance, so this plant cannot report a Cpk
+00:02:34.526 --> 00:02:40.493
+tolerance over three standard deviations, with the gauge's standard deviation in
 
 37
-00:02:44.110 --> 00:02:48.441
-above two point four three - not with a better process, not
+00:02:40.593 --> 00:02:44.360
+place of the process's - which is what you get when
 
 38
-00:02:48.541 --> 00:02:52.646
-with more parts, not ever, until the instrument changes.
+00:02:44.460 --> 00:02:48.531
+the process is perfect and only the instrument is left.
 
 39
-00:02:52.733 --> 00:02:57.817
-An M S A verdict was a capability verdict the whole time.
+00:02:50.216 --> 00:02:55.175
+Which means every published gauge gate is a capability ceiling
 
 40
-00:03:01.016 --> 00:03:04.789
-One last thing the chart is not able to do. The spread
+00:02:55.275 --> 00:02:59.582
+that nobody prints beside it. Ten percent allows a Cpk
 
 41
-00:03:04.889 --> 00:03:09.308
-it estimates inside a subgroup is made of two things: the parts
+00:02:59.682 --> 00:03:03.743
+of ten. Twenty allows five. Thirty - the line above
 
 42
-00:03:09.408 --> 00:03:13.540
-differing from each other, and the gauge failing to repeat.
+00:03:03.843 --> 00:03:08.068
+which a gauge is rejected - allows three point three.
 
 43
-00:03:13.633 --> 00:03:16.557
-Here is that spread, all of it parts.
+00:03:09.566 --> 00:03:14.482
+One curve, and it joins the two subjects at every point along it.
 
 44
-00:03:16.650 --> 00:03:20.427
-Now hand some of it to the gauge. Watch the number the
+00:03:14.566 --> 00:03:19.046
+And here is where the gauge these six levels built comes out.
 
 45
-00:03:20.527 --> 00:03:24.879
-chart reports. It does not move - it cannot, because the chart
+00:03:19.146 --> 00:03:23.927
+Forty one percent of tolerance, so this plant cannot report a Cpk
 
 46
-00:03:24.979 --> 00:03:29.690
-only ever saw the total. And underneath, the true capability of the
+00:03:24.027 --> 00:03:28.357
+above two point four three - not with a better process, not
 
 47
-00:03:29.790 --> 00:03:34.070
-process runs from one point oh four to two point three three.
+00:03:28.457 --> 00:03:32.562
+with more parts, not ever, until the instrument changes.
 
 48
-00:03:34.166 --> 00:03:38.462
-A capable process with a poor gauge and a poor process with
+00:03:32.650 --> 00:03:37.734
+An M S A verdict was a capability verdict the whole time.
 
 49
-00:03:38.562 --> 00:03:43.752
-a perfect one look identical from here. No amount of charting separates
+00:03:40.933 --> 00:03:44.706
+One last thing the chart is not able to do. The spread
 
 50
-00:03:43.852 --> 00:03:47.775
-them, which is why a gauge study is a separate study -
+00:03:44.806 --> 00:03:49.225
+it estimates inside a subgroup is made of two things: the parts
 
 51
-00:03:47.875 --> 00:03:51.202
-and why this site exists beside the other one.
+00:03:49.325 --> 00:03:53.457
+differing from each other, and the gauge failing to repeat.
 
 52
-00:03:53.200 --> 00:03:57.749
-Seven levels. A gauge is a process and it has variation. Two
+00:03:53.550 --> 00:03:56.474
+Here is that spread, all of it parts.
 
 53
-00:03:57.849 --> 00:04:03.019
-questions hiding in one word. The term average and range cannot see.
+00:03:56.566 --> 00:04:00.344
+Now hand some of it to the gauge. Watch the number the
 
 54
-00:04:03.119 --> 00:04:07.823
-A percentage, and what it is a percentage of. Precision is not
+00:04:00.444 --> 00:04:04.795
+chart reports. It does not move - it cannot, because the chart
 
 55
-00:04:07.923 --> 00:04:12.396
-accuracy. The gauge that says pass. And the handshake back.
+00:04:04.895 --> 00:04:09.606
+only ever saw the total. And underneath, the true capability of the
 
 56
-00:04:13.983 --> 00:04:19.378
-Every number in these seven levels was computed when the page was built, by
+00:04:09.706 --> 00:04:13.986
+process runs from one point oh four to two point three three.
 
 57
-00:04:19.478 --> 00:04:24.507
-the same library the tests read. None of it is asserted. And the chart
+00:04:14.083 --> 00:04:18.379
+A capable process with a poor gauge and a poor process with
 
 58
-00:04:24.607 --> 00:04:29.123
+00:04:18.479 --> 00:04:23.668
+a perfect one look identical from here. No amount of charting separates
+
+59
+00:04:23.768 --> 00:04:27.692
+them, which is why a gauge study is a separate study -
+
+60
+00:04:27.792 --> 00:04:31.119
+and why this site exists beside the other one.
+
+61
+00:04:33.116 --> 00:04:37.666
+Seven levels. A gauge is a process and it has variation. Two
+
+62
+00:04:37.766 --> 00:04:42.935
+questions hiding in one word. The term average and range cannot see.
+
+63
+00:04:43.035 --> 00:04:47.740
+A percentage, and what it is a percentage of. Precision is not
+
+64
+00:04:47.840 --> 00:04:52.312
+accuracy. The gauge that says pass. And the handshake back.
+
+65
+00:04:53.900 --> 00:04:59.295
+Every number in these seven levels was computed when the page was built, by
+
+66
+00:04:59.395 --> 00:05:04.424
+the same library the tests read. None of it is asserted. And the chart
+
+67
+00:05:04.524 --> 00:05:09.040
 that consumes all of it is on the other site, where it belongs.
 

@@ -39,7 +39,7 @@ from msalab.act_style import (
 )
 from msalab.opening import (
     closed_jaws, gauge_jaws, hand_off, part_block, plain, record_strip,
-    thing_caption, tick, two_panel, value_label,
+    thing_caption, tick, two_panel, value_label, walk_to_axis,
 )
 from msalab.measurement import (
     FLOOR, GAUGE_SIGMA, ONE_PART_READS, ONE_PART_SD, ONE_PART_TRUE, OBSERVED_EXACT,
@@ -141,19 +141,16 @@ class Level01(NarratedCameraScene):
         self.beat(0.7)
         hand_off(self, VGroup(block, cap, jaws), panels)
 
-        # ---- and the strip walks to where part 1's x-axis is about to appear
+        # ---- mode A: the strip walks onto part 1's own x-axis.
+        # part 1 uses Axes(x_range=[-4.2, 4.2], x_length=9.4, y_length=4.0)
+        # shifted DOWN 0.45, so its x-axis sits at -0.45 - 2.0 and spans +/-4.7.
         dots = VGroup(d0, d1, *rest)
-        target = record_strip(-4.2, 4.2, "reading, µm from nominal",
-                              y=-2.45, left=-4.7, right=4.7)
         with self.say("Here is that shape, one reading at a time."):
-            self.play(
-                Transform(strip["line"], target["line"]),
-                FadeOut(strip["label"]),
-                FadeOut(verdict),
-                *[d.animate.move_to(target["at"](r))
-                  for d, r in zip(dots, [reads[0], reads[1], *reads[2:20]])],
-                run_time=1.5, rate_func=rf.ease_in_out_sine,
-            )
+            self.play(FadeOut(verdict), run_time=0.35)
+            walk_to_axis(self, strip, dots,
+                         [reads[0], reads[1], *reads[2:20]],
+                         -4.2, 4.2, "reading, µm from nominal",
+                         axis_y=-2.45, half_width=4.7)
         self.play(FadeOut(Group(strip["line"], dots)), run_time=0.5,
                   rate_func=rf.ease_in_sine)
 

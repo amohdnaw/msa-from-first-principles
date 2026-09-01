@@ -23,7 +23,7 @@ import math
 import numpy as np
 from manim import (
     Axes, Create, DashedLine, Dot, FadeIn, FadeOut, Group, Line, MathTex,
-    Rectangle, TransformMatchingTex, VGroup,
+    Rectangle, Transform, TransformMatchingTex, VGroup,
     always_redraw, rate_functions as rf,
     DOWN, LEFT, RIGHT, UP,
     ValueTracker,
@@ -40,6 +40,10 @@ from msalab.handshake import (
 from msalab.accuracy import GAUGE_SIGMA
 from msalab.against_what import TOLERANCE
 from msalab.measurement import PART_SIGMA
+from msalab.opening import (
+    closed_jaws, gauge_jaws, hand_off, part_block, plain, record_strip,
+    thing_caption, tick, two_panel, value_label, span_bar, bar_caption,
+)
 from msalab.narration import NarratedCameraScene
 
 HALF = TOLERANCE / 2.0
@@ -47,11 +51,68 @@ HALF = TOLERANCE / 2.0
 
 class Level07(NarratedCameraScene):
     def construct(self):
+        self.part0_opening()
         self.part1_the_limits_contain_it()
         self.part2_the_detection_bill()
         self.part3_the_identity()
         self.part4_what_the_chart_cannot_see()
         self.part5_the_arc_closes()
+
+    # ------------------------------------------------------------- part 0
+    def part0_opening(self):
+        """Plain-language opening. specs/act-opening-contract.md, mode B.
+
+        The last opening. Two widths go in and one comes out, because that sum
+        is the only thing the person watching the process ever receives.
+        """
+        panels = two_panel("the two things", "what gets handed over")
+        b1 = part_block(centre=LEFT * 4.4 + UP * 0.9, w=1.7, h=0.6)
+        b2 = part_block(centre=LEFT * 4.4 + DOWN * 0.6, w=1.7, h=0.6)
+        c1 = thing_caption("the parts, really differing", b1)
+        c2 = thing_caption("the gauge, wobbling", b2)
+
+        with self.say("Two separate things have been going on for six levels. "
+                      "The parts really do differ from each other. And the gauge "
+                      "wobbles on top of that."):
+            self.play(FadeIn(panels["all"]), run_time=0.9,
+                      rate_func=rf.ease_out_sine)
+            self.play(FadeIn(b1), FadeIn(c1), run_time=0.6,
+                      rate_func=rf.ease_out_sine)
+            self.play(FadeIn(b2), FadeIn(c2), run_time=0.6,
+                      rate_func=rf.ease_out_sine)
+
+        pb = span_bar(2.9, 1.45, DATA_TRUTH)
+        pl = bar_caption("the parts", pb)
+        gb = span_bar(1.4, 0.35, ACCENT)
+        gl = bar_caption("the gauge", gb)
+        with self.say("Here they are as two widths, and this whole course has "
+                      "been about telling them apart."):
+            self.play(FadeIn(pb), FadeIn(pl), run_time=0.7,
+                      rate_func=rf.ease_out_sine)
+            self.play(FadeIn(gb), FadeIn(gl), run_time=0.7,
+                      rate_func=rf.ease_out_sine)
+
+        sb = span_bar(3.22, -1.0, SIGNAL_ALARM)
+        sl = bar_caption("what the person watching gets", sb)
+        with self.say("But nobody on the floor receives two widths. They receive "
+                      "readings, and a reading has both in it. One width, with "
+                      "no seam in it anywhere."):
+            self.play(FadeIn(sb, shift=RIGHT * 0.14), FadeIn(sl), run_time=1.1,
+                      rate_func=rf.ease_out_sine)
+
+        verdict = within_frame(
+            plain("they only ever get the sum.", 30, INK_BRIGHT)
+            .move_to([2.9, -2.15, 0]), "opening verdict")
+        with self.say("They only ever get the sum. This level is about what that "
+                      "costs them, and about the one number that turns out to "
+                      "join the two halves of this subject exactly."):
+            self.play(FadeIn(verdict, shift=DOWN * 0.10), run_time=1.0,
+                      rate_func=rf.ease_out_sine)
+
+        self.beat(0.9)
+        hand_off(self, VGroup(b1, b2, c1, c2), panels)
+        self.play(FadeOut(Group(pb, pl, gb, gl, sb, sl, verdict)),
+                  run_time=0.6, rate_func=rf.ease_in_sine)
 
     # ------------------------------------------------------------- part 1
     def part1_the_limits_contain_it(self):

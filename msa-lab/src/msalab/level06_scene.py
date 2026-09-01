@@ -27,6 +27,7 @@ from manim import (
     always_redraw, rate_functions as rf,
     DOWN, LEFT, RIGHT, UP,
     ValueTracker,
+    Transform,
 )
 
 from msalab.act_style import (
@@ -41,16 +42,86 @@ from msalab.attribute import (
 from msalab.accuracy import GAUGE_SIGMA, _phi
 from msalab.against_what import TOLERANCE
 from msalab.measurement import PART_SIGMA
+from msalab.opening import (
+    closed_jaws, gauge_jaws, hand_off, part_block, plain, record_strip,
+    thing_caption, tick, two_panel, value_label, stamp,
+)
 from msalab.narration import NarratedCameraScene
 
 
 class Level06(NarratedCameraScene):
     def construct(self):
+        self.part0_opening()
         self.part1_the_appraiser_who_never_looks()
         self.part2_kappa_collapses()
         self.part3_kappa_is_not_free()
         self.part4_the_band()
         self.part5_a_count_is_dear()
+
+    # ------------------------------------------------------------- part 0
+    def part0_opening(self):
+        """Plain-language opening. specs/act-opening-contract.md, mode B.
+
+        The whole level turns on the reading being gone. So the opening takes it
+        away on screen: the strip and its numbers are replaced by a stamp.
+        """
+        panels = two_panel("the thing", "the record")
+        block = part_block()
+        cap = thing_caption("one bore, same as ever", block)
+        jaws = gauge_jaws(block)
+        strip = record_strip(-4.2, 4.2, "how far off it is, in microns")
+
+        rng = np.random.default_rng(606)
+        reads = rng.normal(0.0, 1.2, 6)
+        dots = VGroup(*[tick(strip["at"](r)) for r in reads])
+
+        with self.say("Six levels of this course have assumed the gauge gives "
+                      "you a number. Here is that, one last time."):
+            self.play(FadeIn(panels["all"]), run_time=0.9,
+                      rate_func=rf.ease_out_sine)
+            self.play(FadeIn(block), FadeIn(cap), FadeIn(strip["all"]),
+                      run_time=0.8, rate_func=rf.ease_out_sine)
+            self.play(FadeIn(jaws), run_time=0.4, rate_func=rf.ease_out_sine)
+            self.play(Transform(jaws, closed_jaws(block)), run_time=0.8,
+                      rate_func=rf.ease_in_out_sine)
+            self.play(FadeIn(dots, scale=1.6), run_time=0.8,
+                      rate_func=rf.ease_out_back)
+
+        gone = within_frame(
+            plain("now take the number away.", 27, INK_BRIGHT)
+            .move_to([3.2, 1.85, 0]), "opening take-away")
+        with self.say("Now take it away. Some gauges do not give you a number at "
+                      "all. A thread gauge fits or it does not. Somebody looks "
+                      "at a weld and says yes or no."):
+            self.play(FadeIn(gone, shift=DOWN * 0.10), run_time=0.8,
+                      rate_func=rf.ease_out_sine)
+            self.play(FadeOut(dots), FadeOut(strip["all"]), run_time=0.9,
+                      rate_func=rf.ease_in_sine)
+
+        s1 = stamp("PASS", [3.2, 0.35, 0], SIGNAL_OK)
+        with self.say("This is all you get. One word."):
+            self.play(FadeIn(s1, scale=1.5), run_time=0.8,
+                      rate_func=rf.ease_out_back)
+
+        s2 = stamp("FAIL", [3.2, -0.75, 0], SIGNAL_ALARM)
+        with self.say("And when the same person looks at the same part again, "
+                      "sometimes you get the other word."):
+            self.play(FadeIn(s2, scale=1.5), run_time=0.9,
+                      rate_func=rf.ease_out_back)
+
+        verdict = within_frame(
+            plain("there is nothing left to subtract.", 28, INK_BRIGHT)
+            .move_to([3.2, -1.85, 0]), "opening verdict")
+        with self.say("There is nothing left to subtract. No distance between "
+                      "two answers, no width, nothing to take an average of. "
+                      "And the same three questions still have to be answered."):
+            self.play(FadeIn(verdict, shift=DOWN * 0.10), run_time=1.0,
+                      rate_func=rf.ease_out_sine)
+
+        self.beat(0.9)
+        hand_off(self, VGroup(block, cap, jaws), panels)
+        self.play(FadeOut(Group(s1, s2, gone, verdict)), run_time=0.6,
+                  rate_func=rf.ease_in_sine)
 
     # ------------------------------------------------------------- part 1
     def part1_the_appraiser_who_never_looks(self):

@@ -20,16 +20,27 @@ Three rules this module enforces mechanically, so seven openings cannot drift:
    term is earned in the act, not assumed in the first ten seconds.
 2. **Primitives only.** Rectangles, lines, arcs and dots. No illustration, per
    `DESIGN.md`'s ban list.
-3. **One geometry.** The record strip is built from the *same* x-range the act's
-   part 1 uses, so the handoff is a fade rather than a cut, and the dots the
-   reader watched land are the dots part 1 then counts.
+3. **One geometry.** Where the act's part 1 opens on a reading axis, the record
+   strip is built from that *same* x-range, so the dots the reader watched land
+   are the dots part 1 then counts.
+
+Two handoff modes, because parts 1 do not all open on an axis:
+
+    mode A   walk_to_axis()   levels 1, 2, 5 - part 1 opens on a reading scale,
+                              so the strip moves onto it and the join is a fade
+    mode B   hand_off()       levels 3, 4, 6, 7 - part 1 opens on text panels,
+                              bars or a list, so the left panel leaves and the
+                              record stands as the level's subject
+
+Mode B is not a weaker join. In level 3 the opening's own two-panel split *is*
+part 1's composition, and in level 4 the record is already the bars part 1 draws.
 """
 from __future__ import annotations
 
 import re
 
 from manim import (
-    Dot, FadeIn, FadeOut, Line, Rectangle, VGroup,
+    Dot, FadeIn, FadeOut, Line, Rectangle, Transform, VGroup,
     rate_functions as rf,
     DOWN, LEFT, RIGHT, UP,
 )
@@ -41,6 +52,12 @@ from msalab.act_style import (
 
 #: Where the divider between the two panels sits, in scene units.
 DIVIDER_X = -0.35
+
+#: The panel headings sit at `top - 0.3`, i.e. 2.25 by default, and a bar
+#: caption sits 0.44 above its bar. So the topmost bar in a stack must be at or
+#: below this, or its own caption lands on the heading. Levels 4 and 7 both hit
+#: it before this was written down.
+TOP_BAR_Y = 1.55
 
 #: The left panel's centre, and the part block's size.
 THING_CENTRE = LEFT * 3.9
@@ -56,9 +73,17 @@ POSTPONED = (
     "nominal", "quadrature", "estimator", "confidence",
 )
 
-#: Greek, or a bare single-letter variable. Same test `act_style` uses for its
-#: uppercase rule, reused here for a different reason.
-_SYMBOLIC = re.compile(r"[\u0370-\u03ff]|(?<![A-Za-z])[a-z](?![A-Za-z])")
+#: Greek, or a bare single-letter variable.
+#:
+#: Borrowed from `act_style`'s uppercase rule, and it needed one change: there,
+#: a lone letter is always a variable, but this module checks *English prose*,
+#: where "a" is an article and "I" is a pronoun. The first version rejected
+#: "a bore whose real size we know", which is as plain as a sentence gets.
+_SYMBOLIC = re.compile(
+    r"[\u0370-\u03ff]"                         # any Greek
+    r"|(?<![A-Za-z])(?![aAiI](?![A-Za-z]))"    # not the English one-letter words
+    r"[a-zA-Z](?![A-Za-z])"                    # any other lone letter
+)
 
 
 def plain(txt: str, size: float = 27, color: str = INK) -> "Text":
@@ -210,3 +235,66 @@ def hand_off(scene, thing_group, panels: dict, run_time: float = 1.3):
         FadeOut(panels["right_heading"]),
         run_time=run_time, rate_func=rf.ease_in_sine,
     )
+
+# ------------------------------------------------------------ mode A: the walk
+def walk_to_axis(scene, strip: dict, dots, values, x_lo: float, x_hi: float,
+                 label: str, axis_y: float, half_width: float,
+                 run_time: float = 1.5):
+    """Move the record onto where part 1's x-axis is about to be drawn.
+
+    `axis_y` and `half_width` come from the act's own Axes: for
+    `Axes(y_length=L).shift(DOWN*s)` the x-axis sits at `-s - L/2`, and it spans
+    `+/- x_length/2` about the shift's x. Passing them in rather than guessing is
+    the difference between a fade and a jump cut.
+    """
+    target = record_strip(x_lo, x_hi, label, y=axis_y,
+                          left=-half_width, right=half_width)
+    scene.play(
+        Transform(strip["line"], target["line"]),
+        FadeOut(strip["label"]),
+        *[d.animate.move_to(target["at"](v)) for d, v in zip(dots, values)],
+        run_time=run_time, rate_func=rf.ease_in_out_sine,
+    )
+    return target
+
+
+# --------------------------------------------------- more schematic primitives
+def stamp(txt: str, point, color: str = SIGNAL_OK) -> VGroup:
+    """A verdict instead of a number. Level 6's record holds these.
+
+    A boxed word, because that is what a stamp is: no scale, no position on a
+    strip, nothing to subtract from anything else.
+    """
+    label = panel_label(txt, 22, color)
+    box = Rectangle(width=label.width + 0.44, height=label.height + 0.32,
+                    stroke_color=color, stroke_width=2.0, fill_opacity=0.0)
+    g = VGroup(box, label)
+    g.move_to(point)
+    return g
+
+
+def span_bar(length: float, y: float, color: str, left: float = 0.55,
+             height: float = 0.34) -> Rectangle:
+    """A horizontal bar standing for how wide something is.
+
+    Levels 4 and 7 compare widths rather than positions, so their record holds
+    bars where levels 1 and 5 hold dots.
+    """
+    r = Rectangle(width=max(0.02, length), height=height, fill_color=color,
+                  fill_opacity=0.85, stroke_width=0)
+    r.move_to([left + length / 2.0, y, 0])
+    return r
+
+
+def bar_caption(txt: str, bar: Rectangle, color: str = INK_DIM) -> "Text":
+    """Names a bar, above its left end, in ordinary words.
+
+    To the *right* of the bar was the first version, and it put the caption's
+    right edge at `bar_end + caption_width` - so a longer bar pushed its own
+    label off the frame and the guard rejected levels 4 and 7. Above the left end,
+    the position no longer depends on the bar's length at all.
+    """
+    lab = plain(txt, 20, color)
+    lab.move_to([bar.get_left()[0] + lab.width / 2.0,
+                 bar.get_center()[1] + 0.44, 0])
+    return within_frame(lab, "opening bar caption")

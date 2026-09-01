@@ -1,254 +1,298 @@
 WEBVTT
 
 1
-00:00:00.000 --> 00:00:03.516
-Five levels of arithmetic, all of it one spread
+00:00:00.000 --> 00:00:04.004
+Six levels of this course have assumed the gauge gives
 
 2
-00:00:03.616 --> 00:00:07.208
-divided by another. Now the gauge says pass, and
+00:00:04.104 --> 00:00:07.196
+you a number. Here is that, one last time.
 
 3
-00:00:07.308 --> 00:00:10.748
-nothing else. There is no reading to subtract.
+00:00:07.283 --> 00:00:10.815
+Now take it away. Some gauges do not give you a
 
 4
-00:00:10.833 --> 00:00:15.643
-But the three questions do not go away. Does one appraiser agree with
+00:00:10.915 --> 00:00:14.679
+number at all. A thread gauge fits or it does not.
 
 5
-00:00:15.743 --> 00:00:20.553
-himself. Do two agree with each other. Does either of them agree with
+00:00:14.779 --> 00:00:18.079
+Somebody looks at a weld and says yes or no.
 
 6
-00:00:20.653 --> 00:00:25.037
-the truth. Only now the answers have to be built out of counts.
+00:00:18.166 --> 00:00:21.234
+This is all you get. One word.
 
 7
-00:00:26.483 --> 00:00:29.571
-So hire an appraiser who does not look at
+00:00:21.333 --> 00:00:24.257
+And when the same person looks at the same
 
 8
-00:00:29.671 --> 00:00:32.527
-the parts at all. He passes every one.
+00:00:24.357 --> 00:00:27.497
+part again, sometimes you get the other word.
 
 9
-00:00:32.616 --> 00:00:37.667
-Against himself he is perfect - he never contradicts himself, because
+00:00:27.583 --> 00:00:31.762
+There is nothing left to subtract. No distance between two
 
 10
-00:00:37.767 --> 00:00:42.668
-he never decides anything. Against a colleague with the same habit,
+00:00:31.862 --> 00:00:35.672
+answers, no width, nothing to take an average of. And
 
 11
-00:00:42.768 --> 00:00:47.371
-also perfect. And against the truth he scores ninety nine point
+00:00:35.772 --> 00:00:39.435
+the same three questions still have to be answered.
 
 12
-00:00:47.471 --> 00:00:51.476
-nine percent, because that is how many parts were good.
+00:00:42.333 --> 00:00:45.849
+Five levels of arithmetic, all of it one spread
 
 13
-00:00:51.566 --> 00:00:56.399
-And he missed one hundred percent of the bad parts. Percent agreement
+00:00:45.949 --> 00:00:49.542
+divided by another. Now the gauge says pass, and
 
 14
-00:00:56.499 --> 00:01:01.475
-cannot see him. Nothing about the gauge, and nothing about him, entered
+00:00:49.642 --> 00:00:53.081
+nothing else. There is no reading to subtract.
 
 15
-00:01:01.575 --> 00:01:04.906
-that number - only the base rate of the process.
+00:00:53.166 --> 00:00:57.976
+But the three questions do not go away. Does one appraiser agree with
 
 16
-00:01:06.800 --> 00:01:10.872
-The fix is old and well known. Subtract the agreement two
+00:00:58.076 --> 00:01:02.887
+himself. Do two agree with each other. Does either of them agree with
 
 17
-00:01:10.972 --> 00:01:15.117
-people would reach by chance, and report only what is left
+00:01:02.987 --> 00:01:07.370
+the truth. Only now the answers have to be built out of counts.
 
 18
-00:01:15.217 --> 00:01:19.582
-over. That is Cohen's kappa, and it sees straight through the
+00:01:08.816 --> 00:01:11.905
+So hire an appraiser who does not look at
 
 19
-00:01:19.682 --> 00:01:23.827
-appraiser who never looks - it cannot even be computed for
+00:01:12.005 --> 00:01:14.860
+the parts at all. He passes every one.
 
 20
-00:01:23.927 --> 00:01:27.268
-him, because chance explains everything he did.
+00:01:14.950 --> 00:01:20.000
+Against himself he is perfect - he never contradicts himself, because
 
 21
-00:01:27.366 --> 00:01:30.296
-Now hold the percent agreement still.
+00:01:20.100 --> 00:01:25.001
+he never decides anything. Against a colleague with the same habit,
 
 22
-00:01:30.396 --> 00:01:33.818
-Ninety percent, every table, no exceptions.
+00:01:25.101 --> 00:01:29.704
+also perfect. And against the truth he scores ninety nine point
 
 23
-00:01:33.916 --> 00:01:37.877
-And move only one thing: how lopsided the stream is. As
+00:01:29.804 --> 00:01:33.810
+nine percent, because that is how many parts were good.
 
 24
-00:01:37.977 --> 00:01:42.455
-the agreement piles into the pass cell, kappa falls from point
+00:01:33.900 --> 00:01:38.732
+And he missed one hundred percent of the bad parts. Percent agreement
 
 25
-00:01:42.555 --> 00:01:47.550
-eight to point one. Same percent agreement throughout. The trouble is
+00:01:38.832 --> 00:01:43.808
+cannot see him. Nothing about the gauge, and nothing about him, entered
 
 26
-00:01:47.650 --> 00:01:51.021
-which end a good process lives at - it lives at
+00:01:43.908 --> 00:01:47.240
+that number - only the base rate of the process.
 
 27
-00:01:51.121 --> 00:01:55.968
-the right-hand end, so being capable depresses kappa all by itself.
+00:01:49.133 --> 00:01:53.205
+The fix is old and well known. Subtract the agreement two
 
 28
-00:01:57.866 --> 00:02:01.680
-Which raises the question of where kappa comes from at
+00:01:53.305 --> 00:01:57.450
+people would reach by chance, and report only what is left
 
 29
-00:02:01.780 --> 00:02:05.086
-all. And the answer is the whole of this level.
+00:01:57.550 --> 00:02:01.915
+over. That is Cohen's kappa, and it sees straight through the
 
 30
-00:02:05.183 --> 00:02:09.311
-Behind every go/no-go gauge there is a real dimension and
+00:02:02.015 --> 00:02:06.161
+appraiser who never looks - it cannot even be computed for
 
 31
-00:02:09.411 --> 00:02:13.391
-a real instrument. The appraiser has no number, but the
+00:02:06.261 --> 00:02:09.601
+him, because chance explains everything he did.
 
 32
-00:02:13.491 --> 00:02:16.581
-thing in his hand does, and it is the gauge
+00:02:09.700 --> 00:02:12.630
+Now hold the percent agreement still.
 
 33
-00:02:16.681 --> 00:02:20.587
-Levels two to five built. So sweep that gauge's sigma.
+00:02:12.730 --> 00:02:16.152
+Ninety percent, every table, no exceptions.
 
 34
-00:02:20.683 --> 00:02:25.317
-Every number an attribute study reports moves, and all of them
+00:02:16.250 --> 00:02:20.211
+And move only one thing: how lopsided the stream is. As
 
 35
-00:02:25.417 --> 00:02:30.052
-move together, because all of them are functions of one sigma.
+00:02:20.311 --> 00:02:24.789
+the agreement piles into the pass cell, kappa falls from point
 
 36
-00:02:30.152 --> 00:02:35.092
-Agreement stays high and comfortable. Kappa falls off a cliff. The
+00:02:24.889 --> 00:02:29.884
+eight to point one. Same percent agreement throughout. The trouble is
 
 37
-00:02:35.192 --> 00:02:38.223
-miss rate climbs. Nobody chose any of it.
+00:02:29.984 --> 00:02:33.354
+which end a good process lives at - it lives at
 
 38
-00:02:38.316 --> 00:02:42.079
-And here is where our own gauge sits. Ninety nine and
+00:02:33.454 --> 00:02:38.302
+the right-hand end, so being capable depresses kappa all by itself.
 
 39
-00:02:42.179 --> 00:02:46.670
-a half percent agreement, which reads like a pass. Kappa nought
+00:02:40.200 --> 00:02:44.013
+Which raises the question of where kappa comes from at
 
 40
-00:02:46.770 --> 00:02:52.427
-point three four, which every published guideline calls unacceptable. Those are
+00:02:44.113 --> 00:02:47.420
+all. And the answer is the whole of this level.
 
 41
-00:02:52.527 --> 00:02:56.144
-the same gauge, on the same day, measured two ways.
+00:02:47.516 --> 00:02:51.645
+Behind every go/no-go gauge there is a real dimension and
 
 42
-00:02:58.133 --> 00:03:03.190
-Which tells you where the disagreements have to be. A part far inside
+00:02:51.745 --> 00:02:55.725
+a real instrument. The appraiser has no number, but the
 
 43
-00:03:03.290 --> 00:03:07.825
-the limit is never failed. A part far outside is never passed.
+00:02:55.825 --> 00:02:58.914
+thing in his hand does, and it is the gauge
 
 44
-00:03:07.916 --> 00:03:11.704
-Here is where the parts are, and here are the limits.
+00:02:59.014 --> 00:03:02.920
+Levels two to five built. So sweep that gauge's sigma.
 
 45
-00:03:11.800 --> 00:03:16.124
-And here is where the disagreements are - a spike at each limit,
+00:03:03.016 --> 00:03:07.651
+Every number an attribute study reports moves, and all of them
 
 46
-00:03:16.224 --> 00:03:21.102
-and nothing anywhere else. Widen the gauge and the spikes widen with it.
+00:03:07.751 --> 00:03:12.385
+move together, because all of them are functions of one sigma.
 
 47
-00:03:21.202 --> 00:03:25.596
-The band belongs to the instrument, not to the person holding it.
+00:03:12.485 --> 00:03:17.425
+Agreement stays high and comfortable. Kappa falls off a cliff. The
 
 48
-00:03:25.683 --> 00:03:30.071
-Bring it back to our own gauge, and look at the size of it.
+00:03:17.525 --> 00:03:20.556
+miss rate climbs. Nobody chose any of it.
 
 49
-00:03:30.616 --> 00:03:35.314
-Six percent of everything this plant makes sits in that band, and
+00:03:20.650 --> 00:03:24.412
+And here is where our own gauge sits. Ninety nine and
 
 50
-00:03:35.414 --> 00:03:40.702
-it produces ninety nine percent of every disagreement the study will ever
+00:03:24.512 --> 00:03:29.003
+a half percent agreement, which reads like a pass. Kappa nought
 
 51
-00:03:40.802 --> 00:03:45.204
-record. Which is why retraining the appraiser does so little.
+00:03:29.103 --> 00:03:34.761
+point three four, which every published guideline calls unacceptable. Those are
 
 52
-00:03:48.500 --> 00:03:52.480
-One more bill to pay. A count carries less information
+00:03:34.861 --> 00:03:38.478
+the same gauge, on the same day, measured two ways.
 
 53
-00:03:52.580 --> 00:03:56.560
-than a measurement, and the arithmetic charges for it.
+00:03:40.466 --> 00:03:45.524
+Which tells you where the disagreements have to be. A part far inside
 
 54
-00:03:56.650 --> 00:04:01.975
-Level two settled a whole variance with ninety readings. Bounding a five
+00:03:45.624 --> 00:03:50.158
+the limit is never failed. A part far outside is never passed.
 
 55
-00:04:02.075 --> 00:04:06.797
-percent miss rate to plus or minus two points needs four hundred
+00:03:50.250 --> 00:03:54.038
+Here is where the parts are, and here are the limits.
 
 56
-00:04:06.897 --> 00:04:11.243
-and fifty seven known-bad parts - and a plant that can find
+00:03:54.133 --> 00:03:58.457
+And here is where the disagreements are - a spike at each limit,
 
 57
-00:04:11.343 --> 00:04:15.990
-four hundred and fifty seven bad parts has a different problem.
+00:03:58.557 --> 00:04:03.435
+and nothing anywhere else. Widen the gauge and the spikes widen with it.
 
 58
-00:04:16.083 --> 00:04:20.690
-Which is why the most common result of an attribute study - no
+00:04:03.535 --> 00:04:07.929
+The band belongs to the instrument, not to the person holding it.
 
 59
-00:04:20.790 --> 00:04:25.549
-escapes found - says so much less than it sounds. Zero misses in
+00:04:08.016 --> 00:04:12.404
+Bring it back to our own gauge, and look at the size of it.
 
 60
-00:04:25.649 --> 00:04:30.863
-fifty bad parts is still consistent with a miss rate near six percent.
+00:04:12.950 --> 00:04:17.647
+Six percent of everything this plant makes sits in that band, and
 
 61
-00:04:32.650 --> 00:04:37.743
-So six levels have now described one measurement system, from a single
+00:04:17.747 --> 00:04:23.035
+it produces ninety nine percent of every disagreement the study will ever
 
 62
-00:04:37.843 --> 00:04:42.195
-reading to a gauge with no reading at all. Level seven hands
+00:04:23.135 --> 00:04:27.538
+record. Which is why retraining the appraiser does so little.
 
 63
-00:04:42.295 --> 00:04:45.534
+00:04:30.833 --> 00:04:34.813
+One more bill to pay. A count carries less information
+
+64
+00:04:34.913 --> 00:04:38.893
+than a measurement, and the arithmetic charges for it.
+
+65
+00:04:38.983 --> 00:04:44.308
+Level two settled a whole variance with ninety readings. Bounding a five
+
+66
+00:04:44.408 --> 00:04:49.130
+percent miss rate to plus or minus two points needs four hundred
+
+67
+00:04:49.230 --> 00:04:53.576
+and fifty seven known-bad parts - and a plant that can find
+
+68
+00:04:53.676 --> 00:04:58.323
+four hundred and fifty seven bad parts has a different problem.
+
+69
+00:04:58.416 --> 00:05:03.023
+Which is why the most common result of an attribute study - no
+
+70
+00:05:03.123 --> 00:05:07.882
+escapes found - says so much less than it sounds. Zero misses in
+
+71
+00:05:07.982 --> 00:05:13.196
+fifty bad parts is still consistent with a miss rate near six percent.
+
+72
+00:05:14.983 --> 00:05:20.076
+So six levels have now described one measurement system, from a single
+
+73
+00:05:20.176 --> 00:05:24.528
+reading to a gauge with no reading at all. Level seven hands
+
+74
+00:05:24.628 --> 00:05:27.867
 it back to the process it was built to watch.
 

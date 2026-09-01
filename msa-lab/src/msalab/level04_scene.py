@@ -28,6 +28,7 @@ from manim import (
     always_redraw, rate_functions as rf,
     DOWN, LEFT, RIGHT, UP,
     ValueTracker,
+    Transform,
 )
 
 from msalab.act_style import (
@@ -42,6 +43,10 @@ from msalab.against_what import (
     tolerance_ratio, verdict,
 )
 from msalab.measurement import PART_SIGMA
+from msalab.opening import (
+    closed_jaws, gauge_jaws, hand_off, part_block, plain, record_strip,
+    thing_caption, tick, two_panel, value_label, span_bar, bar_caption,
+)
 from msalab.narration import NarratedCameraScene
 
 VERDICT_COLOUR = {"accept": SIGNAL_OK, "conditional": INK_BRIGHT,
@@ -50,11 +55,67 @@ VERDICT_COLOUR = {"accept": SIGNAL_OK, "conditional": INK_BRIGHT,
 
 class Level04(NarratedCameraScene):
     def construct(self):
+        self.part0_opening()
         self.part1_two_denominators()
         self.part2_one_moves_one_does_not()
         self.part3_opposite_verdicts()
         self.part4_ndc_adds_nothing()
         self.part5_what_it_costs()
+
+    # ------------------------------------------------------------- part 0
+    def part0_opening(self):
+        """Plain-language opening. specs/act-opening-contract.md, mode B.
+
+        This level's record holds widths rather than positions, so the opening
+        ends composed as the bars part 1 draws.
+        """
+        panels = two_panel("the thing", "the record")
+        block = part_block()
+        cap = thing_caption("the gauge from the last three levels", block)
+
+        with self.say("Three levels have measured how much this gauge wobbles. "
+                      "Here it is, as a width."):
+            self.play(FadeIn(panels["all"]), run_time=0.9,
+                      rate_func=rf.ease_out_sine)
+            self.play(FadeIn(block), FadeIn(cap), run_time=0.7,
+                      rate_func=rf.ease_out_sine)
+
+        g = span_bar(1.5, 1.20, ACCENT)
+        gl = bar_caption("how much the gauge wobbles", g)
+        with self.say("That is the whole of what the first three levels "
+                      "produced. One width."):
+            self.play(FadeIn(g, shift=RIGHT * 0.14), FadeIn(gl), run_time=0.9,
+                      rate_func=rf.ease_out_sine)
+
+        p_bar = span_bar(3.6, -0.05, DATA_TRUTH)
+        pl = bar_caption("how much the parts differ", p_bar)
+        with self.say("Now: a width on its own means nothing. It has to be held "
+                      "against something. Here is one candidate, how much the "
+                      "parts differ from each other."):
+            self.play(FadeIn(p_bar, shift=RIGHT * 0.14), FadeIn(pl),
+                      run_time=1.0, rate_func=rf.ease_out_sine)
+
+        t_bar = span_bar(2.2, -1.30, SIGNAL_OK)
+        tl = bar_caption("what the drawing allows", t_bar)
+        with self.say("And here is another, completely unrelated to the first: "
+                      "how much room the drawing gives you."):
+            self.play(FadeIn(t_bar, shift=RIGHT * 0.14), FadeIn(tl),
+                      run_time=1.0, rate_func=rf.ease_out_sine)
+
+        verdict = within_frame(
+            plain("a percentage of which one?", 30, INK_BRIGHT)
+            .move_to([3.0, -2.45, 0]), "opening verdict")
+        with self.say("The gauge fits inside both of them, and it fits by "
+                      "different amounts. So when somebody hands you a "
+                      "percentage, the only question that matters is which of "
+                      "these two they divided by."):
+            self.play(FadeIn(verdict, shift=DOWN * 0.10), run_time=1.0,
+                      rate_func=rf.ease_out_sine)
+
+        self.beat(0.9)
+        hand_off(self, VGroup(block, cap), panels)
+        self.play(FadeOut(Group(g, gl, p_bar, pl, t_bar, tl, verdict)),
+                  run_time=0.6, rate_func=rf.ease_in_sine)
 
     # ------------------------------------------------------------- part 1
     def part1_two_denominators(self):
