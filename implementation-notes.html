@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MSA implementation notes</title>
+<style>
+body{margin:40px auto;max-width:1100px;padding:0 24px;background:#0e1116;color:#e8e3d8;font:16px/1.5 system-ui,sans-serif}h1{font:600 30px Georgia,serif}table{width:100%;border-collapse:collapse}th,td{padding:12px;text-align:left;vertical-align:top;border-bottom:1px solid #343b44}th{color:#d6a84b;font-size:12px;text-transform:uppercase;letter-spacing:.08em}code{color:#8fd8c2}
+</style>
+</head>
+<body>
+<h1>MSA implementation notes</h1>
+<table>
+<thead><tr><th>When</th><th>Phase</th><th>Decision</th><th>Why</th><th>Evidence</th><th>Result</th></tr></thead>
+<tbody>
+<tr><td>2026-09-01</td><td>Current-state check</td><td>Tie the Written readout to the chapter count with a test.</td><td>The hero said all seven levels were written, but the readout still said four. The existing gate read only the hero claim.</td><td><code>de80f24</code></td><td>Gate failed at 4 versus 7, then passed at 7 versus 7.</td></tr>
+<tr><td>2026-09-01</td><td>Metadata repair</td><td>Derive each chapter title and description from its source opener.</td><td>All seven pages inherited the SPC template title. Updating seven built files would leave the builder broken.</td><td><code>tools/chapterise.py:1746</code></td><td>Seven chapter titles and descriptions match their visible chapter headings.</td></tr>
+</tbody>
+</table>
+</body>
+</html>

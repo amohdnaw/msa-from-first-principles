@@ -13,6 +13,7 @@ Output is <page> at the repo root, overwritten.
         python3 tools/chapterise.py $f.html; done  # all of them
 """
 from __future__ import annotations
+from html import escape, unescape
 import re
 import sys
 import pathlib
@@ -1742,7 +1743,10 @@ def main() -> int:
     old = html[html.index("<main"):html.index("</main>") + len("</main>")]
     html = html.replace(old, new_main, 1)
 
-    # the standalone opener now duplicates the chapter opener: fold it in
+    # The source opener is the authority for all three reader-facing identities:
+    # visible heading, browser title, and search/share description. The original
+    # builder only moved the first two visible fields, so every MSA chapter kept
+    # the SPC template's title and later chapters inherited stale descriptions.
     m = re.search(r'  <header class="opener">.*?</header>\n\n', html, re.S)
     if m:
         block = m.group(0)
@@ -1750,9 +1754,32 @@ def main() -> int:
         title = re.search(r"<h1>(.*?)</h1>", block, re.S)
         dek = re.search(r'<p class="dek">(.*?)</p>', block, re.S)
         if title:
+            heading = escape(
+                unescape(re.sub(r"<[^>]+>", "", title.group(1))).strip(),
+                quote=False,
+            )
+            html = re.sub(
+                r"<title>.*?</title>",
+                f"<title>Level {spec['number']} — {heading} · "
+                "MSA from First Principles</title>",
+                html,
+                count=1,
+                flags=re.S,
+            )
             html = html.replace('<h1 class="page-title"></h1>',
                                 f"<h1>{title.group(1).strip()}</h1>", 1)
         if dek:
+            description = escape(
+                unescape(re.sub(r"\s+", " ",
+                                re.sub(r"<[^>]+>", "", dek.group(1)))).strip(),
+                quote=True,
+            )
+            html = re.sub(
+                r'<meta name="description" content="[^"]*">',
+                f'<meta name="description" content="{description}">',
+                html,
+                count=1,
+            )
             html = html.replace('<p class="dek page-dek"></p>',
                                 f'<p class="dek">{dek.group(1).strip()}</p>', 1)
 

@@ -10,6 +10,7 @@ Every check here maps to a numbered line in
 `specs/msa-curriculum-contract.md`. If a check has no contract line, it should
 not be here; if a contract line has no check, it is a promise nobody is keeping.
 """
+import html
 import pathlib
 import re
 
@@ -176,6 +177,28 @@ def test_the_written_readout_matches_the_pages_that_exist():
         f"found {len(written())}: {[p.name for p in written()]}"
     )
 
+
+
+def test_every_level_metadata_names_its_own_chapter():
+    for page in written():
+        body = page.read_text()
+        number = re.search(r'<p class="ch-no">Level (\d+)', body).group(1)
+        heading = re.search(r"<h1>(.*?)</h1>", body, re.S).group(1).strip()
+        title = re.search(r"<title>(.*?)</title>", body, re.S).group(1).strip()
+        assert title == (
+            f"Level {number} — {heading} · MSA from First Principles"
+        ), f"{page.name}: stale title {title!r}"
+
+        dek = re.search(r'<p class="dek">(.*?)</p>', body, re.S).group(1)
+        expected_description = html.unescape(
+            re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", dek)).strip()
+        )
+        description = re.search(
+            r'<meta name="description" content="([^"]*)">', body
+        ).group(1)
+        assert html.unescape(description) == expected_description, (
+            f"{page.name}: meta description does not match its dek"
+        )
 
 def test_the_spine_has_a_card_for_every_level():
     t = INDEX.read_text()
