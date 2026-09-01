@@ -164,6 +164,19 @@ def test_the_written_count_matches_the_pages_that_exist():
         f"found {len(written())}: {[p.name for p in written()]}")
 
 
+def test_the_written_readout_matches_the_pages_that_exist():
+    index = INDEX.read_text()
+    readout = re.search(
+        r'<dt class="micro">Written</dt><dd class="num">(\d+)</dd>',
+        index,
+    )
+    assert readout, "index has no Written readout"
+    assert int(readout.group(1)) == len(written()), (
+        f"Written readout says {readout.group(1)}, "
+        f"found {len(written())}: {[p.name for p in written()]}"
+    )
+
+
 def test_the_spine_has_a_card_for_every_level():
     t = INDEX.read_text()
     live = len(re.findall(r'<a class="lv"', t))
