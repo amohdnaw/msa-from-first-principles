@@ -150,20 +150,22 @@ amendments, so there is one design authority and a short diff, never a fork.
   repo, own Pages site, own history.
 - **No custom subdomain on day one.** It ships on `amohdnaw.github.io/msa-from-first-principles`
   and a subdomain gets pointed at it whenever Ammar wants one.
-- **No hand-recorded human voice.** Same synthetic narration path as SPC, same one-line
-  swap available later.
+- **No hand-recorded human voice outside the approved visual-depth pilot.** The default
+  remains synthetic narration. For Level 4 only,
+  `msa-visual-depth-pilot-contract.md` governs the locked pilot cut and permits Ammar's
+  recording after both pilot levels are locked.
 
 ## 4. Defaults taken
 
 Approving this contract confirms these. Each was decided rather than asked, and each is
 reversible.
 
-1. **The seam is retargeted so the two curricula link to each other.** SPC Level 11
-   currently points at the MSA *platform*; on this build it points at **this curriculum**
-   instead, and the platform link moves to where it belongs — inside the MSA curriculum.
-   Reason: §2 allows exactly one link each way "at the seam", and with three artifacts the
-   coherent reading is curriculum ↔ curriculum, with the platform referenced from its own
-   subject. Cost: one paragraph edit to the shipped `level-11.html`.
+1. **The shipped seam links the two curricula to each other.** SPC Level 11 points at
+   this curriculum rather than the MSA platform, and the platform link lives inside the
+   MSA curriculum. The parent build completed that retarget before the visual-depth
+   pilot; the pilot does not edit SPC Level 11. Reason: §2 allows exactly one link each
+   way at the seam, and with three artifacts the coherent reading is
+   curriculum ↔ curriculum, with the platform referenced from its own subject.
 2. **The return link lands on SPC Level 8, not Level 11.** §2 says so explicitly, and
    Capability is the level whose number a bad gauge invalidates.
 3. **msa.amohdnaw.xyz currently contains zero links back to the SPC curriculum**, so the
