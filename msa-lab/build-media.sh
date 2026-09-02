@@ -25,6 +25,7 @@ SCENES=(
   "level02_scene:Level02:level02"
   "level03_scene:Level03:level03"
   "level04_scene:Level04:level04"
+  "level04_case_scene:Level04Case:level04-case"
   "level05_scene:Level05:level05"
   "level06_scene:Level06:level06"
   "level07_scene:Level07:level07"
