@@ -290,6 +290,90 @@
   .toc span.tex{ max-width:100%; overflow-x:auto }
   /* and an inline code span with a long path does the same */
   code{ overflow-wrap:anywhere }
+
+  /* ---------- the optional mastery loop (pilot, Level 4 only) ----------
+     Four stages: predict, Act A, Act B, transfer. Every one of them is a panel
+     borrowed from `.lab` rather than a new component - square edges, one rule,
+     the panel ground, and no colour the page does not already spend. Nothing
+     here may gate the prose, so none of it has a fixed position, an overlay, or
+     a disabled state. */
+  .predict,.mastery{margin:64px 0 0;border:1px solid var(--rule);background:var(--panel);
+    max-width:calc(var(--measure) + 48px + 320px)}
+  .predict > p,.mastery > p{padding:0 20px;margin:20px 0}
+  .predict form,.mastery form{padding:0 20px 20px;margin:0}
+  fieldset{border:0;border-top:1px solid var(--rule);margin:0;padding:18px 0 4px}
+  legend{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);padding:0 10px 0 0}
+  .choices{display:flex;flex-wrap:wrap;gap:10px 22px;margin:0}
+  .choices label{display:inline-flex;align-items:center;gap:9px;min-height:24px;
+    font-family:var(--mono);font-size:13px;color:var(--ink);cursor:pointer}
+  .choices input[type=radio]{accent-color:var(--accent);width:16px;height:16px;margin:0;
+    flex:none;cursor:pointer}
+  .choices label:hover{color:var(--ink-bright)}
+  /* the prediction reads as a sentence, so its two answers stack */
+  .predict .choices{flex-direction:column;gap:12px}
+  .predict .choices label{font-family:var(--serif);font-size:19px}
+
+  .case-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));
+    gap:1px;background:var(--rule);margin:0;border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule)}
+  .case-facts .tile{margin:0}
+  .case-facts dd{font-size:19px}
+  .case-story{font-size:19px;line-height:1.5}
+
+  .mastery-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+  .mastery-actions button{font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;min-height:32px;padding:0 16px;
+    background:var(--panel-high);color:var(--ink-bright);border:1px solid var(--rule-strong);
+    cursor:pointer;transition:border-color .18s,color .18s}
+  .mastery-actions button:hover{border-color:var(--accent);color:var(--accent)}
+  .mastery-out{padding:0 20px;margin:0 0 6px}
+  .mastery-out:empty{display:none}
+  .mastery-out .verdict{font-family:var(--mono);font-size:11px;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:8px}
+  .mastery-out.right .verdict{color:var(--signal-ok)}
+  .mastery-out.wrong .verdict{color:var(--signal-alarm)}
+  .mastery-out p{padding:0;margin:0 0 12px;font-size:19px;line-height:1.5}
+  .mastery-out .ratios{display:flex;flex-wrap:wrap;gap:4px 24px;font-family:var(--mono);
+    font-size:13px;color:var(--ink-dim);margin:0 0 12px}
+  .mastery-out .ratios b{color:var(--ink-bright);font-weight:600;
+    font-variant-numeric:tabular-nums}
+  .mastery-progress{padding:0 20px;margin:0 0 18px;min-height:18px}
+
+  .secondary{border-top:1px solid var(--rule)}
+  .secondary > summary{display:flex;gap:16px;align-items:baseline;cursor:pointer;
+    padding:14px 20px;list-style:none}
+  .secondary > summary::-webkit-details-marker{display:none}
+  .secondary > summary::marker{content:""}
+  .secondary > summary .cue{margin-left:auto;color:var(--ink-dim)}
+  .secondary > summary:hover .micro{color:var(--ink-bright)}
+  .secondary[open] > summary .micro{color:var(--accent)}
+  .secondary > *:not(summary){padding:0 20px;margin:0 0 18px;font-size:19px;line-height:1.5}
+  .secondary dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;
+    font-family:var(--mono);font-size:13px}
+  .secondary dt{color:var(--ink-dim);text-transform:uppercase;letter-spacing:.08em;
+    font-size:11px;font-weight:600;padding-top:2px}
+  .secondary dd{margin:0;color:var(--ink-bright);overflow-wrap:anywhere}
+  .seam{border-top:1px solid var(--rule);padding:18px 20px;margin:0;font-size:17px;
+    line-height:1.5;color:var(--ink-dim)}
+  .seam a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--rule-strong);
+    display:inline-flex;align-items:center;min-height:24px}
+  .seam a:hover{border-bottom-color:var(--accent)}
+
+  /* the written act, for a reader who will not or cannot play it */
+  .transcript{border-top:1px solid var(--rule);margin:20px 0 0}
+  .transcript > summary{display:flex;gap:16px;align-items:baseline;cursor:pointer;
+    padding:14px 0;list-style:none}
+  .transcript > summary::-webkit-details-marker{display:none}
+  .transcript > summary::marker{content:""}
+  .transcript > summary .cue{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-dim);margin-left:auto}
+  .transcript > summary:hover .micro{color:var(--ink-bright)}
+  .transcript[open] > summary .micro{color:var(--accent)}
+  .transcript p{font-size:17px;line-height:1.55;color:var(--ink-dim);max-width:var(--measure)}
+  .transcript .script{margin:0 0 var(--rhythm);padding-left:1.4em;max-width:var(--measure)}
+  .transcript .script li{font-size:17px;line-height:1.55;color:var(--ink-dim);
+    margin-bottom:10px}
 </style>
 <body>
 
@@ -322,11 +406,38 @@
     <div class="col">
 
       <figure>
-        <video controls preload="none" poster="posters/level04.jpg">
+        <video controls preload="none" poster="posters/level04.jpg" data-act="act-a">
           <source src="msa-lab/media/videos/level04_scene/1080p60/Level04.mp4" type="video/mp4">
           <track kind="captions" src="captions/level04.vtt" srclang="en" label="English">
         </video>
         <figcaption><span class="fignum">Figure 4.1</span><span class="figtext">The two denominators drawn to scale, one ratio swept while the other refuses to move, the same gauge given opposite verdicts in two factories, and the decision the percentage was standing in for.</span></figcaption>
+      </figure>
+
+      <div class="rule"></div>
+
+      <figure>
+        <video controls preload="none" poster="posters/level04-case.jpg" data-act="act-b">
+          <source src="msa-lab/media/videos/level04_case_scene/1080p60/Level04Case.mp4" type="video/mp4">
+        </video>
+        <figcaption><span class="fignum">Figure 4.3</span><span class="figtext">The same gauge carried between two masked plants. One has to sort parts into families, the other has to pass or fail them against a drawing, and the four cells of the grid put the question each plant did not ask beside the one it did.</span></figcaption>
+        <details class="transcript">
+          <summary><span class="micro">Transcript</span><span class="cue">Act B, seven shots</span></summary>
+          <p>This cut is silent. The lines below are the script it was built to, and
+          they carry the argument on their own if the video will not play.</p>
+          <ol class="script">
+            <li>Same gauge. Nothing has been calibrated, adjusted, or replaced.</li>
+            <li>This plant has to put parts in the right bin, and the parts are close
+            together on purpose.</li>
+            <li>This plant does not care which parts differ. It has to say pass or fail
+            against a drawing.</li>
+            <li>Before a percentage exists, say what you are dividing by.</li>
+            <li>Both of these are honest. They are answers to different questions.</li>
+            <li>One of these two printed rules is stricter than the other, and the table
+            they share does not say so.</li>
+            <li>The gauge does not own a verdict. The job chooses the denominator, and the
+            denominator carries the rest.</li>
+          </ol>
+        </details>
       </figure>
 
       <div class="rule"></div>
@@ -351,7 +462,7 @@
         <img src="msa-lab/docs/l04_2_what_the_numbers_are_worth.png" width="1627" height="783"
              loading="lazy" decoding="async"
              alt="Left: ndc plotted against %GRR, a single curve, with both printed gates marked 2.9 points apart. Right: gauge readings against true sizes with the limits drawn, and the accepted bad parts and rejected good parts picked out.">
-        <figcaption><span class="fignum">Figure 4.3</span><span class="figtext">ndc is a curve, not a cloud: given %GRR it is determined. And the two gates printed beside each other are 2.9 points apart.</span></figcaption>
+        <figcaption><span class="fignum">Figure 4.4</span><span class="figtext">ndc is a curve, not a cloud: given %GRR it is determined. And the two gates printed beside each other are 2.9 points apart.</span></figcaption>
       </figure>
 
       <div class="rule"></div>
@@ -547,6 +658,251 @@
   window.__msalabStudyRatio = studyRatio;
   window.__msalabToleranceRatio = toleranceRatio;
   window.__msalabNdcFromRatio = ndcFromStudyRatio;
+})();
+</script>
+
+<script>
+(function () {
+  "use strict";
+  // ---- mastery loop --------------------------------------------------------
+  // Level 4's optional four-stage loop: predict, Act A, Act B, transfer.
+  //
+  // Every ratio, band, action and answer this file touches was computed by
+  // msalab.level04_mastery and embedded as JSON by tools/chapterise.py. What
+  // follows compares strings and moves text into elements. It formats no
+  // number, rounds nothing, and owns no gate, because a second implementation
+  // of a threshold is a second answer available to disagree with the first.
+  const host = document.getElementById("level04-cases");
+  const form = document.getElementById("mastery-form");
+  if (!host || !form) { return; }
+
+  const data = JSON.parse(host.textContent);
+  const cases = data.cases;
+  const printed = data.printed;
+  const fields = data.labels.deciding_fields;
+
+  const KEY = "msa-fp:mastery:v1";
+  const LEVEL = "level-04";
+  const out = document.getElementById("mastery-feedback");
+  const line = document.getElementById("mastery-progress");
+  let storageWorks = true;
+  let current = 0;
+
+  // Storage is a convenience, never a dependency. A browser in private mode
+  // throws on the property access itself, so an unguarded read at load would
+  // take the whole challenge down with it and leave a working page blank.
+  function readProgress() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      const all = raw ? JSON.parse(raw) : {};
+      return all[LEVEL] || {};
+    } catch (err) {
+      storageWorks = false;
+      return {};
+    }
+  }
+
+  function writeProgress(patch) {
+    const merged = Object.assign(readProgress(), patch);
+    try {
+      const raw = localStorage.getItem(KEY);
+      const all = raw ? JSON.parse(raw) : {};
+      all[LEVEL] = merged;
+      localStorage.setItem(KEY, JSON.stringify(all));
+      storageWorks = true;
+    } catch (err) {
+      storageWorks = false;
+    }
+    report(merged);
+    return merged;
+  }
+
+  function report(state) {
+    if (!storageWorks) {
+      line.textContent = "Progress was not saved. The case still works for "
+        + "this visit.";
+      return;
+    }
+    const done = [];
+    if (state.prediction) { done.push("prediction recorded"); }
+    if (state.watched && state.watched["act-a"]) { done.push("Act A watched"); }
+    if (state.watched && state.watched["act-b"]) { done.push("Act B watched"); }
+    if (state.passed) { done.push("transfer case passed"); }
+    line.textContent = done.length
+      ? "Saved in this browser: " + done.join(" \u00b7 ")
+      : "";
+  }
+
+  function put(id, value) {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = value; }
+  }
+
+  function clear(el) {
+    while (el.firstChild) { el.removeChild(el.firstChild); }
+  }
+
+  function say(parent, tag, cls, value) {
+    const el = document.createElement(tag);
+    if (cls) { el.className = cls; }
+    el.textContent = value;
+    parent.appendChild(el);
+    return el;
+  }
+
+  function ratiosLine(parent, shown) {
+    const row = document.createElement("p");
+    row.className = "ratios";
+    const pairs = [["against study variation", shown.study_ratio],
+                   ["against tolerance", shown.tolerance_ratio],
+                   [fields[3], shown.band]];
+    for (let i = 0; i < pairs.length; i++) {
+      const span = document.createElement("span");
+      span.appendChild(document.createTextNode(pairs[i][0] + " "));
+      const strong = document.createElement("b");
+      strong.textContent = pairs[i][1];
+      span.appendChild(strong);
+      row.appendChild(span);
+    }
+    parent.appendChild(row);
+  }
+
+  function chosen(name) {
+    const hit = form.querySelector("input[name=\"" + name + "\"]:checked");
+    return hit ? hit.value : "";
+  }
+
+  function seedIndex(seed) {
+    for (let i = 0; i < cases.length; i++) {
+      if (cases[i].seed === seed) { return i; }
+    }
+    return 0;
+  }
+
+  function pickSeed() {
+    return cases[Math.floor(Math.random() * cases.length)].seed;
+  }
+
+  function drawCase(seed) {
+    current = seedIndex(seed);
+    const shown = printed[current];
+    put("case-job", cases[current].decision_job);
+    put("case-gauge", shown.gauge_sigma);
+    put("case-part", shown.part_sigma);
+    put("case-tolerance", shown.tolerance);
+    put("case-story", cases[current].surface_story);
+    put("evidence-seed", shown.seed_label);
+    put("evidence-study", shown.study_ratio);
+    put("evidence-tolerance", shown.tolerance_ratio);
+    put("evidence-band", shown.band);
+    clear(out);
+    out.className = "mastery-out";
+    writeProgress({ seed: cases[current].seed });
+  }
+
+  // ---- check ---------------------------------------------------------------
+  // A wrong answer keeps the three choices and the case they were answers to.
+  // Being told you are wrong about data you can no longer see is not feedback,
+  // so nothing in here draws a new case.
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    const key = cases[current].answer;
+    const shown = printed[current];
+    const given = { denominator: chosen("denominator"),
+                    action: chosen("action"),
+                    field: chosen("deciding_field") };
+    clear(out);
+
+    if (!given.denominator || !given.action || !given.field) {
+      out.className = "mastery-out wrong";
+      say(out, "span", "verdict", "Three answers needed");
+      say(out, "p", null, "Name the denominator, the next action, and the field "
+        + "that decided, then check the case again.");
+      return;
+    }
+
+    if (given.denominator === key.denominator && given.action === key.action
+        && given.field === key.deciding_field) {
+      out.className = "mastery-out right";
+      say(out, "span", "verdict", "The chain holds");
+      say(out, "p", null, cases[current].decision_job + " takes "
+        + key.denominator + ", which puts this gauge in " + shown.band
+        + " and makes the next move " + key.action + ".");
+      ratiosLine(out, shown);
+      writeProgress({ passed: true, seed: cases[current].seed });
+      return;
+    }
+
+    // The heading always names the contract field the chain went wrong at, not
+    // the one the learner ticked: `Decision job` is handed to them and can never
+    // be the mismatch, so echoing it back would name a link that is not broken.
+    let missed = key.deciding_field;
+    let because = "";
+    if (given.denominator !== key.denominator) {
+      missed = fields[1];
+      because = "The job is " + cases[current].decision_job + ", so the "
+        + "denominator is " + key.denominator + " and not " + given.denominator
+        + ". The other ratio is honest about a question this plant never asked.";
+    } else if (given.action !== key.action) {
+      missed = fields[3];
+      because = "Against " + key.denominator + " this gauge reads " + shown.chosen
+        + ", which is " + shown.band + ", so the next move is " + key.action
+        + " and not " + given.action + ".";
+    } else {
+      because = "The denominator and the action are right. What settled them "
+        + "was " + key.deciding_field + ", not " + given.field + ".";
+    }
+    out.className = "mastery-out wrong";
+    say(out, "span", "verdict", "Mismatched: " + missed);
+    say(out, "p", null, because);
+    ratiosLine(out, shown);
+    say(out, "p", null, "Your three choices are still selected. Fix the one "
+      + "named above, or take a different plant with Retry with new data.");
+  });
+  // ---- end check -----------------------------------------------------------
+
+  // ---- retry ---------------------------------------------------------------
+  // The one control that changes the data, so the learner always knows which
+  // case the feedback on screen was about. Answers to the old plant are cleared
+  // here and only here: leaving them ticked under a new story invites a submit
+  // nobody meant, and the checking path must never touch them.
+  document.getElementById("mastery-retry").addEventListener("click", function () {
+    let seed = pickSeed();
+    while (cases.length > 1 && seed === cases[current].seed) { seed = pickSeed(); }
+    const stale = form.querySelectorAll("input:checked");
+    for (let i = 0; i < stale.length; i++) { stale[i].checked = false; }
+    drawCase(seed);
+  });
+  // ---- end retry -----------------------------------------------------------
+
+  // Watched means the act ran to its end. A `play` is a click, a `timeupdate`
+  // is a scrub, and `loadedmetadata` is the browser reading a header - none of
+  // the three is somebody having watched the argument.
+  const acts = document.querySelectorAll("video[data-act]");
+  for (let i = 0; i < acts.length; i++) {
+    const act = acts[i];
+    act.addEventListener("ended", function () {
+      const watched = Object.assign({}, readProgress().watched);
+      watched[act.dataset.act] = true;
+      writeProgress({ watched: watched });
+    });
+  }
+
+  const predict = document.getElementById("predict-form");
+  if (predict) {
+    predict.addEventListener("change", function (ev) {
+      writeProgress({ prediction: ev.target.value });
+    });
+  }
+
+  const saved = readProgress();
+  if (predict && saved.prediction) {
+    const hit = predict.querySelector("input[value=\"" + saved.prediction + "\"]");
+    if (hit) { hit.checked = true; }
+  }
+  drawCase(saved.seed || pickSeed());
+  report(readProgress());
+  // ---- end mastery loop ----------------------------------------------------
 })();
 </script>
 

@@ -68,9 +68,14 @@ def test_exactly_one_outbound_link_to_the_spc_curriculum_sitewide():
 
 
 def test_exactly_one_outbound_link_to_the_msa_platform_sitewide():
+    """The count alone would still pass if the seam moved back to the index and
+    Level 4 lost it, so the page holding it is named. The pilot contract puts it
+    after the Level 4 decision, where the reader knows which study they need.
+    """
     hits = {p.name: p.read_text().count(PLATFORM) for p in pages()}
     total = sum(hits.values())
     assert total == 1, f"the platform link is spent {total} times, not once: {hits}"
+    assert hits["level-04.html"] == 1, f"the one platform link is not on Level 4: {hits}"
 
 
 def test_the_seam_links_are_safe_to_open():
@@ -230,15 +235,26 @@ def test_every_level_links_to_the_next_written_one_or_the_index():
 
 # ------------------------- contract check 6: media exists and is opt-in only
 def test_every_written_level_has_its_act_poster_and_captions():
+    """Every act, not the first one. Level 4 carries two, and a `re.search` for
+    one `<source>` and one `poster=` would have declared it complete while Act
+    B's poster was missing - the same shape of check with nothing to check that
+    let a poster 404 before.
+    """
     for p in written():
         t = p.read_text()
-        src = re.search(r'<source src="([^"]+\.mp4)"', t)
-        assert src, f"{p.name} has no act"
-        assert (REPO / src.group(1)).exists(), f"{p.name}: missing {src.group(1)}"
-        poster = re.search(r'poster="([^"]+)"', t)
-        assert poster and (REPO / poster.group(1)).exists(), f"{p.name}: no poster"
-        track = re.search(r'<track[^>]*src="([^"]+\.vtt)"', t)
-        assert track and (REPO / track.group(1)).exists(), f"{p.name}: no captions"
+        srcs = re.findall(r'<source src="([^"]+\.mp4)"', t)
+        assert srcs, f"{p.name} has no act"
+        for src in srcs:
+            assert (REPO / src).exists(), f"{p.name}: missing {src}"
+        posters = re.findall(r'<video[^>]*poster="([^"]+)"', t)
+        assert len(posters) == len(srcs), (
+            f"{p.name}: {len(srcs)} acts but {len(posters)} posters")
+        for poster in posters:
+            assert (REPO / poster).exists(), f"{p.name}: missing poster {poster}"
+        tracks = re.findall(r'<track[^>]*src="([^"]+\.vtt)"', t)
+        assert tracks, f"{p.name}: no captions"
+        for track in tracks:
+            assert (REPO / track).exists(), f"{p.name}: missing captions {track}"
 
 
 def test_no_caption_track_is_forced_on():

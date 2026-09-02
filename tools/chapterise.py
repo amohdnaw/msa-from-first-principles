@@ -14,6 +14,7 @@ Output is <page> at the repo root, overwritten.
 """
 from __future__ import annotations
 from html import escape, unescape
+import json
 import re
 import sys
 import pathlib
@@ -749,6 +750,228 @@ def chapter_03(K):
     ]
 
 
+# ------------------------------------------- the Level 4 visual-depth pilot
+# The optional four-stage loop - predict, Act A, Act B, transfer - is being
+# tried on one level before it is proposed for the other seventeen. Everything
+# from here to `chapter_04` is Level 4's alone and deliberately not generalised:
+# a shared helper written for one caller is a guess about the second one.
+B = "      "
+
+
+def transcript(cue, paras):
+    """The written act, for a reader who will not or cannot play it."""
+    body = "\n".join(f"{B}  <p>{p}</p>" for p in paras)
+    return (f'{B}<details class="transcript">\n'
+            f'{B}  <summary><span class="micro">Transcript</span>'
+            f'<span class="cue">{cue}</span></summary>\n'
+            f"{body}\n"
+            f"{B}</details>")
+
+
+def vtt_prose(name, per_para=6):
+    """An act's narration, rebuilt from the cues that act actually ships.
+
+    A transcript typed out beside a caption file is a second copy of the same
+    sentences, and the two drift the first time one line is re-recorded. These
+    paragraphs are the cue text joined back up, so the page cannot disagree with
+    the track it sits under.
+    """
+    path = pathlib.Path(__file__).resolve().parents[1] / "captions" / name
+    cues = []
+    for chunk in path.read_text().split("\n\n"):
+        lines = [ln.strip() for ln in chunk.strip().splitlines() if ln.strip()]
+        lines = [ln for ln in lines if "-->" not in ln and not ln.isdigit()]
+        if lines and lines[0] != "WEBVTT":
+            cues.append(" ".join(lines))
+    prose = re.sub(r"\s+", " ", " ".join(cues)).strip()
+    out, buf = [], []
+    for sentence in re.split(r"(?<=[.?!]) ", prose):
+        buf.append(sentence)
+        if len(buf) >= per_para:
+            out.append(escape(" ".join(buf), quote=False))
+            buf = []
+    if buf:
+        out.append(escape(" ".join(buf), quote=False))
+    return out
+
+
+def case_json():
+    """The whole transfer bank, computed once, embedded as data.
+
+    The page needs three things it must not work out for itself: the cases, the
+    answers, and the strings. `printed` carries every value already formatted at
+    the precision the band was taken at, so the page renders text it was handed
+    rather than a number it rounded - a browser rounding 30.04 to 30.0 would
+    place a case in a band this module never put it in.
+    """
+    from msalab.level04_mastery import (
+        ACTIONS, BAND_LABELS, DECIDING_FIELDS, DENOMINATORS, challenge_bank,
+    )
+    bank = challenge_bank()
+    payload = {
+        "labels": {"denominators": list(DENOMINATORS),
+                   "actions": list(ACTIONS),
+                   "deciding_fields": list(DECIDING_FIELDS),
+                   "band_labels": list(BAND_LABELS)},
+        "cases": bank,
+        "printed": [{
+            "seed": c["seed"],
+            "seed_label": f'seed {c["seed"]}',
+            "gauge_sigma": f'{c["gauge_sigma"]:.2f} \u00b5m',
+            "part_sigma": f'{c["part_sigma"]:.1f} \u00b5m',
+            "tolerance": f'{c["tolerance"]:.0f} \u00b5m',
+            "study_ratio": f'{c["study_ratio"]:.1f} %',
+            "tolerance_ratio": f'{c["tolerance_ratio"]:.1f} %',
+            "chosen": f'{c["feedback"]["Computed %GRR"]:.1f} %',
+            "band": c["feedback"]["AIAG band"],
+        } for c in bank],
+    }
+    # The band labels are `<=10 %` and `>30 %`, so the payload carries the two
+    # characters that end a script element. Escaping them is what stops a gate
+    # from closing the block it is written inside.
+    blob = json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+    for raw, safe in (("&", "\\u0026"), ("<", "\\u003c"), (">", "\\u003e")):
+        blob = blob.replace(raw, safe)
+    return blob
+
+
+def radios(name, labels):
+    """One question's answers, written from the module's own strings.
+
+    Retyping `Computed %GRR` here would put the contract's vocabulary in a second
+    place, and the copy that drifts is always the one nobody is testing.
+    """
+    return "\n".join(
+        f'{B}      <label><input type="radio" name="{name}" '
+        f'value="{escape(v, quote=True)}"> {escape(v, quote=False)}</label>'
+        for v in labels)
+
+
+def predict_block():
+    """Stage one. A prediction the page never scores and never checks.
+
+    Its only job is to make the learner commit before Act A answers it, so the
+    act lands as a result rather than as a statement. Nothing downstream reads
+    the answer, which is why it cannot gate anything.
+    """
+    return (
+        f'{B}<div class="predict" id="predict">\n'
+        f'{B}  <div class="lab-head"><span class="micro">Before the act '
+        f'&mdash; one prediction</span><span class="micro">Stage 1 of 4</span>'
+        f"</div>\n"
+        f"{B}  <p>One gauge, and nothing about it is calibrated, adjusted or "
+        f"replaced. Can the same instrument be accepted in one plant and "
+        f"rejected in another, with both answers correct?</p>\n"
+        f'{B}  <form id="predict-form">\n'
+        f"{B}    <fieldset>\n"
+        f"{B}      <legend>Your call</legend>\n"
+        f'{B}      <div class="choices">\n'
+        f'{B}        <label><input type="radio" name="prediction" '
+        f'value="opposite"> Yes &mdash; one gauge, opposite verdicts, both '
+        f"honest.</label>\n"
+        f'{B}        <label><input type="radio" name="prediction" '
+        f'value="same"> No &mdash; a gauge is good or it is not.</label>\n'
+        f"{B}      </div>\n"
+        f"{B}    </fieldset>\n"
+        f"{B}  </form>\n"
+        f'{B}  <p class="micro">Nothing is scored and nothing is unlocked. The '
+        f"act settles it in the first two minutes.</p>\n"
+        f"{B}</div>")
+
+
+def mastery_block():
+    """Stage four. One unseen case, three answers, and the chain that grades it.
+
+    The case shown here without JavaScript is the first seed in the bank, so a
+    reader with scripting off still gets a whole worked plant rather than an
+    empty panel. The seam link is last on purpose: a study tool is useful once
+    you know which question your study has to answer, and useless before that.
+    """
+    from msalab.level04_mastery import (
+        ACTIONS, CASE_SEEDS, DECIDING_FIELDS, DENOMINATORS, challenge_case,
+    )
+    first = challenge_case(CASE_SEEDS[0])
+    return (
+        f'{B}<div class="mastery" id="mastery">\n'
+        f'{B}  <div class="lab-head"><span class="micro">Optional &mdash; one '
+        f'plant you have not seen</span><span class="micro">Stage 4 of 4</span>'
+        f"</div>\n"
+        f'{B}  <script type="application/json" id="level04-cases">{case_json()}'
+        f"</script>\n"
+        f'{B}  <dl class="case-facts">\n'
+        f'{B}    <div class="tile"><dt>Decision job</dt>'
+        f'<dd id="case-job">{first["decision_job"]}</dd></div>\n'
+        f'{B}    <div class="tile"><dt>Gauge, 1<span class="nc">\u03c3</span>'
+        f'</dt><dd id="case-gauge">{first["gauge_sigma"]:.2f} \u00b5m</dd></div>\n'
+        f'{B}    <div class="tile"><dt>Parts, 1<span class="nc">\u03c3</span>'
+        f'</dt><dd id="case-part">{first["part_sigma"]:.1f} \u00b5m</dd></div>\n'
+        f"{B}    <div class=\"tile\"><dt>Drawing band</dt>"
+        f'<dd id="case-tolerance">{first["tolerance"]:.0f} \u00b5m</dd></div>\n'
+        f"{B}  </dl>\n"
+        f'{B}  <p class="case-story" id="case-story">{first["surface_story"]}</p>\n'
+        f'{B}  <form id="mastery-form">\n'
+        f"{B}    <fieldset>\n"
+        f"{B}      <legend>Chosen denominator</legend>\n"
+        f'{B}      <div class="choices">\n'
+        f"{radios('denominator', DENOMINATORS)}\n"
+        f"{B}      </div>\n"
+        f"{B}    </fieldset>\n"
+        f"{B}    <fieldset>\n"
+        f"{B}      <legend>Next action</legend>\n"
+        f'{B}      <div class="choices">\n'
+        f"{radios('action', ACTIONS)}\n"
+        f"{B}      </div>\n"
+        f"{B}    </fieldset>\n"
+        f"{B}    <fieldset>\n"
+        f"{B}      <legend>Which link decided it</legend>\n"
+        f'{B}      <div class="choices">\n'
+        f"{radios('deciding_field', DECIDING_FIELDS)}\n"
+        f"{B}      </div>\n"
+        f"{B}    </fieldset>\n"
+        f'{B}    <div class="mastery-actions">\n'
+        f'{B}      <button type="submit">Check this plant</button>\n'
+        f'{B}      <button type="button" id="mastery-retry">Retry with new '
+        f"data</button>\n"
+        f"{B}    </div>\n"
+        f"{B}  </form>\n"
+        f'{B}  <div class="mastery-out" id="mastery-feedback" role="status" '
+        f'aria-live="polite"></div>\n'
+        f'{B}  <p class="micro mastery-progress" id="mastery-progress" '
+        f'aria-live="polite"></p>\n'
+        f'{B}  <details class="secondary" id="use-this-when">\n'
+        f'{B}    <summary><span class="micro">Use this when&hellip;</span>'
+        f'<span class="micro cue">the field answer</span></summary>\n'
+        f"{B}    <p>Divide by {DENOMINATORS[0].lower()} when the gauge has to "
+        f"tell parts apart &mdash; sorting, grading, routing, anything that "
+        f"turns on discrimination. Divide by {DENOMINATORS[1].lower()} when it "
+        f"has to say pass or fail against a drawing, which is conformance. The "
+        f"question the plant is asking picks the denominator; the denominator "
+        f"carries everything after it.</p>\n"
+        f"{B}  </details>\n"
+        f'{B}  <details class="secondary" id="evidence">\n'
+        f'{B}    <summary><span class="micro">Evidence</span>'
+        f'<span class="micro cue">where this case came from</span></summary>\n'
+        f"{B}    <dl>\n"
+        f"{B}      <dt>Module</dt><dd><code>msalab.level04_mastery</code></dd>\n"
+        f'{B}      <dt>Case</dt><dd id="evidence-seed">seed '
+        f'{first["seed"]}</dd>\n'
+        f"{B}      <dt>Tests</dt><dd><code>test_level04_mastery.py</code>, "
+        f"<code>test_level04_page.py</code></dd>\n"
+        f'{B}      <dt>Against study</dt><dd id="evidence-study">'
+        f'{first["study_ratio"]:.1f} %</dd>\n'
+        f'{B}      <dt>Against tolerance</dt><dd id="evidence-tolerance">'
+        f'{first["tolerance_ratio"]:.1f} %</dd>\n'
+        f'{B}      <dt>{DECIDING_FIELDS[3]}</dt><dd id="evidence-band">'
+        f'{escape(first["feedback"]["AIAG band"], quote=False)}</dd>\n'
+        f"{B}    </dl>\n"
+        f"{B}  </details>\n"
+        f'{B}  <p class="seam">Running one of these for real is the same four '
+        f"links with your own readings in them. "
+        f'<a href="https://msa.amohdnaw.xyz/app" target="_blank" '
+        f'rel="noopener">Open Variable GR&amp;R study &#8599;</a></p>\n'
+        f"{B}</div>")
+
+
 def chapter_04(K):
     from msalab.against_what import (
         ACCEPT_PCT, A_PART, A_STUDY, A_TOL, A_TOLPCT, B_PART, B_STUDY, B_TOL,
@@ -780,7 +1003,9 @@ def chapter_04(K):
                           ("against study", f"{STUDY_PCT:.1f} %"),
                           ("against tolerance", f"{TOL_PCT:.1f} %"),
                           k="one numerator, two denominators")),
+            predict_block(),
             K["fig"]("Level04.mp4"),
+            transcript("Act A, narrated", vtt_prose("level04.vtt")),
         ]),
         ("s2", "4.2", "Only one of them can see the parts", [
             para("The tolerance came off a drawing. It does not know how much the "
@@ -830,7 +1055,9 @@ def chapter_04(K):
                  note("so which", text="Whichever matches the decision the gauge is "
                       "there to make. That is a question about the job, and no "
                       "amount of arithmetic answers it.")),
+            K["fig"]("Level04Case.mp4"),
             K["lab"],
+            mastery_block(),
         ]),
         ("s4", "4.4", "The third number is the first one rearranged", [
             para("Beside those two the standard prints a third: the number of "
