@@ -1,0 +1,326 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:05.468
+Same gauge. Nothing has been calibrated, adjusted, or replaced.
+
+2
+00:00:05.566 --> 00:00:09.140
+Act A left two names under one band. Both
+
+3
+00:00:09.240 --> 00:00:12.186
+go. The band goes on a plant rail.
+
+4
+00:00:12.283 --> 00:00:17.511
+A ruler against it. Not a caption about the width, the width itself.
+
+5
+00:00:17.600 --> 00:00:24.628
+Six sigma of gauge, end to end: 12.4 microns. It does not move again.
+
+6
+00:00:24.716 --> 00:00:28.024
+Two plants are about to divide by different
+
+7
+00:00:28.124 --> 00:00:31.432
+things. This is the thing they both divide.
+
+8
+00:00:31.516 --> 00:00:34.329
+This plant has to put parts in the right
+
+9
+00:00:34.429 --> 00:00:37.896
+bin, and the parts are close together on purpose.
+
+10
+00:00:37.983 --> 00:00:41.659
+One feature, two process families, sitting
+
+11
+00:00:41.759 --> 00:00:44.267
+exactly one gauge band apart.
+
+12
+00:00:44.366 --> 00:00:48.016
+Here is the truth. Every part where it really is,
+
+13
+00:00:48.116 --> 00:00:51.154
+each on its own side of the sorting line.
+
+14
+00:00:51.250 --> 00:00:54.390
+Now read the same parts through the band.
+
+15
+00:00:54.483 --> 00:00:58.740
+The truth left a 2.05 micron gap. The readings
+
+16
+00:00:58.840 --> 00:01:04.329
+overlap by 7.53, filled and open marks interleaved. Nothing
+
+17
+00:01:04.429 --> 00:01:08.687
+came between the two pictures except the band.
+
+18
+00:01:08.783 --> 00:01:12.649
+A second masked plant. The first greys out at the
+
+19
+00:01:12.749 --> 00:01:16.939
+edge of frame: two jobs, one instrument between them.
+
+20
+00:01:17.033 --> 00:01:20.583
+This plant does not care which parts differ. It
+
+21
+00:01:20.683 --> 00:01:23.845
+has to say pass or fail against a drawing.
+
+22
+00:01:23.933 --> 00:01:28.302
+The process is wide: 151 microns against a
+
+23
+00:01:28.402 --> 00:01:32.665
+drawing of 35, and nobody is fixing that.
+
+24
+00:01:32.750 --> 00:01:37.066
+Lay the same band on the upper limit. Same object, same
+
+25
+00:01:37.166 --> 00:01:41.242
+width. Every part under it can be called either way.
+
+26
+00:01:41.333 --> 00:01:45.094
+2 good parts read as scrap. 3 bad parts read as
+
+27
+00:01:45.194 --> 00:01:49.201
+good. From the band that could not sort next door.
+
+28
+00:01:49.300 --> 00:01:54.264
+Same width, a different kind of mistake, and still no percentage.
+
+29
+00:01:54.350 --> 00:01:59.506
+Both plants in one frame, so the choice is made side by side.
+
+30
+00:01:59.600 --> 00:02:03.313
+One band each. The second is a copy sliding out
+
+31
+00:02:03.413 --> 00:02:08.020
+of the first, so the widths are identical by construction.
+
+32
+00:02:08.116 --> 00:02:12.744
+Before a percentage exists, say what you are dividing by.
+
+33
+00:02:13.233 --> 00:02:16.493
+Two candidates per plant: how much its parts
+
+34
+00:02:16.593 --> 00:02:19.853
+differ, and how much room its drawing gives.
+
+35
+00:02:19.950 --> 00:02:23.152
+Drop the drawing under the sorting plant. A
+
+36
+00:02:23.252 --> 00:02:27.146
+legal move, answering a question nobody there asked.
+
+37
+00:02:27.233 --> 00:02:30.747
+The numerators are identical, so this is not a
+
+38
+00:02:30.847 --> 00:02:34.832
+fact about the gauge. The job picks: sorting divides
+
+39
+00:02:34.932 --> 00:02:38.053
+by the study, conformance by the drawing.
+
+40
+00:02:38.150 --> 00:02:41.040
+Both fractions are complete, and there is
+
+41
+00:02:41.140 --> 00:02:43.594
+still no percentage on this screen.
+
+42
+00:02:43.683 --> 00:02:46.879
+Two plants, two jobs. Four questions, and
+
+43
+00:02:46.979 --> 00:02:50.015
+the other two are the interesting ones.
+
+44
+00:02:50.100 --> 00:02:54.668
+One band, feeding four cells. Rows are the plants, columns
+
+45
+00:02:54.768 --> 00:02:59.096
+the jobs. Which cells earn use, and which earn replace?
+
+46
+00:02:59.583 --> 00:03:04.127
+The cells each plant asked for, on the diagonal. Both asked
+
+47
+00:03:04.227 --> 00:03:08.771
+the question their gauge is worst at, so both read replace.
+
+48
+00:03:08.866 --> 00:03:11.284
+Now the cells nobody asked for.
+
+49
+00:03:11.384 --> 00:03:14.694
+Same band, same gates, different question.
+
+50
+00:03:14.783 --> 00:03:18.841
+Hold the job still, move the gauge between plants.
+
+51
+00:03:18.941 --> 00:03:24.163
+Sort process populations: replace, then use. Nothing else moved.
+
+52
+00:03:24.250 --> 00:03:28.188
+Hold the job still, move the gauge between plants.
+
+53
+00:03:28.288 --> 00:03:33.438
+Judge drawing conformance: use, then replace. Nothing else moved.
+
+54
+00:03:33.533 --> 00:03:38.449
+Both of these are honest. They are answers to different questions.
+
+55
+00:03:38.533 --> 00:03:42.635
+The middle band is still empty and still uncoloured.
+
+56
+00:03:42.735 --> 00:03:46.353
+Improve is a next action, not a third verdict.
+
+57
+00:03:46.450 --> 00:03:50.046
+A second number is printed in the same table.
+
+58
+00:03:50.133 --> 00:03:53.672
+Number of distinct categories: how many groups
+
+59
+00:03:53.772 --> 00:03:56.441
+of parts this gauge can tell apart.
+
+60
+00:03:56.533 --> 00:04:00.616
+One curve. Every ndc a gauge can have against the
+
+61
+00:04:00.716 --> 00:04:04.713
+study ratio it came from, falling the whole way.
+
+62
+00:04:04.800 --> 00:04:10.556
+Both plants, computed the long way from the gauge and the parts,
+
+63
+00:04:10.656 --> 00:04:15.589
+land on it. Not near it: the two routes differ by under
+
+64
+00:04:15.689 --> 00:04:20.348
+4e-15. The only thing ndc adds is the constant 1.41.
+
+65
+00:04:20.433 --> 00:04:25.931
+Now the printed gates: ten per cent, thirty per cent, five categories. All
+
+66
+00:04:26.031 --> 00:04:30.773
+three come off the same table, and the last two miss each other.
+
+67
+00:04:30.866 --> 00:04:37.041
+2.86 points apart. The ndc rule bites first, at 27.1 per cent,
+
+68
+00:04:37.141 --> 00:04:43.822
+inside the middle band where the action reads improve in plain ink.
+
+69
+00:04:43.916 --> 00:04:47.513
+One of these two printed rules is stricter than the
+
+70
+00:04:47.613 --> 00:04:50.992
+other, and the table they share does not say so.
+
+71
+00:04:51.083 --> 00:04:54.884
+Everything this act built, in order, for one plant.
+
+72
+00:04:54.984 --> 00:04:58.327
+Which link is the only choice a person makes?
+
+73
+00:04:58.816 --> 00:05:03.193
+They fly in from where they were earned: the job from the plants,
+
+74
+00:05:03.293 --> 00:05:08.220
+the denominator from the fractions, the rest from the grid and the gates.
+
+75
+00:05:08.316 --> 00:05:12.108
+Only the first link was a decision. The rest is
+
+76
+00:05:12.208 --> 00:05:16.496
+arithmetic and a lookup, and the band never joins in.
+
+77
+00:05:16.583 --> 00:05:21.163
+Swap the job token, and touch nothing else on the screen.
+
+78
+00:05:21.250 --> 00:05:25.098
+Same plant, same parts, same band. One word at the
+
+79
+00:05:25.198 --> 00:05:29.046
+front, and the last four links moved. Put it back.
+
+80
+00:05:29.133 --> 00:05:32.195
+The gauge does not own a verdict. The job
+
+81
+00:05:32.295 --> 00:05:36.977
+chooses the denominator, and the denominator carries the rest.
+
