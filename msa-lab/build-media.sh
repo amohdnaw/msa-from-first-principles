@@ -83,7 +83,7 @@ for entry in "${SCENES[@]}"; do
   fi
 
   # poster: best of 11 candidate frames by ink coverage
-  PYTHONPATH=src $VENV/python - "$mp4" "$POSTERS/$poster.jpg" <<'PY'
+  poster_out=$(PYTHONPATH=src $VENV/python - "$mp4" "$POSTERS/$poster.jpg" <<'PY'
 import subprocess, sys, tempfile
 from collections import Counter
 from PIL import Image
@@ -103,8 +103,22 @@ with tempfile.TemporaryDirectory() as td:
         s = ink(f)
         if s > best[0]: best = (s, t)
 subprocess.run(['ffmpeg','-v','error','-ss',str(best[1]),'-i',mp4,'-frames:v','1','-q:v','4',out,'-y'],check=True)
-print(f"   poster t={best[1]}s ink={best[0]*100:.1f}%")
+print(f"{best[1]} {best[0]*100:.1f}")
 PY
+)
+  poster_time=$(echo "$poster_out" | awk '{print $1}')
+  poster_ink=$(echo "$poster_out" | awk '{print $2}')
+  printf '   poster t=%ss ink=%s%%\n' "$poster_time" "$poster_ink"
+
+  cat > "${mp4%.mp4}.manifest.json" <<EOF
+{
+  "scene": "$file",
+  "service": "${MSALAB_VOICE_SERVICE:-kokoro}",
+  "duration": $dur,
+  "poster_time": $poster_time,
+  "cue_count": $cues
+}
+EOF
 
   printf '   %.1fs  audio=%s  captions=%s cues\n' "$dur" "${has_audio:-none}" "$cues"
 done

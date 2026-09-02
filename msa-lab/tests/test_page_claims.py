@@ -25,7 +25,11 @@ PLATFORM = "msa.amohdnaw.xyz"
 
 WORDS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6,
          "seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11,
-         "twelve": 12}
+         "twelve": 12, "thirty-three": 33, "thirty-four": 34,
+         "thirty-five": 35, "thirty-six": 36, "thirty-seven": 37,
+         "thirty-eight": 38, "thirty-nine": 39, "forty": 40,
+         "forty-one": 41, "forty-two": 42, "forty-three": 43,
+         "forty-four": 44, "forty-five": 45, "forty-six": 46}
 
 
 def pages():
@@ -46,12 +50,32 @@ def _claim():
 
 
 def _spelled(text, unit):
-    m = re.search(r"(\w+)\s+" + unit, text)
+    m = re.search(r"([a-z-]+)\s+" + unit, text.lower())
     assert m, f"no spelled number before {unit!r} in: {text!r}"
     word = m.group(1).lower()
     assert word in WORDS, f"unspelled or unknown number {word!r} before {unit!r}"
     return WORDS[word]
 
+def _act_seconds():
+    import subprocess
+    mp4s = sorted(REPO.glob("msa-lab/media/videos/*/1080p60/*.mp4"))
+    assert len(mp4s) >= 2, f"expected at least 2 mp4s, got {len(mp4s)}"
+    total = 0.0
+    for p in mp4s:
+        out = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
+                              "format=duration", "-of", "csv=p=0", str(p)],
+                             capture_output=True, text=True, check=True).stdout
+        total += float(out)
+    return total
+
+def test_runtime_claim_matches_the_rendered_acts():
+    claim = _claim()
+    claimed_min = _spelled(claim, "minutes")
+    
+    total_sec = _act_seconds()
+    total_min = int(total_sec // 60)
+    
+    assert total_min == claimed_min, f"Claimed {claimed_min} minutes, but acts sum to {total_sec:.1f}s ({total_min} minutes)"
 
 # ------------------------------------------------ contract check 11: the seam
 def test_exactly_one_outbound_link_to_the_spc_curriculum_sitewide():
