@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MSA Level 4 · Act B storyboard · two factories, one gauge</title>
+<style>
+:root{--ground:#0d1114;--panel:#14181c;--panel2:#1b2026;--rule:#2a3138;--strong:#3d4650;--ink:#d7dee4;--bright:#eef3f7;--dim:#8b98a4;--amber:#ffae00;--teal:#65ccaf;--alarm:#de6a5d;--gutter:clamp(16px,3vw,42px);--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+html{background:var(--ground);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,sans-serif;-webkit-text-size-adjust:100%}
+body{margin:0}
+header{padding:54px var(--gutter) 30px;border-bottom:1px solid var(--rule);background:linear-gradient(180deg,rgba(255,174,0,.055),rgba(255,174,0,0) 74%)}
+.eyebrow,.micro,.beat,.chip,.num,dt,th,.tag{font-family:var(--mono);letter-spacing:.13em;text-transform:uppercase}
+.eyebrow{margin:0;color:var(--amber);font-size:11px;font-weight:600;line-height:1.3}
+h1{max-width:30ch;margin:14px 0 16px;color:var(--bright);font:600 clamp(28px,4.2vw,54px)/1.02 Georgia,"Times New Roman",serif;letter-spacing:-.02em}
+.dek{max-width:80ch;margin:0;color:var(--dim);font-size:16px;line-height:1.6}
+.dek b{color:var(--ink);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{border:1px solid var(--strong);padding:7px 10px;color:var(--ink);font-size:10px;font-weight:600;line-height:1.2}
+.chip.amber{border-color:var(--amber);color:var(--amber)}
+main{padding:0 var(--gutter) 72px}
+.section-head{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:baseline;margin:44px 0 18px;padding-top:26px;border-top:1px solid var(--rule)}
+.section-head h2{margin:6px 0 0;color:var(--bright);font:600 clamp(21px,2.4vw,30px)/1.15 Georgia,"Times New Roman",serif}
+.micro{margin:0;color:var(--amber);font-size:10px;font-weight:600}
+.section-head p{max-width:62ch;margin:0;color:var(--dim);font-size:13px;line-height:1.55}
+.section-head p.micro{max-width:none;color:var(--amber)}
+table{width:100%;border-collapse:collapse;border:1px solid var(--rule);background:var(--panel)}
+th,td{padding:11px 13px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+th{color:var(--amber);font-size:10px;font-weight:600;line-height:1.3}
+td{color:var(--dim);font-size:13px;line-height:1.5}
+td:first-child{color:var(--ink);font-family:var(--mono);font-size:12px;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+code,.sym{color:var(--teal);font-family:var(--mono);font-size:.92em}
+a{color:var(--amber);text-decoration:none;border-bottom:1px solid var(--strong)}
+.sheet{display:grid;gap:14px}
+.shot{border:1px solid var(--rule);background:var(--panel)}
+.shot-head{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:baseline;padding:15px 18px;border-bottom:1px solid var(--rule);background:var(--panel2)}
+.num{color:var(--amber);font-size:11px;font-weight:600}
+.shot-head h3{flex:1 1 260px;margin:0;color:var(--bright);font:600 17px/1.25 Georgia,"Times New Roman",serif}
+.beat{border:1px solid var(--strong);padding:5px 8px;color:var(--dim);font-size:9px;font-weight:600}
+.beat.req{border-color:var(--amber);color:var(--amber)}
+.fields{margin:0}
+.f{display:grid;grid-template-columns:196px 1fr;gap:0 20px;padding:11px 18px;border-bottom:1px solid var(--rule)}
+.f:last-child{border-bottom:0}
+dt{margin:2px 0 0;color:var(--dim);font-size:9.5px;font-weight:600}
+dd{margin:0;max-width:96ch;color:var(--ink);font-size:13.5px;line-height:1.55}
+dd.none{color:var(--dim)}
+.policy{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{border:1px solid var(--rule);border-top:2px solid var(--strong);background:var(--panel);padding:16px 18px}
+.card.rule{border-top-color:var(--teal)}
+.card.risk{border-top-color:var(--alarm)}
+.card.src{border-top-color:var(--amber)}
+.card h3{margin:0 0 9px;color:var(--bright);font-size:14px}
+.card p{margin:0 0 8px;color:var(--dim);font-size:12.5px;line-height:1.55}
+.card p:last-child{margin-bottom:0}
+.swatch{display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:baseline;border:1px solid var(--strong)}
+.swatch.use{background:var(--teal);border-color:var(--teal)}
+.swatch.replace{background:var(--alarm);border-color:var(--alarm)}
+.swatch.neutral{background:transparent;border-color:var(--strong)}
+.claim{margin:0;border:1px solid var(--amber);padding:20px 22px;background:linear-gradient(180deg,rgba(255,174,0,.06),rgba(255,174,0,0))}
+.claim p{margin:8px 0 0;color:var(--bright);font:400 clamp(17px,2vw,23px)/1.4 Georgia,"Times New Roman",serif}
+.chain{display:flex;flex-wrap:wrap;gap:1px;margin:0;padding:0;list-style:none;border:1px solid var(--rule);background:var(--rule)}
+.chain li{flex:1 1 170px;padding:15px 16px;background:var(--panel)}
+.chain .lab{display:block;margin-bottom:7px;color:var(--amber);font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase}
+.chain .val{color:var(--ink);font-size:12.5px;line-height:1.5}
+.grid2{display:grid;grid-template-columns:1fr;gap:12px}
+.gate{margin-top:22px;border:1px solid var(--alarm);padding:16px 20px;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}
+.gate b{color:var(--alarm);font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.13em}
+.gate p{margin:0;max-width:88ch;color:var(--ink);font-size:13px;line-height:1.55}
+.act-use code{color:var(--teal)}
+.act-replace code{color:var(--alarm)}
+.act-improve code{color:var(--ink)}
+@media(max-width:900px){.policy{grid-template-columns:1fr}}
+@media(max-width:640px){
+  header{padding-top:32px}
+  .f{grid-template-columns:1fr;gap:5px;padding:12px 14px}
+  dt{color:var(--amber)}
+  .shot-head{padding:13px 14px}
+  table,thead,tbody,tr,th,td{display:block}
+  thead{display:none}
+  tr{border-bottom:1px solid var(--rule)}
+  tr:last-child{border-bottom:0}
+  td{border-bottom:0;padding:4px 14px}
+  td:first-child{padding-top:13px;color:var(--amber);font-size:11px;white-space:normal}
+  td:last-child{padding-bottom:13px}
+  td[data-h]::before{content:attr(data-h) " · ";color:var(--amber);font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase}
+  .claim{padding:16px}
+}
+</style>
+</head>
+<body>
+<header>
+  <p class="eyebrow">MSA Level 4 · visual-depth pilot · Act B shot lock</p>
+  <h1>One unchanged gauge earns opposite honest actions, because the decision job chooses the denominator.</h1>
+  <p class="dek">Act B takes Act A's closing frame, the same amber band, and walks it into two masked plants. Nothing is calibrated, adjusted, or replaced between them. The act's job is to turn the denominator from an interesting fact into a <b>plant action</b>, then show that <code>ndc</code> is that same ratio wearing a different label. Both printed gates land on one computed curve, so they are compared rather than memorised.</p>
+  <div class="chips">
+    <span class="chip amber">7 shots</span>
+    <span class="chip">6 required beats, in order</span>
+    <span class="chip">Masked cases only</span>
+    <span class="chip">Denominator before any percentage</span>
+    <span class="chip">Neutral conditional band</span>
+  </div>
+</header>
+<main>
+
+  <div class="section-head"><div><p class="micro">Visual claim</p><h2>One sentence the motion has to prove</h2></div><p>The muted cut has to carry this on its own. If narration is the only place the causal link exists, the shot is rejected.</p></div>
+  <div class="claim">
+    <p class="micro" style="color:var(--amber)">Act B</p>
+    <p>One unchanged gauge earns opposite honest actions, because the decision job chooses the denominator and the denominator carries the verdict.</p>
+  </div>
+
+  <div class="section-head"><div><p class="micro">Overview</p><h2>Shot index</h2></div><p>Beats 1 to 6 come from the approved plan and must appear in this order. Shot 01 is the carry-in that makes the shared gauge provable by eye.</p></div>
+  <table>
+    <thead><tr><th>Shot</th><th>Title</th><th>Required beat</th><th>What is on screen that was not before</th></tr></thead>
+    <tbody>
+      <tr><td>01</td><td data-h="Title">The frame Act A left</td><td data-h="Required beat">Carry-in</td><td data-h="New on screen">A ruler against the band, so the shared gauge is measured rather than asserted</td></tr>
+      <tr><td>02</td><td data-h="Title">Factory A: sort what looks the same</td><td data-h="Required beat">Beat 1: sort close process populations</td><td data-h="New on screen">Two close populations from <code>A_PART</code>, a sorting bin, no drawing</td></tr>
+      <tr><td>03</td><td data-h="Title">Factory B: judge against the drawing</td><td data-h="Required beat">Beat 2: judge drawing conformance</td><td data-h="New on screen">One wide population from <code>B_PART</code>, hard limits from <code>B_TOL</code>, no bin</td></tr>
+      <tr><td>04</td><td data-h="Title">Name the denominator first</td><td data-h="Required beat">Beat 3: the denominator before any percentage</td><td data-h="New on screen">Two fraction skeletons with filled numerators and empty denominators</td></tr>
+      <tr><td>05</td><td data-h="Title">Opposite actions, one instrument</td><td data-h="Required beat">Beat 4: opposite honest actions</td><td data-h="New on screen">Four computed ratios in a factory-by-job grid, and the first percentages of the act</td></tr>
+      <tr><td>06</td><td data-h="Title"><code>ndc</code> is the same curve</td><td data-h="Required beat">Beat 5: re-express <code>%GRR_study</code> as <code>ndc</code></td><td data-h="New on screen">One curve from <code>ndc_from_study_ratio</code> with both printed gates landed on it</td></tr>
+      <tr><td>07</td><td data-h="Title">The chain</td><td data-h="Required beat">Beat 6: the five-link decision chain</td><td data-h="New on screen">The chain assembled from tokens already earned, with the band still neutral</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head"><div><p class="micro">Shot sheet</p><h2>Nine fields per shot</h2></div><p>Field order is identical in every shot. A field marked <code>none</code> was checked and found not to apply; it is never omitted.</p></div>
+
+  <div class="sheet">
+
+    <article class="shot" id="b1">
+      <div class="shot-head"><span class="num">Shot 01</span><h3>The frame Act A left</h3><span class="beat">Carry-in</span></div>
+      <dl class="fields">
+        <div class="f"><dt>Persistent object</dt><dd>The identical amber gauge band, imported from Act A's closing frame at the same width and the same position, still drawn from <code>GAUGE_SIGMA</code>.</dd></div>
+        <div class="f"><dt>Learner prediction</dt><dd class="none">none. The carry-in has to be checkable by eye before anything is asked of it.</dd></div>
+        <div class="f"><dt>Transformation</dt><dd>Act A's two denominator labels fade out and the band alone is lifted onto a plant rail. A ruler is laid against it, so the width is measured on screen rather than claimed in a title.</dd></div>
+        <div class="f"><dt>Surprise</dt><dd class="none">none. This shot spends its whole budget on making the shared instrument provable.</dd></div>
+        <div class="f"><dt>Counterexample</dt><dd class="none">none.</dd></div>
+        <div class="f"><dt>Formula reveal</dt><dd class="none">none. Act A's readouts leave with the labels.</dd></div>
+        <div class="f"><dt>Camera move</dt><dd>Hold, then a slow push to the band and the ruler together, so both stay in the same shot and the measurement cannot be a cut.</dd></div>
+        <div class="f"><dt>Narration line</dt><dd>"Same gauge. Nothing has been calibrated, adjusted, or replaced."</dd></div>
+        <div class="f"><dt>Exit state</dt><dd>One amber band on a rail, tagged <code>GAUGE_SIGMA</code> against a ruler. No factory, no job, no percentage.</dd></div>
+      </dl>
+    </article>
+
+    <article class="shot" id="b2">
+      <div class="shot-head"><span class="num">Shot 02</span><h3>Factory A: sort what looks the same</h3><span class="beat req">Beat 1</span></div>
+      <dl class="fields">
+        <div class="f"><dt>Persistent object</dt><dd>The <code>GAUGE_SIGMA</code> band, unchanged, now standing beside a sorting bin in a masked plant.</dd></div>
+        <div class="f"><dt>Learner prediction</dt><dd>Will this gauge separate two populations sitting this close together?</dd></div>
+        <div class="f"><dt>Transformation</dt><dd>Two part populations appear with their spread taken from <code>A_PART</code>. Each part is drawn twice: once as a truth mark, once as a reading offset by the amber band. The two sets of readings interleave.</dd></div>
+        <div class="f"><dt>Surprise</dt><dd>The truth marks are separable and the readings are not. The overlap is made of the amber band and nothing else in the shot.</dd></div>
+        <div class="f"><dt>Counterexample</dt><dd class="none">none in this shot. Factory B is the counterexample and arrives next, so the contrast survives the cut.</dd></div>
+        <div class="f"><dt>Formula reveal</dt><dd class="none">none. Beat 3 owns the first percentage, so no ratio is allowed here.</dd></div>
+        <div class="f"><dt>Camera move</dt><dd>Static on the bin. The interleaving readings are the only motion, so the overlap is not something the camera did.</dd></div>
+        <div class="f"><dt>Narration line</dt><dd>"This plant has to put parts in the right bin, and the parts are close together on purpose."</dd></div>
+        <div class="f"><dt>Exit state</dt><dd>A card reading <code>Decision job = sort close process populations</code>, populations at <code>A_PART</code>, no drawing boundary anywhere in frame, no percentage.</dd></div>
+      </dl>
+    </article>
+
+    <article class="shot" id="b3">
+      <div class="shot-head"><span class="num">Shot 03</span><h3>Factory B: judge against the drawing</h3><span class="beat req">Beat 2</span></div>
+      <dl class="fields">
+        <div class="f"><dt>Persistent object</dt><dd>The same <code>GAUGE_SIGMA</code> band, carried across the cut without a resize, matched against the shot 01 ruler again.</dd></div>
+        <div class="f"><dt>Learner prediction</dt><dd>Will this gauge decide conformance here?</dd></div>
+        <div class="f"><dt>Transformation</dt><dd>The sorting bin and the second population leave. One wide population from <code>B_PART</code> stays, and a hard boundary pair from <code>B_TOL</code> drops in. Readings near a boundary cross it in both directions.</dd></div>
+        <div class="f"><dt>Surprise</dt><dd>A part inside the limits gets read outside them, and the reverse, using the very band that could not sort in Factory A. The same width now buys a different kind of mistake.</dd></div>
+        <div class="f"><dt>Counterexample</dt><dd>Factory A's sorting bin sits greyed at the edge of frame, so two different jobs are visibly present with one instrument between them.</dd></div>
+        <div class="f"><dt>Formula reveal</dt><dd class="none">none. Still no percentage on screen.</dd></div>
+        <div class="f"><dt>Camera move</dt><dd>Hold, then a short push on the boundary crossings. The push lands on the crossings, not on the population.</dd></div>
+        <div class="f"><dt>Narration line</dt><dd>"This plant does not care which parts differ. It has to say pass or fail against a drawing."</dd></div>
+        <div class="f"><dt>Exit state</dt><dd>A card reading <code>Decision job = judge drawing conformance</code>, boundaries at <code>B_TOL</code>, no sorting bin, no percentage.</dd></div>
+      </dl>
+    </article>
+
+    <article class="shot" id="b4">
+      <div class="shot-head"><span class="num">Shot 04</span><h3>Name the denominator first</h3><span class="beat req">Beat 3</span></div>
+      <dl class="fields">
+        <div class="f"><dt>Persistent object</dt><dd>Two copies of the same <code>GAUGE_SIGMA</code> band, one per factory, drawn at identical width in a split frame.</dd></div>
+        <div class="f"><dt>Learner prediction</dt><dd>Required before the shot resolves. The learner places <code>Study variation</code> or <code>Tolerance</code> under each factory while no percentage exists anywhere on screen.</dd></div>
+        <div class="f"><dt>Transformation</dt><dd>Each factory grows a fraction skeleton with the numerator already filled by its amber band and the denominator empty. The two candidate lengths hover beside the empty slot.</dd></div>
+        <div class="f"><dt>Surprise</dt><dd>The two numerators are identical, so nothing about this choice is a fact about the gauge. The learner is choosing a question.</dd></div>
+        <div class="f"><dt>Counterexample</dt><dd>Dropping <code>Tolerance</code> into Factory A's slot is shown as a legal move that produces a real number answering a question that plant never asked.</dd></div>
+        <div class="f"><dt>Formula reveal</dt><dd>Fraction skeletons only: the bar and the numerator <code>GAUGE_SIGMA</code>, with no value and no ratio name yet.</dd></div>
+        <div class="f"><dt>Camera move</dt><dd>Split hold, both factories in frame at once, so the choice is made side by side rather than remembered across a cut.</dd></div>
+        <div class="f"><dt>Narration line</dt><dd>"Before a percentage exists, say what you are dividing by."</dd></div>
+        <div class="f"><dt>Exit state</dt><dd><code>Chosen denominator = Study variation</code> under Factory A and <code>Chosen denominator = Tolerance</code> under Factory B. Percentages still hidden.</dd></div>
+      </dl>
+    </article>
+
+    <article class="shot" id="b5">
+      <div class="shot-head"><span class="num">Shot 05</span><h3>Opposite actions, one instrument</h3><span class="beat req">Beat 4</span></div>
+      <dl class="fields">
+        <div class="f"><dt>Persistent object</dt><dd>The same <code>GAUGE_SIGMA</code> band, drawn once and fed into all four cells, so one numerator is visibly shared.</dd></div>
+        <div class="f"><dt>Learner prediction</dt><dd>Which cells earn <code>use</code> and which earn <code>replace</code>, before the ratios resolve.</dd></div>
+        <div class="f"><dt>Transformation</dt><dd>A grid fills in. Rows are the two factories, columns are the two jobs. Cells resolve to <code>study_ratio(part=A_PART)</code> and <code>tolerance_ratio(tolerance=A_TOL)</code> for Factory A, then <code>study_ratio(part=B_PART)</code> and <code>tolerance_ratio(tolerance=B_TOL)</code> for Factory B. Each band comes from <code>verdict()</code> against <code>ACCEPT_PCT</code> and <code>REJECT_PCT</code>, and each band names its action.</dd></div>
+        <div class="f"><dt>Surprise</dt><dd>Hold the job fixed and move the same gauge from one plant to the other, and the action flips between <code>replace</code> and <code>use</code>. Neither the gauge nor the gate line moved during the flip.</dd></div>
+        <div class="f"><dt>Counterexample</dt><dd>The unasked cell in each row. Each plant's gauge earns the opposite action for the question that plant did not ask, which is why the answer cannot live inside the instrument. The generous denominator is <code>Tolerance</code> in Factory A and <code>Study variation</code> in Factory B, so there is no denominator to memorise.</dd></div>
+        <div class="f"><dt>Formula reveal</dt><dd>Both ratios printed for the first time in the act, with the shared numerator drawn as one band branching into four cells.</dd></div>
+        <div class="f"><dt>Camera move</dt><dd>One pull-back to hold all four cells, then no further move. The flip is shown by swapping the highlighted cell, not by travelling the camera.</dd></div>
+        <div class="f"><dt>Narration line</dt><dd>"Both of these are honest. They are answers to different questions."</dd></div>
+        <div class="f"><dt>Exit state</dt><dd>Four filled cells, <code>use</code> in teal and <code>replace</code> in alarm, the band between <code>ACCEPT_PCT</code> and <code>REJECT_PCT</code> still empty and still uncoloured.</dd></div>
+      </dl>
+    </article>
+
+    <article class="shot" id="b6">
+      <div class="shot-head"><span class="num">Shot 06</span><h3><code>ndc</code> is the same curve</h3><span class="beat req">Beat 5</span></div>
+      <dl class="fields">
+        <div class="f"><dt>Persistent object</dt><dd>The <code>GAUGE_SIGMA</code> band, now the fixed denominator inside every point that gets plotted, held in the corner at its shot 01 width.</dd></div>
+        <div class="f"><dt>Learner prediction</dt><dd>Can <code>ndc</code> and <code>%GRR_study</code> ever disagree about the same gauge?</dd></div>
+        <div class="f"><dt>Transformation</dt><dd>One curve is drawn from <code>ndc_from_study_ratio</code>, with <code>%GRR_study</code> on the horizontal axis. Both factory points, computed the long way through <code>ndc(gauge=GAUGE_SIGMA, part=A_PART)</code> and <code>ndc(gauge=GAUGE_SIGMA, part=B_PART)</code>, drop onto the curve and land on it exactly, which is <code>NDC_IS_REDUNDANT</code>.</dd></div>
+        <div class="f"><dt>Surprise</dt><dd>The curve falls monotonically, so <code>ndc</code> cannot disagree with <code>%GRR_study</code>. It is the same ratio rearranged, and <code>NDC_K</code> is the only thing added.</dd></div>
+        <div class="f"><dt>Counterexample</dt><dd>The two printed gates are not the same line. The vertical at <code>REJECT_PCT</code> and the horizontal at <code>NDC_MIN</code> meet the curve at different places, separated by <code>NDC_GATE_GAP</code>. The <code>NDC_MIN</code> crossing sits at <code>study_ratio_for_ndc(NDC_MIN)</code>, reported as <code>STUDY_PCT_AT_NDC5</code>, which lands inside the band between <code>ACCEPT_PCT</code> and <code>REJECT_PCT</code>, where the action is <code>improve</code>.</dd></div>
+        <div class="f"><dt>Formula reveal</dt><dd><code>ndc_from_study_ratio</code> as the curve itself and <code>study_ratio_for_ndc</code> as the crossing. <code>NDC_K</code> appears as the constant it is, without a derivation, because the shot's claim is about redundancy rather than about the constant.</dd></div>
+        <div class="f"><dt>Camera move</dt><dd>Slow zoom into the gap between the two gate lines, ending with both gates and the curve still in frame.</dd></div>
+        <div class="f"><dt>Narration line</dt><dd>"One of these two printed rules is stricter than the other, and the table they share does not say so."</dd></div>
+        <div class="f"><dt>Exit state</dt><dd>One curve, both factory points sitting on it, and three printed gates landed on it: <code>ACCEPT_PCT</code>, <code>REJECT_PCT</code>, and <code>NDC_MIN</code>. The action inside the middle band reads <code>improve</code> in a neutral tile with no third colour.</dd></div>
+      </dl>
+    </article>
+
+    <article class="shot" id="b7">
+      <div class="shot-head"><span class="num">Shot 07</span><h3>The chain</h3><span class="beat req">Beat 6</span></div>
+      <dl class="fields">
+        <div class="f"><dt>Persistent object</dt><dd>The <code>GAUGE_SIGMA</code> band, unchanged, parked beside the chain as the one thing that never becomes a link in it.</dd></div>
+        <div class="f"><dt>Learner prediction</dt><dd>Which link is the only place a person makes a choice?</dd></div>
+        <div class="f"><dt>Transformation</dt><dd>Five tokens fly in from where they were earned and lock into place: <code>Decision job</code> from shots 02 and 03, <code>Chosen denominator</code> from shot 04, <code>Computed %GRR</code> from shot 05, <code>AIAG band</code> from <code>ACCEPT_PCT</code> and <code>REJECT_PCT</code>, and the action from that band.</dd></div>
+        <div class="f"><dt>Surprise</dt><dd>Only the first link was a decision. Everything after it is arithmetic and a lookup, and the amber band never joins the chain at all.</dd></div>
+        <div class="f"><dt>Counterexample</dt><dd>Swap only the <code>Decision job</code> token between the two factories. The last two links change with nothing else on screen touched, which is the whole act in one gesture.</dd></div>
+        <div class="f"><dt>Formula reveal</dt><dd>No new formula. Both ratios collapse into the single <code>Computed %GRR</code> slot that the chosen denominator selected.</dd></div>
+        <div class="f"><dt>Camera move</dt><dd>Pull back to full width once the chain is complete, then stop.</dd></div>
+        <div class="f"><dt>Narration line</dt><dd>"The gauge does not own a verdict. The job chooses the denominator, and the denominator carries the rest."</dd></div>
+        <div class="f"><dt>Exit state</dt><dd>The five-link chain held on screen with the unchanged band beside it, handing off to the challenge, which reuses these four field labels exactly.</dd></div>
+      </dl>
+    </article>
+
+  </div>
+
+  <div class="section-head"><div><p class="micro">Beat 6, exact labels</p><h2>The chain the challenge shares</h2></div><p>These four labels are the same strings the challenge and its wrong-answer feedback use, so a learner who saw the act can name the field the page names.</p></div>
+  <ul class="chain">
+    <li><span class="lab">Decision job</span><span class="val"><code>sort close process populations</code> or <code>judge drawing conformance</code>. The only link a person chooses.</span></li>
+    <li><span class="lab">Chosen denominator</span><span class="val"><code>Study variation</code> or <code>Tolerance</code>. Fixed by the job above it.</span></li>
+    <li><span class="lab">Computed %GRR</span><span class="val"><code>study_ratio</code> or <code>tolerance_ratio</code>, whichever the denominator selected. Read at printed precision.</span></li>
+    <li><span class="lab">AIAG band</span><span class="val">Placed by <code>verdict()</code> against <code>ACCEPT_PCT</code> and <code>REJECT_PCT</code>.</span></li>
+    <li><span class="lab">Action</span><span class="val"><span class="act-use"><code>use</code></span>, <span class="act-improve"><code>improve</code></span>, or <span class="act-replace"><code>replace</code></span>. The plant instruction the whole chain existed to produce.</span></li>
+  </ul>
+
+  <div class="section-head"><div><p class="micro">Decisions made by cutting</p><h2>Rejected shots</h2></div><p>A storyboard with nothing rejected has not made a decision. Each row was drafted for Act B, tested against the shot rule, and cut.</p></div>
+  <table>
+    <thead><tr><th>Cut shot</th><th>Why it was cut</th></tr></thead>
+    <tbody>
+      <tr><td>Named plants or photo-real factory floors</td><td data-h="Reason">The pilot allows masked cases only, and a recognisable plant invites the learner to reason from who it is rather than from what it needs decided.</td></tr>
+      <tr><td>Traffic-light strip with a third colour for the middle band</td><td data-h="Reason">A third light turns <code>improve</code> into a verdict. The band between <code>ACCEPT_PCT</code> and <code>REJECT_PCT</code> keeps neutral ink, and <code>improve</code> stays a next action.</td></tr>
+      <tr><td>Percentages in the first factory shot</td><td data-h="Reason">Beat 3 requires the denominator to be named before any percentage exists. Showing a ratio in shot 02 hands the learner the answer to the only choice in the act.</td></tr>
+      <tr><td>Side-by-side <code>ndc</code> and <code>%GRR_study</code> charts</td><td data-h="Reason">Two charts invite a hunt for disagreement between them. One curve from <code>ndc_from_study_ratio</code> proves that no disagreement is possible, which is the actual claim.</td></tr>
+      <tr><td>Deriving <code>NDC_K</code> as the square root of two</td><td data-h="Reason">True and beside the point. It answers where the constant came from, while beat 5 is about the two printed gates being different lines.</td></tr>
+      <tr><td>Misclassification cost simulation</td><td data-h="Reason"><code>misclassification</code>, <code>CENTRED</code>, and <code>SHIFTED</code> change the subject to where the process sits relative to the limits. They stay in <code>msalab</code> and in the chapter derivation rather than becoming shots.</td></tr>
+      <tr><td>Challenge preview inside the act</td><td data-h="Reason">The challenge has to present unseen data. Previewing its layout teaches the shape of the answer before the learner has made the decision once.</td></tr>
+      <tr><td>Third factory to show <code>improve</code> on a plant floor</td><td data-h="Reason">It adds a plant to illustrate a band rather than a decision. <code>improve</code> already appears in shot 06, earned by the <code>STUDY_PCT_AT_NDC5</code> crossing, so the third plant would only add runtime.</td></tr>
+      <tr><td>Animated recalibration of the gauge</td><td data-h="Reason">The act's claim depends on the instrument never changing. Any shot that touches the gauge hands a reviewer the wrong explanation for the flipped action.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head"><div><p class="micro">Standing rules for the cut</p><h2>Checks the Manim work inherits</h2></div><p>These are acceptance conditions on the rendered act, not suggestions for the animator.</p></div>
+  <div class="policy">
+    <article class="card rule">
+      <h3>Muted read</h3>
+      <p>With audio off, a reviewer must be able to say: the same band went to both plants, the job chose what it was divided by, and the action flipped without the instrument changing. Any shot that needs the voice track to make that link is rejected.</p>
+    </article>
+    <article class="card src">
+      <h3>One number path</h3>
+      <p>Every geometry and readout comes from <code>msalab.against_what</code>: <code>GAUGE_SIGMA</code>, <code>A_PART</code>, <code>A_TOL</code>, <code>B_PART</code>, <code>B_TOL</code>, <code>study_ratio</code>, <code>tolerance_ratio</code>, <code>verdict</code>, <code>ACCEPT_PCT</code>, <code>REJECT_PCT</code>, <code>NDC_MIN</code>, <code>NDC_K</code>, <code>ndc</code>, <code>ndc_from_study_ratio</code>, <code>study_ratio_for_ndc</code>, <code>STUDY_PCT_AT_NDC5</code>, <code>NDC_GATE_GAP</code>, and <code>NDC_IS_REDUNDANT</code>. No value is typed into the scene.</p>
+    </article>
+    <article class="card risk">
+      <h3>Colour policy</h3>
+      <p><span class="swatch use"></span><code>use</code> keeps the teal accent and <span class="swatch replace"></span><code>replace</code> keeps the alarm accent. <span class="swatch neutral"></span><code>improve</code> gets neutral ink and an unfilled tile, in the act and in the page, because it names the next action rather than a result.</p>
+    </article>
+  </div>
+
+  <div class="gate">
+    <b>Gate</b>
+    <p>Act B is locked when all six required beats appear in this order, no percentage precedes the denominator ask in shot 04, <code>ndc</code> and both printed gates share the single curve in shot 06, the middle band carries no third colour, and the shot 07 labels match the challenge strings character for character. Act A storyboard: <a href="msa-level-04-act-a.html">msa-level-04-act-a.html</a>.</p>
+  </div>
+
+</main>
+</body>
+</html>
