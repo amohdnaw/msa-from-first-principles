@@ -35,15 +35,15 @@ from __future__ import annotations
 
 import numpy as np
 from manim import (
-    Axes, Create, DashedLine, Dot, FadeIn, FadeOut, LaggedStart, Line, MathTex,
-    Rectangle, ReplacementTransform, Transform, VGroup, ValueTracker,
+    Axes, Create, DashedLine, Dot, FadeIn, FadeOut, Group, LaggedStart, Line,
+    MathTex, Rectangle, ReplacementTransform, Transform, VGroup, ValueTracker,
     always_redraw, rate_functions as rf,
     DOWN, LEFT, RIGHT, UP,
 )
 
 from msalab.act_style import (
-    ACCENT, DATA_OBSERVED, DATA_TRUTH, EDGE_MARGIN, FRAME_RIGHT, INK,
-    INK_BRIGHT, INK_DIM, RULE, RULE_STRONG, micro, panel_label, prose,
+    ACCENT, DATA_GAUGE, DATA_OBSERVED, DATA_TRUTH, EDGE_MARGIN, FRAME_RIGHT,
+    INK, INK_BRIGHT, INK_DIM, RULE, RULE_STRONG, micro, panel_label, prose,
     within_frame,
 )
 from msalab.against_what import (
@@ -53,8 +53,8 @@ from msalab.against_what import (
 from msalab.measurement import PART_SIGMA, SEED, observed_sigma
 from msalab.narration import NarratedCameraScene
 from msalab.opening import (
-    bar_caption, hand_off, part_block, plain, span_bar, thing_caption,
-    two_panel,
+    closed_jaws, gauge_jaws, hand_off, part_block, plain, record_strip,
+    thing_caption, tick, two_panel, value_label,
 )
 
 # ------------------------------------------------------------------- geometry
@@ -87,11 +87,22 @@ PIN = [-4.30, 3.00, 0]
 #: Where the gauge band parks while shot 07 owns the frame with an axis.
 PARK = [4.30, 2.95, 0]
 
-#: The opening compares the same three lengths, so it uses their true
-#: proportions on the record strip's own span rather than drawn-by-eye bars.
-OPEN_LEFT, OPEN_RIGHT = 0.55, 6.40
-OPEN_SCALE = (OPEN_RIGHT - OPEN_LEFT) / (6.0 * observed_sigma(PART_SIGMA,
-                                                              GAUGE_SIGMA))
+#: The opening's record rail, inside the right panel. Its half-range is derived
+#: from `SCALE` rather than chosen, so a length drawn on this rail is the same
+#: number of scene units as the same length drawn at centre stage. That is what
+#: lets the amber band be built here at `GAUGE_W` and then carried to the two
+#: denominators without ever being resized.
+REC_L, REC_R = 0.55, 6.10
+REC_C = (REC_L + REC_R) / 2.0
+REC_HALF_UM = (REC_R - REC_L) / (2.0 * SCALE)
+
+#: The opening's row of real parts: how many, and how they sit on their bench.
+#: The row's own extent is `_study_span(PART_SIGMA)`, the same length shot 03
+#: grows behind the band, so the physical parts and the abstract spread are one
+#: length seen twice.
+PARTS_N = 9
+PARTS_BENCH_Y = 1.86
+PARTS_W, PARTS_H = 0.30, 0.52
 
 
 def _measure(half: float, y: float, colour: str, sw: float = 2.2) -> VGroup:
@@ -123,6 +134,38 @@ def _study_shape(part: float) -> VGroup:
                   stroke_width=1.8).move_to([0.0, RAIL_Y, 0]),
         _measure(w / 2.0, STUDY_Y, DATA_OBSERVED),
     )
+
+
+def _parts_row(part: float) -> dict:
+    """The physical cause of the study spread: real parts, sorted by size.
+
+    Nine parts standing on a bench, each placed at the size it measured, so the
+    row's own end-to-end extent *is* `_study_span(part)` - the length shot 03
+    later grows behind the amber band. The opening shows the parts; the act
+    shows the length they make. Same length, drawn twice, which is what stops
+    the abstract band from arriving unexplained.
+
+    Sorted rather than scattered on purpose: a random row of nine draws spans
+    about a third of six sigma, so the band laid against it would look drawn to
+    the wrong size. Sorted, the extremes are on the ends and the row measures
+    what it claims to measure.
+
+    A dict rather than a VGroup because the parts have to arrive one at a time
+    while the bench and the measure do not.
+    """
+    half = _study_span(part) / 2.0
+    parts = VGroup(*[
+        Rectangle(width=PARTS_W, height=PARTS_H, fill_color=DATA_OBSERVED,
+                  fill_opacity=0.30, stroke_color=DATA_OBSERVED,
+                  stroke_width=1.8)
+        .move_to([x, PARTS_BENCH_Y + PARTS_H / 2.0, 0])
+        for x in np.linspace(-half, half, PARTS_N)])
+    bench = Line([-half - 0.55, PARTS_BENCH_Y, 0],
+                 [half + 0.55, PARTS_BENCH_Y, 0],
+                 stroke_color=RULE_STRONG, stroke_width=1.6)
+    span = _measure(half, STUDY_Y, DATA_OBSERVED)
+    return {"bench": bench, "parts": parts, "span": span,
+            "all": VGroup(bench, parts, span)}
 
 
 def _drawing_shape(gap: float) -> VGroup:
@@ -186,60 +229,222 @@ class Level04(NarratedCameraScene):
     def part0_opening(self):
         """Plain-language opening. specs/act-opening-contract.md, mode B.
 
-        This level's record holds widths rather than positions, and the three
-        widths are the three the act then argues about, drawn at their true
-        proportions so the opening cannot promise a ratio the act disproves.
+        Amendment 2, 2026-09-02. The first version of this method faded in three
+        pre-drawn bars and captioned a blank rectangle `the gauge from the last
+        three levels`. Nothing was ever measured, so the left panel asserted an
+        instrument instead of showing one, and the amber band the act is built
+        on arrived as a rectangle somebody had drawn.
+
+        It is now the storyboard's own shot 01 said in plain words. The jaws
+        close on one part three times, the three readings cross to the rail and
+        disagree, and the width they stand for fans out of them. That width is
+        then carried to both denominators as physical things - real parts on a
+        bench, then two hard edges off a drawing - so each one is a length the
+        eye has already seen before the act divides by it.
+
+        Two joins are load-bearing here:
+
+        * the fan holds for a beat with the three readings sitting **on** the
+          band they became, so the physical form and the abstract form share a
+          frame rather than one cross-fading into the other;
+        * the band is built at `GAUGE_W` and never resized, and it exits at
+          `[0, RAIL_Y]`, which is exactly the rectangle shot 01 then lands its
+          own thirteen readings onto. Shot 01 owns `self.band` and the contract
+          forbids editing it, so the join is a match on geometry rather than a
+          shared Mobject - same width, same centre, same frame position.
         """
         panels = two_panel("the thing", "the record")
         block = part_block()
-        cap = thing_caption("the gauge from the last three levels", block)
+        bench = VGroup(
+            Line([block.get_left()[0] - 1.35, block.get_bottom()[1], 0],
+                 [block.get_right()[0] + 1.35, block.get_bottom()[1], 0],
+                 stroke_color=RULE_STRONG, stroke_width=2.0),
+            *[Line([x, block.get_bottom()[1], 0],
+                   [x, block.get_bottom()[1] - 0.26, 0],
+                   stroke_color=RULE_STRONG, stroke_width=2.0)
+              for x in (block.get_left()[0] - 1.20,
+                        block.get_right()[0] + 1.20)])
+        cap = thing_caption("one part, sitting on the bench", block)
+        jaws = gauge_jaws(block)
+        strip = record_strip(-REC_HALF_UM, REC_HALF_UM,
+                             "what the gauge said, in microns",
+                             y=RAIL_Y, left=REC_L, right=REC_R)
 
-        with self.say("Three levels have measured how much this gauge wobbles. "
-                      "Here it is, as a width."):
+        with self.say("On the left, one part on a bench. Its size is not "
+                      "going to change while we watch it."):
             self.play(FadeIn(panels["all"]), run_time=0.9,
                       rate_func=rf.ease_out_sine)
-            self.play(FadeIn(block), FadeIn(cap), run_time=0.7,
+            self.play(FadeIn(bench), FadeIn(block, shift=UP * 0.12),
+                      run_time=0.9, rate_func=rf.ease_out_sine)
+            self.play(FadeIn(cap), run_time=0.6, rate_func=rf.ease_out_sine)
+
+        with self.say("On the right, every number the gauge ever gives us."):
+            self.play(FadeIn(strip["all"]), run_time=0.9,
                       rate_func=rf.ease_out_sine)
 
-        g = span_bar(6.0 * GAUGE_SIGMA * OPEN_SCALE, 1.20, ACCENT,
-                     left=OPEN_LEFT)
-        gl = bar_caption("how much the gauge wobbles", g)
-        with self.say("That is the whole of what the first three levels "
-                      "produced. One width."):
-            self.play(FadeIn(g, shift=RIGHT * 0.14), FadeIn(gl), run_time=0.9,
+        # shot 01 lands thirteen readings from this same generator, and the
+        # opening lands three of them. Not the first three: two of those fall
+        # 0.28 um apart, which is under a tick's own diameter at this scale, so
+        # they would draw as one dot and "three readings that disagree" would be
+        # a claim the picture contradicts. Take each next reading only once it
+        # clears the ones already on the rail by a tick's width.
+        tick_r = 0.075
+        reads = []
+        for v in np.random.default_rng(SEED).normal(0.0, GAUGE_SIGMA, 13):
+            if all(abs(v - u) * SCALE > 2.0 * tick_r for u in reads):
+                reads.append(v)
+            if len(reads) == 3:
+                break
+
+        # One line per repeat. Each say() is sized to the animation inside it,
+        # because a sentence that outruns its own picture leaves the frame
+        # standing still for five seconds and the opening is where that is most
+        # obvious.
+        carries = (
+            "A number comes out. Carry it across and write it down.",
+            "Open the jaws. Nothing is touched. Close them on the same part "
+            "again.",
+            "Once more, and watch where the third one lands.",
+        )
+
+        with self.say("The gauge is a pair of jaws. Close them onto the part."):
+            self.play(FadeIn(jaws), run_time=0.6, rate_func=rf.ease_out_sine)
+            self.play(Transform(jaws, closed_jaws(block)), run_time=1.2,
+                      rate_func=rf.ease_in_out_sine)
+
+        ticks = VGroup()
+        label = None
+        for i, v in enumerate(reads):
+            landing = strip["at"](v)
+            mark = tick(block.get_right(), DATA_GAUGE, r=tick_r)
+            ticks.add(mark)
+            reading = value_label(f"{v:+.2f}", landing, DATA_GAUGE)
+            with self.say(carries[i]):
+                if i:
+                    self.play(Transform(jaws, gauge_jaws(block)),
+                              run_time=0.55, rate_func=rf.ease_in_out_sine)
+                    self.play(Transform(jaws, closed_jaws(block)),
+                              run_time=0.80, rate_func=rf.ease_in_out_sine)
+                self.play(FadeIn(mark, scale=2.2), run_time=0.35,
+                          rate_func=rf.ease_out_back)
+                self.play(mark.animate.move_to(landing), run_time=0.80,
+                          rate_func=rf.ease_in_out_sine)
+                if label is None:
+                    self.play(FadeIn(reading), run_time=0.35,
+                              rate_func=rf.ease_out_sine)
+                    # contract check 5: the left panel says so while the right
+                    # one fills with answers that do not agree
+                    still = within_frame(
+                        panel_label("the same part, untouched", 18, INK_DIM)
+                        .move_to(panels["left_heading"].get_center()),
+                        "opening left heading, unchanged")
+                    self.play(Transform(panels["left_heading"], still),
+                              run_time=0.5, rate_func=rf.ease_in_out_sine)
+                else:
+                    self.play(FadeOut(label), FadeIn(reading), run_time=0.4)
+            label = reading
+
+        # ---- the three readings fan into the one width they stand for.
+        # Built once, at the width shot 01 expects, and never resized again: the
+        # fill opacity is what animates, so the rectangle's geometry is settled
+        # the moment it is constructed.
+        band = Rectangle(width=GAUGE_W, height=BAND_H, fill_color=ACCENT,
+                         fill_opacity=0.0, stroke_color=ACCENT,
+                         stroke_width=0).move_to([REC_C, RAIL_Y, 0])
+        self.add(band)
+        self.bring_to_front(*ticks)
+        edges = [REC_C - GAUGE_W / 2.0, REC_C, REC_C + GAUGE_W / 2.0]
+        fan = [None] * len(reads)
+        for rank, i in enumerate(np.argsort(reads)):
+            fan[i] = [edges[rank], RAIL_Y, 0]
+
+        with self.say("No two of them agree. How far apart they can land is "
+                      "one width, and here it is, underneath the three "
+                      "readings that made it."):
+            self.play(FadeOut(label), run_time=0.3)
+            self.play(band.animate.set_fill(ACCENT, opacity=0.85),
+                      *[t.animate.move_to(p) for t, p in zip(ticks, fan)],
+                      run_time=1.8, rate_func=rf.ease_in_out_sine)
+            # the both-forms hold: three readings sitting on the band they
+            # became. Contract check 6b wants one frame with both on it, so it
+            # is a hold rather than a cross-fade, and it is held for the whole
+            # of the sentence that explains it. Free: the animations inside
+            # this say() still run shorter than the line takes to speak.
+            self.beat(5.4)
+            # and only then do they sink into it. Fading them during the carry
+            # instead left a reading hanging off the band's right edge for a
+            # few frames while the band slid out from under it.
+            self.play(FadeOut(ticks), run_time=0.5, rate_func=rf.ease_in_sine)
+
+        with self.say("Take the bench away and carry that width out into the "
+                      "open."):
+            hand_off(self, VGroup(block, bench, cap, jaws), panels)
+            self.play(FadeOut(strip["all"]),
+                      band.animate.move_to([0.0, RAIL_Y, 0]),
+                      run_time=1.3, rate_func=rf.ease_in_out_sine)
+
+        # ---- the first denominator, as the physical thing it is
+        row = _parts_row(PART_SIGMA)
+        row_cap = within_frame(
+            plain("nine real parts, laid out by size", 22, INK_DIM)
+            .move_to([0.0, 2.82, 0]), "opening parts caption")
+        span_cap = within_frame(
+            plain("how much these parts differ", 22, DATA_OBSERVED)
+            .move_to([0.0, 0.80, 0]), "opening spread caption")
+
+        with self.say("A width on its own means nothing. Here is the first "
+                      "thing you could hold it against: nine real parts."):
+            self.play(FadeIn(row["bench"]), run_time=0.4,
+                      rate_func=rf.ease_out_sine)
+            self.play(LaggedStart(*[FadeIn(p, shift=DOWN * 0.30)
+                                    for p in row["parts"]], lag_ratio=0.20),
+                      run_time=4.2, rate_func=rf.ease_out_back)
+            self.play(FadeIn(row_cap), run_time=0.5,
                       rate_func=rf.ease_out_sine)
 
-        p_bar = span_bar(6.0 * observed_sigma(PART_SIGMA, GAUGE_SIGMA)
-                         * OPEN_SCALE, -0.05, DATA_OBSERVED, left=OPEN_LEFT)
-        pl = bar_caption("how much the parts differ", p_bar)
-        with self.say("Now: a width on its own means nothing. It has to be held "
-                      "against something. Here is one candidate, how much the "
-                      "parts differ from each other."):
-            self.play(FadeIn(p_bar, shift=RIGHT * 0.14), FadeIn(pl),
-                      run_time=1.0, rate_func=rf.ease_out_sine)
+        with self.say("End to end, that row is how much they differ. Lay the "
+                      "amber width against it."):
+            self.play(FadeIn(row["span"]), FadeIn(span_cap), run_time=1.2,
+                      rate_func=rf.ease_out_sine)
+            self.beat(2.4)
 
-        t_bar = span_bar(TOLERANCE * OPEN_SCALE, -1.30, DATA_TRUTH,
-                         left=OPEN_LEFT)
-        tl = bar_caption("what the drawing allows", t_bar)
-        with self.say("And here is another, completely unrelated to the first: "
-                      "how much room the drawing gives you."):
-            self.play(FadeIn(t_bar, shift=RIGHT * 0.14), FadeIn(tl),
-                      run_time=1.0, rate_func=rf.ease_out_sine)
+        # ---- the second denominator, which never met a part
+        walls = _drawing_shape(TOLERANCE)
+        wall_cap = within_frame(
+            plain("what the drawing allows", 22, DATA_TRUTH)
+            .move_to([0.0, CAP_TOL_Y, 0]), "opening drawing caption")
+
+        with self.say("Take the parts away. Here is the other one, and nobody "
+                      "measured a part to get it."):
+            self.play(FadeOut(row["all"]), FadeOut(row_cap),
+                      FadeOut(span_cap), run_time=0.8,
+                      rate_func=rf.ease_in_sine)
+            self.play(FadeIn(walls, shift=DOWN * 0.85), FadeIn(wall_cap),
+                      run_time=1.4, rate_func=rf.ease_out_sine)
+            self.beat(1.6)
 
         question = within_frame(
-            plain("a percentage of which one?", 30, INK_BRIGHT)
-            .move_to([3.0, -2.45, 0]), "opening question")
-        with self.say("The gauge fits inside both of them, and it fits by "
-                      "different amounts. So when somebody hands you a "
-                      "percentage, the only question that matters is which of "
-                      "these two they divided by."):
+            plain("a percentage of what?", 30, INK_BRIGHT)
+            .move_to([0.0, 2.90, 0]), "opening question")
+        with self.say("The same width, and a different share of it. So which "
+                      "of the two did they divide by?"):
+            self.beat(1.4)
             self.play(FadeIn(question, shift=DOWN * 0.10), run_time=1.0,
                       rate_func=rf.ease_out_sine)
+            self.beat(1.0)
 
-        self.beat(0.9)
-        hand_off(self, VGroup(block, cap), panels)
-        self.play(FadeOut(VGroup(g, gl, p_bar, pl, t_bar, tl, question)),
-                  run_time=0.6, rate_func=rf.ease_in_sine)
+        # Clear the stage by enumerating it, not by listing what I remember
+        # putting on it: `Transform` leaves its own children behind and a
+        # hand-written list has already missed two of them on this build.
+        # Everything goes except the band, which holds for a beat alone at the
+        # width and the centre shot 01 opens on.
+        stage = Group(*self.mobjects)
+        for m in stage:
+            m.clear_updaters()
+        self.play(FadeOut(Group(*[m for m in stage if m is not band])),
+                  run_time=0.8, rate_func=rf.ease_in_sine)
+        self.beat(0.7)
+        self.play(FadeOut(band), run_time=0.6, rate_func=rf.ease_in_sine)
 
     # -------------------------------------------------------------- shot 01
     def shot01_one_width(self):
