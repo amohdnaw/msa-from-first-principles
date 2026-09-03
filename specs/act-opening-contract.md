@@ -40,7 +40,7 @@ has been watched.
    | mode | levels | the join |
    |---|---|---|
    | **A** `walk_to_axis()` | 1, 2, 5 | the strip moves onto part 1's own x-axis, at the act's own scale, and the dots stay put |
-   | **B** `hand_off()` | 3, 4, 6, 7 | the left panel leaves and the record stands as the level's subject |
+   | **B** `hand_off()` | 3, 4, 6, 7 | the left panel leaves and the record becomes the level's subject |
 
    Mode B is not the weaker join. In level 3 the opening's own two-panel split *is* part
    1's composition; in level 4 the record already holds the bars part 1 draws. Forcing an
@@ -59,9 +59,42 @@ has been watched.
 bottom strip. C supplies the two-panel composition and the fade handoff; A supplies the
 jaws-closing-on-the-part moment, which lives inside C's left panel.
 
-Why the graft rather than A alone: Levels 4, 6 and 7 have nothing physical to draw — a
-percentage, a pass stamp, a variance sum — so a bench elevation would collapse into C on
-those anyway. The graft gives **one recipe that holds for all seven levels**.
+Why the graft rather than A alone: a bench elevation would have collapsed into C on the
+levels whose subject is a computed quantity, so the graft gives **one recipe that holds
+for all seven levels**.
+
+**Amendment 2, 2026-09-02 — "nothing physical to draw" was wrong, and it was load-bearing.**
+This section previously read *"Levels 4, 6 and 7 have nothing physical to draw — a
+percentage, a pass stamp, a variance sum."* That sentence licensed Level 4's left panel to
+be an empty rectangle captioned `the gauge from the last three levels`, with the record
+beside it as two pre-drawn bars. Ammar watched it on 2026-09-02 and returned the same
+correction that produced this contract in the first place: *"Still too technical where
+simple process are not properly visualised, we have visualised the actual graphs and maths,
+but not a proper physical things."*
+
+The clause is withdrawn. A level whose *result* is a computed quantity still has a physical
+**cause**, and the cause is what the left panel owes the viewer:
+
+| Level | The computed thing | The physical cause the left panel must show |
+|---|---|---|
+| 4 | a percentage | a part, a gauge that disagrees with itself on it, a row of real parts, and the two walls a drawing allows |
+| 6 | a pass stamp | the part that got stamped, and the boundary it was stamped against |
+| 7 | a variance sum | the two spreads as two physical widths before either is added |
+
+A caption is not allowed to do a picture's work. `the gauge from the last three levels`
+written under a blank rectangle is the failure this amendment exists to stop: the rectangle
+asserts an instrument rather than showing one. Decision row 122 already caught the symptom
+on 08-30 and enlarged the rectangle, which is why it is still a rectangle.
+
+**New check 2b, binding on levels 4, 6 and 7.** The left panel must contain at least one
+*act*, not only objects: something closes, wobbles, repeats, lands, or is sorted. A panel
+in which nothing happens fails this check even if checks 1 and 4 pass.
+
+**New check 6b, binding on all seven.** The handover morphs and never cuts. The last frame
+of the opening and the first frame of part 1 must show the same object, and there must exist
+a single frame in which both the physical form and the abstract form are on screen together.
+A fade between two unrelated compositions is a cut dressed as a fade, which Amendment 1
+already refused for the axis case and which now applies to mode B as well.
 
 Per level, the left panel and the sentence it lands on:
 
@@ -70,7 +103,7 @@ Per level, the left panel and the sentence it lands on:
 | 1 | one rectangle measured twice, two different ticks | the part never moved. the numbers did |
 | 2 | same part: one person twice, then two people | two words for two different disagreements |
 | 3 | one person's offset differs part to part | the disagreement isn't the same on every part |
-| 4 | the gauge's spread held against parts, then against the drawing | a percentage of what? |
+| 4 | jaws close on one part three times, three ticks that disagree; the ticks fan into one width; that width is carried first to a row of real parts, then to the two walls the drawing allows | a percentage of what? |
 | 5 | ticks tight together, whole scale shifted | tight, and wrong |
 | 6 | the tick replaced by a PASS stamp | no number left to measure |
 | 7 | part spread and gauge spread stacked into one bar | the chart gets the sum |
@@ -129,3 +162,6 @@ updates this contract, not just the instance.
 | 08-30 | `TOP_BAR_Y = 1.55` documented | panel headings sit at 2.25 and a caption 0.44 above its bar; levels 4 and 7 collided before the ceiling was written down | `opening.py` | no further heading collisions |
 | 08-30 | Level 1 refactored onto the shared `walk_to_axis` | its handoff was written inline first; seven copies of a transform is how a grammar drifts | `level01_scene.py` | one code path |
 | 08-30 | AST parse, not regex, for the on-screen scan | the regex spanned newlines and matched `GAUGE_SIGMA` in code, failing a passing build | `tests/test_opening.py` | vacuity assert caught it |
+| 09-02 | Withdrew "nothing physical to draw" for levels 4, 6, 7 | it licensed an empty rectangle captioned as an instrument, and Ammar returned the same correction that produced this contract | §2 Amendment 2; `part0_opening` faded three pre-drawn rectangles | clause withdrawn, checks 2b and 6b added |
+| 09-02 | Added check 2b, the left panel must contain an act | Level 4 passed checks 1 and 4 while nothing in the panel ever happened, so the gates could not see the defect | contract §2 | binding on 4, 6, 7 |
+| 09-02 | Added check 6b, the handover must morph | a decorative opening followed by the same unexplained axis is the failure mode of adding an opening at all | contract §2 | binding on all seven |
