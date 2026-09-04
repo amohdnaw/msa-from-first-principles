@@ -390,6 +390,13 @@
       position:relative;z-index:1}
     /* a note that must not float (it holds something wide) */
     .note.nofloat{float:none;width:auto;max-width:var(--measure);margin-top:34px}
+    /* A right float overlaps a following BLOCK box by design: only inline text
+       wraps around it. `clear:right` on .note keeps the notes off each other,
+       but it does nothing for the wide components that follow them, and those
+       are exactly the ones that reach into the margin column. On the live site
+       Level 1's `.lab` ran 35px and 63px under two notes and Level 7's figures
+       ran 83px and 73px under theirs. Anything as wide as the leaf clears. */
+    figure,.lab,table{clear:right}
     .leaf > div::after{content:"";display:block;clear:both}
   }
 </style>
@@ -581,8 +588,10 @@
       </figure>
       <details class="transcript">
         <summary><span class="micro">Transcript</span><span class="cue">Act A, narrated</span></summary>
-        <p>Three levels have measured how much this gauge wobbles. Here it is, as a width. That is the whole of what the first three levels produced. One width. Now: a width on its own means nothing. It has to be held against something.</p>
-        <p>Here is one candidate, how much the parts differ from each other. And here is another, completely unrelated to the first: how much room the drawing gives you. The gauge fits inside both of them, and it fits by different amounts. So when somebody hands you a percentage, the only question that matters is which of these two they divided by. One part, and the gauge the last three levels measured. Nothing is touched between readings.</p>
+        <p>On the left, one part on a bench. Its size is not going to change while we watch it. On the right, every number the gauge ever gives us. The gauge is a pair of jaws. Close them onto the part. A number comes out.</p>
+        <p>Carry it across and write it down. Open the jaws. Nothing is touched. Close them on the same part again. Once more, and watch where the third one lands. No two of them agree.</p>
+        <p>How far apart they can land is one width, and here it is, underneath the three readings that made it. Take the bench away and carry that width out into the open. A width on its own means nothing. Here is the first thing you could hold it against: nine real parts. End to end, that row is how much they differ. Lay the amber width against it.</p>
+        <p>Take the parts away. Here is the other one, and nobody measured a part to get it. The same width, and a different share of it. So which of the two did they divide by? One part, and the gauge the last three levels measured. Nothing is touched between readings.</p>
         <p>Every reading lands somewhere slightly different, and the scatter they make has a width of its own. Three levels of work produced one width. There is no verdict inside it. Answer now, before any arithmetic: can the same gauge be right to keep and right to replace? Whatever happens next, the top of the fraction is already fixed. You cannot edit it.</p>
         <p>The only thing left to choose is the length that goes underneath. Here is one thing you could hold the gauge against: how much these parts differ from each other. Watch the amber band while it arrives. The band did not move and it did not widen. The change came from behind it, and the share of that length the amber band covers has already changed. Here is the other one.</p>
         <p>This length came off a drawing. Nobody measured a part to get it. A drawing can be redrawn. Watch everything else in the frame while it is. The boundaries crossed the whole study spread in both directions, and no part, no reading and no band answered. So these two lengths cannot be measuring the same question.</p>
