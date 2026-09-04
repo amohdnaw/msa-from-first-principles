@@ -148,6 +148,13 @@ CHAPTER_CSS = """
       position:relative;z-index:1}
     /* a note that must not float (it holds something wide) */
     .note.nofloat{float:none;width:auto;max-width:var(--measure);margin-top:34px}
+    /* A right float overlaps a following BLOCK box by design: only inline text
+       wraps around it. `clear:right` on .note keeps the notes off each other,
+       but it does nothing for the wide components that follow them, and those
+       are exactly the ones that reach into the margin column. On the live site
+       Level 1's `.lab` ran 35px and 63px under two notes and Level 7's figures
+       ran 83px and 73px under theirs. Anything as wide as the leaf clears. */
+    figure,.lab,table{clear:right}
     .leaf > div::after{content:"";display:block;clear:both}
   }
 """

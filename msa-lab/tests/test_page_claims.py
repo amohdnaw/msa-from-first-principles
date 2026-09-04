@@ -407,6 +407,32 @@ def test_the_tile_grid_stacks_on_a_phone():
         assert "grid-template-columns:1fr" in block, f"{p.name}: tiles never stack"
 
 
+def test_a_wide_component_clears_the_margin_notes():
+    """A right float overlaps a following block box; only inline text wraps it.
+
+    `.note` carries `clear:right`, which keeps the notes off each other, and that
+    was mistaken for keeping them off everything. It does nothing for the wide
+    components that follow a note and reach into the margin column. On the live
+    site Level 1's `.lab` sat 35 px and 63 px under two notes and Level 7's
+    figures sat 83 px and 73 px under theirs, so `THE FLOOR` printed on top of
+    `GAUGE SPREAD` and a readout row printed on top of `MEASUREMENT VISIBLE`.
+
+    It reproduced only at 1500 px and up, which is where `.note` starts floating,
+    and the eight-width sweep that signed the pages off never opened a window
+    that wide.
+    """
+    for p in sorted(REPO.glob("level-0*.html")):
+        css = p.read_text()
+        if "float:right;clear:right" not in css:
+            continue
+        i = css.index("@media (min-width:1500px)")
+        block = css[i:css.index("\n  }", i)]
+        assert "figure,.lab,table{clear:right}" in block, (
+            f"{p.name}: nothing clears the margin notes inside the 1500 px query, "
+            "so any component as wide as the leaf gets printed under them"
+        )
+
+
 def test_no_tile_label_opts_out_of_the_label_voice():
     """`nc` exists for symbols whose case carries meaning - the micro sign, sigma,
     d2. A spelled-out word has no case meaning, and Level 6 shipped a lowercase
