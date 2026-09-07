@@ -995,10 +995,15 @@ def chapter_04(K):
                  "is a decision. To get a decision you divide, and the whole "
                  "difficulty of this level is what you divide by.",
                  lead=True),
-            f'{P}<div class="eq"><div class="eq-body" data-tex="\\%GRR_{{study}} = '
-            f'\\frac{{\\sigma_{{gauge}}}}{{\\sigma_{{total}}}} \\qquad '
-            f'\\%GRR_{{tol}} = \\frac{{6\\sigma_{{gauge}}}}'
-            f'{{tolerance}}"></div><div class="eq-num">(4.1)</div></div>',
+            # Two definitions, stacked and aligned on the equals sign, not welded
+            # onto one line with \qquad. Joined, they measured 737px inside a
+            # 639px column, so the level's central equation sat behind a
+            # horizontal scrollbar at every width from 390px to 1762px.
+            f'{P}<div class="eq"><div class="eq-body" data-tex="'
+            f'\\begin{{aligned}}\\%GRR_{{study}} &amp;= '
+            f'\\frac{{\\sigma_{{gauge}}}}{{\\sigma_{{total}}}} \\\\[2pt] '
+            f'\\%GRR_{{tol}} &amp;= \\frac{{6\\sigma_{{gauge}}}}'
+            f'{{tolerance}}\\end{{aligned}}"></div><div class="eq-num">(4.1)</div></div>',
             para("Same numerator both times. The first asks whether this gauge can "
                  "tell these parts apart. The second asks whether it can decide "
                  "whether a part conforms. Those are different questions, and the "
