@@ -433,6 +433,30 @@ def test_a_wide_component_clears_the_margin_notes():
         )
 
 
+def test_no_display_equation_welds_two_definitions_side_by_side():
+    """`\\qquad` between two definitions makes one line nothing can fit.
+
+    Level 4's central equation set `%GRR_study` and `%GRR_tol` side by side. It
+    rendered 737 px wide inside a 639 px column, and `.eq-body` carries
+    `overflow-x:auto`, so the level's own subject sat behind a horizontal
+    scrollbar at every width tested from 390 px to 1762 px. Nothing failed,
+    because an inner scroll container does not overflow the document and the
+    sweep only ever checked `documentElement.scrollWidth`.
+
+    Stacked in an `aligned` block the same two definitions fit at 342 px.
+
+    A chained equation is a different construct and stays allowed: Level 7's
+    `Cpk_max = T/6*sigma = 100/%GRR_tol` is one statement in three parts and it
+    fits. This gate is only about welding two independent statements together.
+    """
+    for p in sorted(REPO.glob("level-0*.html")):
+        for tex in re.findall(r'<div class="eq-body" data-tex="([^"]+)">', p.read_text()):
+            assert "qquad" not in tex, (
+                f"{p.name}: a display equation welds two definitions with \\qquad, "
+                f"which cannot fit the measure and will scroll: {tex[:60]}"
+            )
+
+
 def test_no_tile_label_opts_out_of_the_label_voice():
     """`nc` exists for symbols whose case carries meaning - the micro sign, sigma,
     d2. A spelled-out word has no case meaning, and Level 6 shipped a lowercase
