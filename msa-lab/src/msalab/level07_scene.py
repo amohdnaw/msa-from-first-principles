@@ -220,7 +220,9 @@ class Level07(NarratedCameraScene):
         xl = panel_label("size of a real process shift, part sigmas", 19,
                          INK_DIM).next_to(axes, DOWN, buff=0.24)
         yl = panel_label("subgroups until it is caught", 19, INK_DIM)
-        yl.next_to(axes.c2p(0.3, 62), RIGHT, buff=0.10).shift(UP * 0.06)
+        # held off the axis: both curves leave the top of the plot right beside
+        # it, and at buff 0.10 they ran through the first word
+        yl.next_to(axes.c2p(0.3, 62), RIGHT, buff=0.75).shift(UP * 0.06)
 
         with self.say("A wider limit is a later signal. Here is how long a chart "
                       "waits before it notices that something real has moved."):

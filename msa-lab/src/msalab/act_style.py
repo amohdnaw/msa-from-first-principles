@@ -48,6 +48,16 @@ FRAME_LEFT = -config.frame_width / 2
 _CASE_CARRIES_MEANING = re.compile(r"[\u0370-\u03ff]|(?<![A-Za-z])[a-z](?![A-Za-z])")
 
 
+
+# Pango kerns at the size it is asked for, and at 16-28 it rounds each advance:
+# titles rendered as "in side n oise" and "han dshake". Shaping at 4x and scaling
+# down keeps the font's own spacing. Every string goes through here.
+KERN = 4
+
+
+def _text(txt, size, **kw):
+    return Text(txt, font_size=size * KERN, **kw).scale(1 / KERN)
+
 def within_frame(mob, what: str = "label"):
     """Raise if `mob` runs off either edge. Returns `mob` so it chains."""
     left = mob.get_left()[0]
@@ -65,12 +75,12 @@ def within_frame(mob, what: str = "label"):
 
 def prose(txt: str, size: float = 28, color: str = INK_BRIGHT, weight="MEDIUM"):
     """A claim, a hypothesis, a verdict. Anything the viewer reads."""
-    return Text(txt, font=SERIF, font_size=size, color=color, weight=weight)
+    return _text(txt, size, font=SERIF, color=color, weight=weight)
 
 
 def gauge(txt: str, size: float = 26, color: str = INK):
     """A readout: a quantity with its unit. Anything the viewer measures."""
-    return Text(txt, font=MONO, font_size=size, color=color)
+    return _text(txt, size, font=MONO, color=color)
 
 
 def micro(txt: str, size: float = 16, color: str = INK_DIM):
@@ -85,12 +95,12 @@ def micro(txt: str, size: float = 16, color: str = INK_DIM):
             f"micro() refuses {txt!r}: it contains a symbol whose case carries "
             "meaning (Greek, or a bare single-letter variable). Use gauge() for "
             "a mixed-case instrument label instead.")
-    return Text(txt.upper(), font=MONO, font_size=size, color=color)
+    return _text(txt.upper(), size, font=MONO, color=color)
 
 
 def panel_label(txt: str, size: float = 16, color: str = INK_DIM):
     """A mono label that is allowed to keep its case, for symbol-bearing text."""
-    return Text(txt, font=MONO, font_size=size, color=color)
+    return _text(txt, size, font=MONO, color=color)
 
 
 __all__ = [

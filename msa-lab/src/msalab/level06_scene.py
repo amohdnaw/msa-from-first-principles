@@ -185,7 +185,7 @@ class Level06(NarratedCameraScene):
             f"agrees with himself   {LAZY['self_agreement']*100:6.2f} %\n"
             f"agrees with them      {LAZY['cross_agreement']*100:6.2f} %\n"
             f"agrees with the truth {LAZY['vs_truth']*100:6.2f} %",
-            22, INK).move_to(axes.c2p(2.2, 46)))
+            22, INK).move_to(axes.c2p(2.2, 60)))
         self.add(self_line, truth_line, read)
 
         with self.say("Against himself he is perfect - he never contradicts "
@@ -202,7 +202,9 @@ class Level06(NarratedCameraScene):
                       SIGNAL_ALARM),
                 panel_label(f"miss rate  {LAZY['miss_rate']*100:.0f} %", 24,
                             SIGNAL_ALARM),
-            ).arrange(DOWN, buff=0.22).move_to(axes.c2p(2.2, 16)),
+            # sat on the x-axis ticks at y = 16; the readout above moved up to
+            # make room for it
+            ).arrange(DOWN, buff=0.22).next_to(axes.c2p(2.2, 0), UP, buff=0.22),
             "part 1 verdict")
         with self.say("And he missed one hundred percent of the bad parts. Percent "
                       "agreement cannot see him. Nothing about the gauge, and "
@@ -260,7 +262,7 @@ class Level06(NarratedCameraScene):
             for i in range(idx())]))
         read = always_redraw(lambda: panel_label(
             f"observed {obs*100:.0f} %     kappa {ks[idx()]:.3f}", 24,
-            SIGNAL_ALARM).move_to(axes.c2p(62, 22)))
+            SIGNAL_ALARM).next_to(axes.c2p(50, 22), RIGHT, buff=0))   # off the y-axis
 
         with self.say("Now hold the percent agreement still. Ninety percent, "
                       "every table, no exceptions."):
@@ -424,7 +426,7 @@ class Level06(NarratedCameraScene):
             f"gauge σ {g.get_value():4.2f} µm\n"
             f"±3σ  band:  {r['parts_in_band_pct']:5.2f} % of production, "
             f"{r['disagreements_in_band_pct']:5.1f} % of the mistakes",
-            20, SIGNAL_ALARM).move_to(axes.c2p(0, -0.34)),
+            20, SIGNAL_ALARM).next_to(xl, DOWN, buff=0.2),
             "part 4 band readout"))(
                 gray_zone(gauge=g.get_value(), sigmas=3.0)))
         self.add(dis, read)

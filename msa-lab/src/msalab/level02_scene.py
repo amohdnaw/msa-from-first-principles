@@ -252,6 +252,13 @@ class Level02(NarratedCameraScene):
             self.play(FadeIn(title, shift=DOWN * 0.12), Create(axes), FadeIn(xl),
                       run_time=1.1, rate_func=rf.ease_in_out_sine)
 
+        # B and C end within a reading of each other, and their letters printed
+        # one on the other: spread the end tags to a legible gap, keeping order
+        tag_y = {i: float(axes.c2p(PARTS, op_means[-1, i])[1]) for i in range(OPERATORS)}
+        order = sorted(tag_y, key=tag_y.get)
+        for lower, upper in zip(order, order[1:]):
+            tag_y[upper] = max(tag_y[upper], tag_y[lower] + 0.34)
+
         # each operator's line is drawn as a sweep, so the parallelism is watched
         # rather than presented
         for i in range(OPERATORS):
@@ -261,7 +268,7 @@ class Level02(NarratedCameraScene):
             marks = VGroup(*[Dot(q, radius=0.055, color=OP_COLOURS[i]) for q in pts])
             tag = within_frame(
                 panel_label(f"{chr(65+i)}", 20, OP_COLOURS[i])
-                .next_to(pts[-1], RIGHT, buff=0.16), f"part 2 tag {i}")
+                .next_to(pts[-1], RIGHT, buff=0.16).set_y(tag_y[i]), f"part 2 tag {i}")
             line = ("Operator A reads low on every part." if i == 0 else
                     "B reads higher." if i == 1 else
                     "C sits close to B. The gaps hold across all ten parts, so "
@@ -317,11 +324,13 @@ class Level02(NarratedCameraScene):
             lambda x: fix_value("reproduce", factor=1.0 - x),
             x_range=[0, max(1e-4, f.get_value())],
             color=DATA_OBSERVED, stroke_width=4))
+        # in the strip between the equation and the curves: inside the plot the
+        # reproducibility curve climbed straight through it
         read = always_redraw(lambda: panel_label(
             f"improve by {f.get_value()*100:3.0f} %   "
             f"repeat {fix_value('repeat', 1-f.get_value()):5.1f} %   "
             f"reprod {fix_value('reproduce', 1-f.get_value()):5.1f} %",
-            22, INK).move_to(axes.c2p(0.52, 37.0)))
+            22, INK).next_to(new, DOWN, buff=0.22))
 
         with self.say("Now improve one of them and watch what the gauge does."):
             self.play(Create(axes), FadeIn(xl), FadeIn(yl), run_time=0.9,
@@ -377,7 +386,9 @@ class Level02(NarratedCameraScene):
                            stroke_width=2)
         truth_tag = within_frame(
             panel_label(f"the real operator term: {NOISY_REPRODUCE} µm", 19, DATA_TRUTH)
-            .next_to(axes.c2p(30, NOISY_REPRODUCE), DOWN, buff=0.16),
+            # above the line: below it there is no room before the x-axis ticks,
+            # and the curve bottoms out at 0.56, well over the tag
+            .next_to(axes.c2p(30, NOISY_REPRODUCE), UP, buff=0.12),
             "part 4 truth tag")
         with self.say("On a gauge whose repeatability is large, this matters a "
                       "lot. The real operator term here is four tenths of a "

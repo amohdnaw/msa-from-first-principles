@@ -181,7 +181,8 @@ class Level04(NarratedCameraScene):
         xl = panel_label("part-to-part spread, µm", 19, INK_DIM)
         xl.next_to(axes, DOWN, buff=0.24)
         yl = panel_label("%GRR", 19, INK_DIM)
-        yl.next_to(axes.c2p(0.8, 100), RIGHT, buff=0.10).shift(UP * 0.08)
+        # buff 0.18 clears the top tick, which reaches 0.1 past the axis
+        yl.next_to(axes.c2p(0.8, 100), RIGHT, buff=0.18).shift(UP * 0.08)
 
         gates = VGroup()
         for pct, colour, name in [(ACCEPT_PCT, SIGNAL_OK, "accept below 10 %"),
@@ -301,7 +302,8 @@ class Level04(NarratedCameraScene):
         xl = panel_label("%GRR against study variation", 19, INK_DIM)
         xl.next_to(axes, DOWN, buff=0.24)
         yl = panel_label("ndc", 19, INK_DIM)
-        yl.next_to(axes.c2p(4, 22), RIGHT, buff=0.10).shift(UP * 0.08)
+        # left of the axis: the curve leaves the top of the plot just right of it
+        yl.next_to(axes.c2p(4, 22), LEFT, buff=0.18).shift(UP * 0.08)
 
         with self.say("The standard prints a third number beside those two: the "
                       "number of distinct categories. It is supposed to say how "
@@ -346,7 +348,9 @@ class Level04(NarratedCameraScene):
         gap = within_frame(
             panel_label(f"{REJECT_PCT - STUDY_PCT_AT_NDC5:.1f} points apart, "
                         f"printed in the same table", 22, INK_BRIGHT)
-            .move_to(axes.c2p(46, 12.0)), "part 4 gap")
+            # above the plot: inside it both gate lines cut through the sentence,
+            # which is wider than the room on either side of them
+            .next_to(axes.c2p(46, 22), UP, buff=0.55), "part 4 gap")
         with self.say("Those are not the same line. Ndc reaching five happens at "
                       "twenty seven point one percent, nearly three points tighter "
                       "than the thirty printed beside it. A gauge can satisfy one "
@@ -372,7 +376,8 @@ class Level04(NarratedCameraScene):
         xl = panel_label("the part's true size, µm", 18, INK_DIM)
         xl.next_to(axes, DOWN, buff=0.22)
         yl = panel_label("what the gauge read", 18, INK_DIM)
-        yl.next_to(axes.c2p(-26, 26), RIGHT, buff=0.10).shift(UP * 0.06)
+        # lifted clear of the tops of the dashed limit lines
+        yl.next_to(axes.c2p(-26, 26), RIGHT, buff=0.10).shift(UP * 0.26)
 
         with self.say("None of those three numbers is the thing you actually care "
                       "about. A conformance decision compares a reading to a "

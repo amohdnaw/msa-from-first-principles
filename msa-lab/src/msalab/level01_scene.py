@@ -173,9 +173,11 @@ class Level01(NarratedCameraScene):
         # the part's one true size: a single bright line, no distribution yet
         truth_line = Line(axes.c2p(ONE_PART_TRUE, 0), axes.c2p(ONE_PART_TRUE, 23),
                           stroke_color=DATA_TRUTH, stroke_width=3)
+        # up and to the right of the line's top: centred over it, the tag sat
+        # on the y-axis, which runs through x = 0 a hair left of the truth
         truth_tag = within_frame(
             prose("its one true size", 22, DATA_TRUTH)
-            .next_to(axes.c2p(ONE_PART_TRUE, 23), UP, buff=0.14),
+            .next_to(axes.c2p(ONE_PART_TRUE, 23), UP + RIGHT, buff=0.10),
             "part 1 truth tag")
 
         with self.say("One size, and nothing has been measured yet."):
@@ -228,7 +230,7 @@ class Level01(NarratedCameraScene):
                     stroke_color=INK_DIM, stroke_width=1.6)
         span_tag = within_frame(
             panel_label(f"{reads.max() - reads.min():.1f} µm of spread", 20, INK_DIM)
-            .next_to(span, UP, buff=0.12), "part 1 span tag")
+            .next_to(span, UP, buff=0.12, aligned_edge=RIGHT), "part 1 span tag")
         with self.say("One true size. Seven microns of spread on the screen. That "
                       "spread belongs to the gauge, not to the part."):
             self.play(Create(span), FadeIn(span_tag), run_time=1.1,
@@ -345,9 +347,12 @@ class Level01(NarratedCameraScene):
                       rate_func=rf.ease_in_out_sine)
 
         # the hypotenuse reads its own length
+        # lifted clear: the naive line below it is wider and its right end ran
+        # into the hypotenuse
         hyp_read = within_frame(
             panel_label(f"observed = {observed_sigma():.2f} µm", 24, DATA_OBSERVED)
-            .next_to(hyp.get_center(), UP + LEFT, buff=0.30), "part 3 hyp readout")
+            .next_to(hyp.get_center(), UP + LEFT, buff=0.30).shift(UP * 0.45),
+            "part 3 hyp readout")
         naive = within_frame(
             panel_label(f"adding them would say {PART_SIGMA + GAUGE_SIGMA:.1f}", 20, INK_DIM)
             .next_to(hyp_read, DOWN, buff=0.18, aligned_edge=LEFT), "part 3 naive")
@@ -391,7 +396,7 @@ class Level01(NarratedCameraScene):
         read = always_redraw(lambda: panel_label(
             f"gauge {r.get_value()*100:5.1f} %   ->  "
             f"{(inflation(r.get_value())-1)*100:5.1f} % wider", 24, INK)
-            .move_to(axes.c2p(0.30, 38.0)))
+            .next_to(axes.c2p(0.04, 38.0), RIGHT, buff=0))   # right of the y-axis
         self.add(curve, head, read)
 
         with self.say("A gauge at a tenth of the part spread costs half a percent. "
@@ -446,10 +451,11 @@ class Level01(NarratedCameraScene):
                            dash_length=0.15, stroke_color=DATA_TRUTH,
                            stroke_width=2)
         # under the line and hard left: at x = 19.5 it sat on its own dashes and
-        # on the curve's flat tail at the same time
+        # on the curve's flat tail at the same time. buff 0.09 centres it in the
+        # gap so it clears the x-axis tick at m = 5
         floor_tag = within_frame(
             panel_label(f"the parts: {FLOOR} µm", 20, DATA_TRUTH)
-            .next_to(axes.c2p(1.6, FLOOR), DOWN, buff=0.20, aligned_edge=LEFT),
+            .next_to(axes.c2p(1.6, FLOOR), DOWN, buff=0.09, aligned_edge=LEFT),
             "part 5 floor tag")
 
         with self.say("The obvious move is to measure each part several times and "

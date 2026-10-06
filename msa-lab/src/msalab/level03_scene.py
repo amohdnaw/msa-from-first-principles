@@ -353,7 +353,8 @@ class Level03(NarratedCameraScene):
         axes.shift(DOWN * 0.55)
         xl = panel_label("interaction, µm", 19, INK_DIM).next_to(axes, DOWN, buff=0.24)
         yl = panel_label("gauge, µm", 19, INK_DIM)
-        yl.next_to(axes.c2p(0, 5.0), RIGHT, buff=0.10).shift(UP * 0.08)
+        # buff 0.18 clears the top tick, which reaches 0.1 past the axis
+        yl.next_to(axes.c2p(0, 5.0), RIGHT, buff=0.18).shift(UP * 0.08)
 
         truth_c = always_redraw(lambda: axes.plot(
             lambda x: np.sqrt(1.0 + 1.8 ** 2 + x ** 2),
@@ -372,7 +373,9 @@ class Level03(NarratedCameraScene):
         read = always_redraw(lambda: panel_label(
             f"truth {pre[idx()][2]:.2f}   ANOVA {pre[idx()][0]:.2f}   "
             f"X-bar-R {pre[idx()][1]:.2f}", 22, INK)
-            .move_to(axes.c2p(1.8, 4.55)))
+            # above the plot and the y-label: ANOVA's noisy climb reaches the
+            # top of the axes, so it crossed the readout anywhere inside the plot
+            .next_to(axes.c2p(1.8, 5.0), UP, buff=0.36))
 
         self.play(Create(axes), FadeIn(xl), FadeIn(yl), run_time=0.9,
                   rate_func=rf.ease_in_out_sine)
@@ -412,7 +415,7 @@ class Level03(NarratedCameraScene):
         axes.shift(DOWN * 0.5)
         xl = panel_label("interaction, µm", 19, INK_DIM).next_to(axes, DOWN, buff=0.24)
         yl = panel_label("error against the true gauge, %", 19, INK_DIM)
-        yl.next_to(axes.c2p(0, 10), RIGHT, buff=0.10).shift(UP * 0.08)
+        yl.next_to(axes.c2p(0, 10), RIGHT, buff=0.18).shift(UP * 0.08)
         zero = DashedLine(axes.c2p(0, 0), axes.c2p(3.6, 0), dash_length=0.14,
                           stroke_color=DATA_TRUTH, stroke_width=2)
 
@@ -425,14 +428,17 @@ class Level03(NarratedCameraScene):
                       rate_func=rf.ease_in_out_sine)
 
         xs = [r["interaction"] for r in SWEEP]
-        for key, colour, name in [("anova_err", SIGNAL_OK, "ANOVA"),
-                                  ("xbar_err", SIGNAL_ALARM, "average-and-range")]:
+        # ANOVA ends on the zero line, so its tag rides higher; the falling red
+        # line ran through a tag centred over its end, so that one sits beside it
+        for key, colour, name, side, buff in [
+                ("anova_err", SIGNAL_OK, "ANOVA", UP, 0.26),
+                ("xbar_err", SIGNAL_ALARM, "average-and-range", RIGHT, 0.10)]:
             pts = [axes.c2p(x, r[key]) for x, r in zip(xs, SWEEP)]
             path = VGroup(*[Line(a, b, stroke_color=colour, stroke_width=3.5)
                             for a, b in zip(pts, pts[1:])])
             marks = VGroup(*[Dot(q, radius=0.06, color=colour) for q in pts])
             tag = within_frame(
-                panel_label(name, 20, colour).next_to(pts[-1], UP, buff=0.18),
+                panel_label(name, 20, colour).next_to(pts[-1], side, buff=buff),
                 f"part 5 tag {name}")
             line = ("ANOVA stays within a few percent of the truth the whole way."
                     if name == "ANOVA" else

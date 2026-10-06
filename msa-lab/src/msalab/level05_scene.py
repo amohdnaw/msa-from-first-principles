@@ -272,7 +272,9 @@ class Level05(NarratedCameraScene):
             f"bias {biases[idx()]:4.2f} µm    upper limit "
             f"{pre[idx()]['rejected_at_upper_pct']:5.1f} %    lower "
             f"{pre[idx()]['rejected_at_lower_pct']:5.1f} %", 22, INK)
-            .move_to(axes.c2p(2.1, 52.0)))
+            # above the plot: both curves leave 50 % on the left, so anywhere
+            # inside it they ran straight through the readout
+            .next_to(axes.c2p(2.1, 105), UP, buff=0.62))
         self.add(upper, lower, read)
 
         with self.say("With no bias, half the scrapped parts are too big and half "
@@ -309,8 +311,8 @@ class Level05(NarratedCameraScene):
                     stroke_color=DATA_TRUTH, stroke_width=2)
         zero_tag = within_frame(
             panel_label("zero error", 18, DATA_TRUTH)
-            .next_to(axes.c2p(MASTER_READS + 1, 0), LEFT, buff=0.14)
-            .shift(DOWN * 0.28), "part 3 zero tag")
+            .next_to(axes.c2p(MASTER_READS, 0), LEFT, buff=0.14)
+            .shift(DOWN * 0.28), "part 3 zero tag")   # inboard of the interval bar
 
         with self.say("It takes a reference - something whose size you already "
                       "know. Measure that, and the question becomes whether an "
@@ -339,7 +341,10 @@ class Level05(NarratedCameraScene):
             f"   interval [{ci['low']:+5.2f}, {ci['high']:+5.2f}]   "
             f"{'BIAS FOUND' if ci['detected'] else 'contains zero'}",
             21, SIGNAL_ALARM if ci["detected"] else INK_DIM)
-            .move_to(axes.c2p(5.5, 6.6)))(bias_interval(
+            # above the plot and ending short of the interval bar, whose first
+            # few intervals run off both the top and the bottom of the frame
+            .next_to(axes.c2p(MASTER_READS + 0.55, 7.5), UP + LEFT, buff=0.15))(
+                bias_interval(
                 sample[:max(2, int(n.get_value()))])))
 
         with self.say("Take the readings one at a time. The interval starts wide "
