@@ -274,6 +274,12 @@
      with a float at the note's position in the flow, never with grid rows. Grid
      rows put the note in a row of its own and cut an L-shaped hole in the page. */
   :root{ --marg:320px; --marg-gap:48px; }
+  /* Links in the prose. The browser's own blue measured 2.0:1 on this ground. */
+  main section a[href^="http"]{color:var(--ink-bright);text-decoration:underline;
+    text-decoration-color:var(--accent);text-underline-offset:3px}
+  main section a[href^="http"]:hover{color:var(--accent)}
+  /* a figure opens at full size on tap; the link must not change how it looks */
+  a.zoom{display:block;cursor:zoom-in}
 
   /* The page IS the grid. Before this the container was 110rem while the text
      block was 1090px and left-aligned inside it, so the margins came out 149px
@@ -403,6 +409,25 @@
     figure,.lab,table{clear:right}
     .leaf > div::after{content:"";display:block;clear:both}
   }
+  /* after the base .note rules, or they win on source order */
+  /* a note right after a drop cap must start at the left edge, not beside the
+     cap. Only below the margin breakpoint: above it the note floats right. */
+  /* clear does not move a note past initial-letter (it is not a float), so push
+     it a body line down; a note further into the paragraph just gains air. */
+  @media (max-width:1499px){
+    .lead .note{margin-top:calc(var(--body) * 1.5)}
+    /* the number's own column left the formula 504px; six equations scrolled */
+    .eq{grid-template-columns:1fr;gap:10px}
+    .eq-num{justify-self:end}
+  }
+  @media (max-width:640px){
+    /* 12.5px mono read as a footnote on a phone */
+    .note{font-size:14px}
+    .note .k,.note.data .rk{font-size:12px}
+    .note.data .rn{font-size:13px}
+    /* tap targets: the rail links measured 30x23 */
+    .rail a,.rail span.soon{min-height:44px;padding:0 4px}
+  }
 </style>
 <style>
   .lab-grid-tiles{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0 0 }
@@ -501,9 +526,9 @@
           <h2>The offset has to persist</h2>
           <p class="lead">A difference between two operators on one part is not evidence of anything: it could be repeatability wearing a costume. What makes reproducibility a separate term is that the offset travels with the person across every part they touch.</p>
 <figure>
-        <img src="msa-lab/docs/l02_1_two_distances.png" width="1646" height="782"
+        <a class="zoom" href="msa-lab/docs/l02_1_two_distances.png"><img src="msa-lab/docs/l02_1_two_distances.png" width="1646" height="782"
              loading="lazy" decoding="async"
-             alt="Left: ten parts measured by three operators, the three operator lines running roughly parallel. Right: the gauge variance split between repeatability and reproducibility, with both fixes priced.">
+             alt="Left: ten parts measured by three operators, the three operator lines running roughly parallel. Right: the gauge variance split between repeatability and reproducibility, with both fixes priced."></a>
         <figcaption><span class="fignum">Figure 2.2</span><span class="figtext">Reproducibility is an offset that persists across parts. Beside it the same gauge term split, and what each fix is worth.</span></figcaption>
       </figure>
           <p>Three lines, roughly parallel. <span class="note data"><span class="k">the split</span><span class="row num"><span class="rk">repeatability</span><span class="rv">1.0 µm</span></span><span class="row num"><span class="rk">reproducibility</span><span class="rv">1.8 µm</span></span><span class="row num"><span class="rk">the gauge term</span><span class="rv">2.06 µm</span></span><span class="row num"><span class="rk"><span class="nc">repeat</span> share of variance</span><span class="rv">24 %</span></span></span>Operator A reads low on all ten parts, which is a property of A rather than of any part. That is the whole justification for giving it its own term - and the moment those lines stop being parallel there is a third thing to account for, which is Level 3.</p>
@@ -533,9 +558,9 @@
           <p>On a gauge whose repeatability dominates - 3.0&nbsp;µm against 0.4 - that borrowed term is most of the answer. <span class="note data"><span class="k">a number about the wrong thing</span><span class="row num"><span class="rk">the truth</span><span class="rv">0.4 µm</span></span><span class="row num"><span class="rk">what the naive estimator targets</span><span class="rv">0.678 µm</span></span><span class="row num"><span class="rk">of that, borrowed repeatability</span><span class="rv">65 %</span></span></span>The naive estimator targets 0.678&nbsp;µm when the truth is 0.4: it overstates by 70&nbsp;%, and 65&nbsp;% of what it reports is the instrument rather than the people.</p>
           <p>One study cannot show you this. <span class="note data"><span class="k">why one study is not evidence</span><span class="row num"><span class="rk">one study said</span><span class="rv">0.260 µm</span></span><span class="row num"><span class="rk">4000 studies, uncorrected</span><span class="rv">0.604 µm</span></span><span class="row num"><span class="rk">against the truth</span><span class="rv">+51 %</span></span></span>With 3 operators the estimate has 2 degrees of freedom and about 50&nbsp;% of error, so the seeded study here reported 0.260 - below the truth, in the opposite direction to the bias. Averaged over four thousand studies the bias appears exactly as the algebra says.</p>
 <figure>
-        <img src="msa-lab/docs/l02_2_the_operator_term.png" width="1924" height="783"
+        <a class="zoom" href="msa-lab/docs/l02_2_the_operator_term.png"><img src="msa-lab/docs/l02_2_the_operator_term.png" width="1924" height="783"
              loading="lazy" decoding="async"
-             alt="Left: three thousand studies of a repeatability-dominant gauge, the uncorrected and clamped reproducibility estimates, and the spike of studies clamped at zero. Right: relative error against degrees of freedom.">
+             alt="Left: three thousand studies of a repeatability-dominant gauge, the uncorrected and clamped reproducibility estimates, and the spike of studies clamped at zero. Right: relative error against degrees of freedom."></a>
         <figcaption><span class="fignum">Figure 2.3</span><span class="figtext">Three thousand studies of the same gauge. Uncorrected the operator term reads high, clamped it reads low, and 47 % of studies are pushed onto zero.</span></figcaption>
       </figure>
         </div>

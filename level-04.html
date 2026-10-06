@@ -274,6 +274,12 @@
      with a float at the note's position in the flow, never with grid rows. Grid
      rows put the note in a row of its own and cut an L-shaped hole in the page. */
   :root{ --marg:320px; --marg-gap:48px; }
+  /* Links in the prose. The browser's own blue measured 2.0:1 on this ground. */
+  main section a[href^="http"]{color:var(--ink-bright);text-decoration:underline;
+    text-decoration-color:var(--accent);text-underline-offset:3px}
+  main section a[href^="http"]:hover{color:var(--accent)}
+  /* a figure opens at full size on tap; the link must not change how it looks */
+  a.zoom{display:block;cursor:zoom-in}
 
   /* The page IS the grid. Before this the container was 110rem while the text
      block was 1090px and left-aligned inside it, so the margins came out 149px
@@ -403,6 +409,25 @@
     figure,.lab,table{clear:right}
     .leaf > div::after{content:"";display:block;clear:both}
   }
+  /* after the base .note rules, or they win on source order */
+  /* a note right after a drop cap must start at the left edge, not beside the
+     cap. Only below the margin breakpoint: above it the note floats right. */
+  /* clear does not move a note past initial-letter (it is not a float), so push
+     it a body line down; a note further into the paragraph just gains air. */
+  @media (max-width:1499px){
+    .lead .note{margin-top:calc(var(--body) * 1.5)}
+    /* the number's own column left the formula 504px; six equations scrolled */
+    .eq{grid-template-columns:1fr;gap:10px}
+    .eq-num{justify-self:end}
+  }
+  @media (max-width:640px){
+    /* 12.5px mono read as a footnote on a phone */
+    .note{font-size:14px}
+    .note .k,.note.data .rk{font-size:12px}
+    .note.data .rn{font-size:13px}
+    /* tap targets: the rail links measured 30x23 */
+    .rail a,.rail span.soon{min-height:44px;padding:0 4px}
+  }
 </style>
 <style>
   .lab-grid-tiles{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0 0 }
@@ -504,9 +529,9 @@
           <p>Improve the process - take the part spread from 4.7&nbsp;µm down to 1.2 - and the study ratio gets <em>worse</em>, from 40.1&nbsp;% to 86.4. <span class="note data"><span class="k">tightening the process</span><span class="row num"><span class="rk">study ratio before</span><span class="rv">40.1 %</span></span><span class="row num"><span class="rk">study ratio after</span><span class="rv">86.4 %</span></span><span class="row txt"><span class="rk">tolerance ratio</span><span class="rv">41.2 % (unmoved)</span></span></span>Nothing about the instrument changed. A gauge measuring parts that are nearly identical cannot sort them, and as the parts converge the ratio approaches a hundred percent.</p>
           <p>Which is worth stating plainly, because it is the opposite of an intuition: a good process makes a gauge look bad on the study ratio. <span class="note"><span class="k">both are honest</span>If you are sorting parts into bins, the study ratio is the one you want. If you are stamping conform or not, it is the wrong number entirely.</span>The gauge did not get worse. The question got harder.</p>
 <figure>
-        <img src="msa-lab/docs/l04_1_against_what.png" width="1873" height="783"
+        <a class="zoom" href="msa-lab/docs/l04_1_against_what.png"><img src="msa-lab/docs/l04_1_against_what.png" width="1873" height="783"
              loading="lazy" decoding="async"
-             alt="Left: the gauge spread drawn to scale beside the study spread and the tolerance. Right: a map of part spread against tolerance, shaded where the two AIAG gates give opposite verdicts for the same gauge.">
+             alt="Left: the gauge spread drawn to scale beside the study spread and the tolerance. Right: a map of part spread against tolerance, shaded where the two AIAG gates give opposite verdicts for the same gauge."></a>
         <figcaption><span class="fignum">Figure 4.2</span><span class="figtext">Same numerator, two denominators. The shaded region is where the two gates disagree &mdash; for one unchanged gauge.</span></figcaption>
       </figure>
         </div>
@@ -563,9 +588,9 @@
           <p class="lead">Beside those two the standard prints a third: the number of distinct categories, which is supposed to say how many groups the gauge can separate.</p>
           <p>It is not independent. <span class="note data"><span class="k">two routes, one number</span><span class="row num"><span class="rk"><span class="nc">ndc</span> from the components</span><span class="rv">3.2184</span></span><span class="row num"><span class="rk"><span class="nc">ndc</span> from the study ratio</span><span class="rv">3.2184</span></span><span class="row num"><span class="rk">difference</span><span class="rv">0 (algebraic)</span></span></span>ndc is <span class="tex" data-tex="1.41\,\sigma_{part}/\sigma_{gauge}"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.41</mn><mtext> </mtext><msub><mi>σ</mi><mrow><mi>p</mi><mi>a</mi><mi>r</mi><mi>t</mi></mrow></msub><mi mathvariant="normal">/</mi><msub><mi>σ</mi><mrow><mi>g</mi><mi>a</mi><mi>u</mi><mi>g</mi><mi>e</mi></mrow></msub></mrow><annotation encoding="application/x-tex">1.41\,\sigma_{part}/\sigma_{gauge}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord">1.41</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.0278em;">r</span><span class="mord mathnormal mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">ug</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></span>, and the study ratio is <span class="tex" data-tex="\sigma_{gauge}/\sigma_{total}"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mrow><mi>g</mi><mi>a</mi><mi>u</mi><mi>g</mi><mi>e</mi></mrow></msub><mi mathvariant="normal">/</mi><msub><mi>σ</mi><mrow><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\sigma_{gauge}/\sigma_{total}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0359em;">g</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.0359em;">ug</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.0359em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">o</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.0197em;">l</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span>, so one determines the other exactly. Plot ndc against the study ratio and you get a curve, not a cloud. It cannot carry information the first number did not already have, and it cannot rank two gauges differently.</p>
 <figure>
-        <img src="msa-lab/docs/l04_2_what_the_numbers_are_worth.png" width="1627" height="783"
+        <a class="zoom" href="msa-lab/docs/l04_2_what_the_numbers_are_worth.png"><img src="msa-lab/docs/l04_2_what_the_numbers_are_worth.png" width="1627" height="783"
              loading="lazy" decoding="async"
-             alt="Left: ndc plotted against %GRR, a single curve, with both printed gates marked 2.9 points apart. Right: gauge readings against true sizes with the limits drawn, and the accepted bad parts and rejected good parts picked out.">
+             alt="Left: ndc plotted against %GRR, a single curve, with both printed gates marked 2.9 points apart. Right: gauge readings against true sizes with the limits drawn, and the accepted bad parts and rejected good parts picked out."></a>
         <figcaption><span class="fignum">Figure 4.3</span><span class="figtext">ndc is a curve, not a cloud: given %GRR it is determined. And the two gates printed beside each other are 2.9 points apart.</span></figcaption>
       </figure>
           <p>What it does add is an inconsistency. <span class="note data"><span class="k">two lines, one table</span><span class="row num"><span class="rk">reject above</span><span class="rv">30 %</span></span><span class="row num"><span class="rk"><span class="nc">ndc</span> ≥ 5 means</span><span class="rv">≤ 27.1 %</span></span><span class="row num"><span class="rk">the two gates differ by</span><span class="rv">2.9 points</span></span></span>Requiring ndc to reach 5 is exactly requiring the study ratio to be at or below 27.1&nbsp;% - which is 2.9&nbsp;points tighter than the 30&nbsp;% printed beside it. A gauge can satisfy one rule and fail the other on the same study.</p>

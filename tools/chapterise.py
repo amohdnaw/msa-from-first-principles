@@ -28,6 +28,12 @@ CHAPTER_CSS = """
      with a float at the note's position in the flow, never with grid rows. Grid
      rows put the note in a row of its own and cut an L-shaped hole in the page. */
   :root{ --marg:320px; --marg-gap:48px; }
+  /* Links in the prose. The browser's own blue measured 2.0:1 on this ground. */
+  main section a[href^="http"]{color:var(--ink-bright);text-decoration:underline;
+    text-decoration-color:var(--accent);text-underline-offset:3px}
+  main section a[href^="http"]:hover{color:var(--accent)}
+  /* a figure opens at full size on tap; the link must not change how it looks */
+  a.zoom{display:block;cursor:zoom-in}
 
   /* The page IS the grid. Before this the container was 110rem while the text
      block was 1090px and left-aligned inside it, so the margins came out 149px
@@ -156,6 +162,25 @@ CHAPTER_CSS = """
        ran 83px and 73px under theirs. Anything as wide as the leaf clears. */
     figure,.lab,table{clear:right}
     .leaf > div::after{content:"";display:block;clear:both}
+  }
+  /* after the base .note rules, or they win on source order */
+  /* a note right after a drop cap must start at the left edge, not beside the
+     cap. Only below the margin breakpoint: above it the note floats right. */
+  /* clear does not move a note past initial-letter (it is not a float), so push
+     it a body line down; a note further into the paragraph just gains air. */
+  @media (max-width:1499px){
+    .lead .note{margin-top:calc(var(--body) * 1.5)}
+    /* the number's own column left the formula 504px; six equations scrolled */
+    .eq{grid-template-columns:1fr;gap:10px}
+    .eq-num{justify-self:end}
+  }
+  @media (max-width:640px){
+    /* 12.5px mono read as a footnote on a phone */
+    .note{font-size:14px}
+    .note .k,.note.data .rk{font-size:12px}
+    .note.data .rn{font-size:13px}
+    /* tap targets: the rail links measured 30x23 */
+    .rail a,.rail span.soon{min-height:44px;padding:0 4px}
   }
 """
 
@@ -666,9 +691,11 @@ def chapter_03(K):
             para("What ANOVA gives you that a table of constants cannot is an "
                  "identity. The total variation in all sixty numbers splits into "
                  "exactly four pieces.", lead=True),
-            f'{P}<div class="eq"><div class="eq-body" data-tex="SS_{{total}} = '
-            f'SS_{{part}} + SS_{{oper}} + SS_{{part \\times oper}} + '
-            f'SS_{{repeat}}"></div><div class="eq-num">(3.1)</div></div>',
+            # Two lines: on one it measured 426px in a 342px phone column.
+            # Centred, not aligned: hanging line 2 off the = made it the widest line.
+            f'{P}<div class="eq"><div class="eq-body" data-tex="\\begin{{gathered}}SS_{{total}} = '
+            f'SS_{{part}} + SS_{{oper}} \\\\[2pt] + SS_{{part \\times oper}} + '
+            f'SS_{{repeat}}\\end{{gathered}}"></div><div class="eq-num">(3.1)</div></div>',
             para("And nothing is left over - not approximately. On the study with an "
                  "interaction the remainder is "
                  f"{IDENT_RESIDUAL:.1e}, which is floating-point zero. That is what "
@@ -1636,7 +1663,10 @@ def build_main(spec: dict, keep: dict) -> str:
         f = figs.get(name)
         if f is None:
             sys.exit(f"chapterise: figure {name} missing (have: {sorted(figs)})")
-        return re.sub(r"<figure[^>]*>", "<figure>", f, count=1)
+        f = re.sub(r"<figure[^>]*>", "<figure>", f, count=1)
+        # tap a figure to open it full size: on a phone its labels are 9px
+        return re.sub(r'<img\b[^>]*\bsrc="([^"]+)"[^>]*>',
+                      lambda m: f'<a class="zoom" href="{m[1]}">{m[0]}</a>', f)
 
     def watch(mp4, poster, label, caption):
         """A referenced act that is not this section's subject.

@@ -274,6 +274,12 @@
      with a float at the note's position in the flow, never with grid rows. Grid
      rows put the note in a row of its own and cut an L-shaped hole in the page. */
   :root{ --marg:320px; --marg-gap:48px; }
+  /* Links in the prose. The browser's own blue measured 2.0:1 on this ground. */
+  main section a[href^="http"]{color:var(--ink-bright);text-decoration:underline;
+    text-decoration-color:var(--accent);text-underline-offset:3px}
+  main section a[href^="http"]:hover{color:var(--accent)}
+  /* a figure opens at full size on tap; the link must not change how it looks */
+  a.zoom{display:block;cursor:zoom-in}
 
   /* The page IS the grid. Before this the container was 110rem while the text
      block was 1090px and left-aligned inside it, so the margins came out 149px
@@ -403,6 +409,25 @@
     figure,.lab,table{clear:right}
     .leaf > div::after{content:"";display:block;clear:both}
   }
+  /* after the base .note rules, or they win on source order */
+  /* a note right after a drop cap must start at the left edge, not beside the
+     cap. Only below the margin breakpoint: above it the note floats right. */
+  /* clear does not move a note past initial-letter (it is not a float), so push
+     it a body line down; a note further into the paragraph just gains air. */
+  @media (max-width:1499px){
+    .lead .note{margin-top:calc(var(--body) * 1.5)}
+    /* the number's own column left the formula 504px; six equations scrolled */
+    .eq{grid-template-columns:1fr;gap:10px}
+    .eq-num{justify-self:end}
+  }
+  @media (max-width:640px){
+    /* 12.5px mono read as a footnote on a phone */
+    .note{font-size:14px}
+    .note .k,.note.data .rk{font-size:12px}
+    .note.data .rn{font-size:13px}
+    /* tap targets: the rail links measured 30x23 */
+    .rail a,.rail span.soon{min-height:44px;padding:0 4px}
+  }
 </style>
 <style>
   .lab-grid-tiles{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0 0 }
@@ -490,7 +515,7 @@
           <source src="msa-lab/media/videos/level07_scene/1080p60/Level07.mp4" type="video/mp4">
           <track kind="captions" src="captions/level07.vtt" srclang="en" label="English">
         </video>
-        <figcaption><span class="fignum">Figure 7.1</span><span class="figtext">The two denominators drawn to scale, one ratio swept while the other refuses to move, the same gauge given opposite verdicts in two factories, and the decision the percentage was standing in for.</span></figcaption>
+        <figcaption><span class="fignum">Figure 7.1</span><span class="figtext">Rendered in Manim. Two widths the floor sees only as their sum, the gauge widening the chart's limits, a 30% longer wait at a 1σ shift, and %GRR written upside down as a capability index.</span></figcaption>
       </figure>
         </div>
       </div>
@@ -516,10 +541,10 @@
           <p>Nothing has been assumed and nothing estimated. <span class="note data"><span class="k">an identity, not an approximation</span><span class="row num"><span class="rk">T / 6σ_gauge</span><span class="rv">2.428215</span></span><span class="row num"><span class="rk">100 / %GRR_tol</span><span class="rv">2.428215</span></span><span class="row num"><span class="rk">identical</span><span class="rv">yes</span></span><span class="row num"><span class="rk">%GRR of tolerance</span><span class="rv">41.1825 %</span></span></span>A capability index is half a tolerance over three standard deviations; put the gauge&rsquo;s standard deviation there, which is what remains when the process is perfect, and the result is the reciprocal of the percentage Level 4 already computed. %GRR against tolerance <em>is</em> a capability ceiling, written as a percentage.</p>
           <p>Which restates every published gauge gate as something the quality manual never puts beside it.<span class="note data"><span class="k">the gates, restated</span><span class="row txt"><span class="rk">%GRR_tol 10 %</span><span class="rv">Cpk can never exceed 10.000</span></span><span class="row txt"><span class="rk">%GRR_tol 20 %</span><span class="rv">Cpk can never exceed 5.000</span></span><span class="row txt"><span class="rk">%GRR_tol 30 %</span><span class="rv">Cpk can never exceed 3.333</span></span></span></p>
 <figure>
-        <img src="msa-lab/docs/l07_1_the_identity.png" width="1873" height="783"
+        <a class="zoom" href="msa-lab/docs/l07_1_the_identity.png"><img src="msa-lab/docs/l07_1_the_identity.png" width="1873" height="783"
              loading="lazy" decoding="async"
-             alt="Left: the gauge spread drawn to scale beside the study spread and the tolerance. Right: a map of part spread against tolerance, shaded where the two AIAG gates give opposite verdicts for the same gauge.">
-        <figcaption><span class="fignum">Figure 7.2</span><span class="figtext">Same numerator, two denominators. The shaded region is where the two gates disagree &mdash; for one unchanged gauge.</span></figcaption>
+             alt="The ceiling on Cpk plotted against %GRR, with the 10%, 20% and 30% gates marked and our 41.2% gauge capped at 2.43."></a>
+        <figcaption><span class="fignum">Figure 7.2</span><span class="figtext">Cpk can never exceed 100 / %GRR. A 10% gauge caps it at 10.00, 20% at 5.00, 30% at 3.33; our gauge at 41.2% caps it at 2.43.</span></figcaption>
       </figure>
           <p>On the gauge these six levels built &mdash; 41.2&nbsp;% of tolerance, which Level 4 already called a reject &mdash; the ceiling is 2.43. <span class="note"><span class="k">and it bites harder than the ceiling suggests</span>Reported capability here is 0.9744 against a true 1.0638. The gauge alone moves this process across one.</span>This plant cannot report a capability above that with a better process, with more parts, or with a longer study. Only by changing the instrument.</p>
           <p>Read backwards it is sharper still. <span class="note"><span class="k">the useful question</span>Not 'is the gauge acceptable' but 'what is the most this measurement system will ever let us claim'. The identity answers it in one division.</span>A promise of Cpk 1.33 is a promise that the whole observed spread fits inside 3.759&nbsp;µm &mdash; and the parts alone are 4.7. On this process that target is unreachable with a perfect gauge, which is a different conversation from buying a better one.</p>
@@ -567,10 +592,10 @@
           <p class="lead">One thing remains impossible from the chart&rsquo;s side. The spread it estimates inside a subgroup is the sum of two things: parts differing from each other, and the gauge failing to repeat.</p>
           <p>On our numbers that estimate is 4.8052&nbsp;µm, of which 4.33&nbsp;% of the variance is repeatability. <span class="note data"><span class="k">all read as 4.8052 µm</span><span class="row txt"><span class="rk">0 % gauge</span><span class="rv">parts 4.805, gauge 0.000 → true Cpk 1.04</span></span><span class="row txt"><span class="rk">20 % gauge</span><span class="rv">parts 4.298, gauge 2.149 → true Cpk 1.16</span></span><span class="row txt"><span class="rk">40 % gauge</span><span class="rv">parts 3.722, gauge 3.039 → true Cpk 1.34</span></span><span class="row txt"><span class="rk">60 % gauge</span><span class="rv">parts 3.039, gauge 3.722 → true Cpk 1.65</span></span><span class="row txt"><span class="rk">80 % gauge</span><span class="rv">parts 2.149, gauge 4.298 → true Cpk 2.33</span></span></span>But the share is not the point &mdash; the point is that it cannot be recovered. Every split below produces the <em>identical</em> number on the chart, while the real capability underneath ranges over more than a factor of two.</p>
 <figure>
-        <img src="msa-lab/docs/l07_2_what_the_chart_cannot_see.png" width="1627" height="783"
+        <a class="zoom" href="msa-lab/docs/l07_2_what_the_chart_cannot_see.png"><img src="msa-lab/docs/l07_2_what_the_chart_cannot_see.png" width="1627" height="783"
              loading="lazy" decoding="async"
-             alt="Left: ndc plotted against %GRR, a single curve, with both printed gates marked 2.9 points apart. Right: gauge readings against true sizes with the limits drawn, and the accepted bad parts and rejected good parts picked out.">
-        <figcaption><span class="fignum">Figure 7.3</span><span class="figtext">ndc is a curve, not a cloud: given %GRR it is determined. And the two gates printed beside each other are 2.9 points apart.</span></figcaption>
+             alt="Left: rows of identical within-subgroup variance, split into part and gauge, beside true Cpk from 1.04 to 2.33. Right: subgroups to detect a half-sigma shift, 33 without the gauge and 41 with it."></a>
+        <figcaption><span class="fignum">Figure 7.3</span><span class="figtext">The within-subgroup variance is the same in every row while the true Cpk runs from 1.04 to 2.33. At a half-sigma shift the gauge stretches the wait from 33 subgroups to 41.</span></figcaption>
       </figure>
           <p>A capable process with a poor gauge and a poor process with a perfect one look identical from there. <span class="note"><span class="k">which way round it goes</span>Holding the chart&rsquo;s number fixed, a larger gauge share means the real parts are <em>tighter</em> than they look. The pessimistic reading is not the safe one.</span>No amount of charting separates them, because charting never posed the question. That is the structural reason a gauge study is a separate study, and the reason this site exists beside the other one rather than inside it.</p>
         </div>

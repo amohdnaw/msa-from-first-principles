@@ -274,6 +274,12 @@
      with a float at the note's position in the flow, never with grid rows. Grid
      rows put the note in a row of its own and cut an L-shaped hole in the page. */
   :root{ --marg:320px; --marg-gap:48px; }
+  /* Links in the prose. The browser's own blue measured 2.0:1 on this ground. */
+  main section a[href^="http"]{color:var(--ink-bright);text-decoration:underline;
+    text-decoration-color:var(--accent);text-underline-offset:3px}
+  main section a[href^="http"]:hover{color:var(--accent)}
+  /* a figure opens at full size on tap; the link must not change how it looks */
+  a.zoom{display:block;cursor:zoom-in}
 
   /* The page IS the grid. Before this the container was 110rem while the text
      block was 1090px and left-aligned inside it, so the margins came out 149px
@@ -403,6 +409,25 @@
     figure,.lab,table{clear:right}
     .leaf > div::after{content:"";display:block;clear:both}
   }
+  /* after the base .note rules, or they win on source order */
+  /* a note right after a drop cap must start at the left edge, not beside the
+     cap. Only below the margin breakpoint: above it the note floats right. */
+  /* clear does not move a note past initial-letter (it is not a float), so push
+     it a body line down; a note further into the paragraph just gains air. */
+  @media (max-width:1499px){
+    .lead .note{margin-top:calc(var(--body) * 1.5)}
+    /* the number's own column left the formula 504px; six equations scrolled */
+    .eq{grid-template-columns:1fr;gap:10px}
+    .eq-num{justify-self:end}
+  }
+  @media (max-width:640px){
+    /* 12.5px mono read as a footnote on a phone */
+    .note{font-size:14px}
+    .note .k,.note.data .rk{font-size:12px}
+    .note.data .rn{font-size:13px}
+    /* tap targets: the rail links measured 30x23 */
+    .rail a,.rail span.soon{min-height:44px;padding:0 4px}
+  }
 </style>
 <style>
   .lab-grid-tiles{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0 0 }
@@ -489,7 +514,7 @@
           <source src="msa-lab/media/videos/level06_scene/1080p60/Level06.mp4" type="video/mp4">
           <track kind="captions" src="captions/level06.vtt" srclang="en" label="English">
         </video>
-        <figcaption><span class="fignum">Figure 6.1</span><span class="figtext">The two denominators drawn to scale, one ratio swept while the other refuses to move, the same gauge given opposite verdicts in two factories, and the decision the percentage was standing in for.</span></figcaption>
+        <figcaption><span class="fignum">Figure 6.1</span><span class="figtext">Rendered in Manim. An attribute gauge, an appraiser who passes everything and scores 99.9%, Cohen's kappa, and 90% agreement while kappa falls from 0.8 to 0.1.</span></figcaption>
       </figure>
         </div>
       </div>
@@ -515,10 +540,10 @@
           <p>But the chance term is built from the marginals, so it depends on how lopsided the stream is. <span class="note data"><span class="k">all at 90 % observed</span><span class="row num"><span class="rk">50 % of the agreement in 'pass'</span><span class="rv">0.800</span></span><span class="row num"><span class="rk">70 % of the agreement in 'pass'</span><span class="rv">0.770</span></span><span class="row num"><span class="rk">85 % of the agreement in 'pass'</span><span class="rv">0.668</span></span><span class="row num"><span class="rk">95 % of the agreement in 'pass'</span><span class="rv">0.418</span></span><span class="row num"><span class="rk">99 % of the agreement in 'pass'</span><span class="rv">0.099</span></span></span>Hold the observed agreement fixed at 90&nbsp;% and move nothing but the skew, and kappa runs from 0.800 down to 0.099. Five tables, one percent agreement, and a verdict that swings from excellent to worthless.</p>
           <p>The direction of that is the problem. <span class="note"><span class="k">not a reason to ignore it</span>Kappa is right that little has been learned. What is wrong is reading it as a score for the appraisers.</span>A capable process puts nearly all of its parts in one cell, which is the skewed end, which is where kappa collapses. Being good at making parts lowers your kappa without anybody touching the gauge.</p>
 <figure>
-        <img src="msa-lab/docs/l06_1_kappa_is_not_free.png" width="1873" height="783"
+        <a class="zoom" href="msa-lab/docs/l06_1_kappa_is_not_free.png"><img src="msa-lab/docs/l06_1_kappa_is_not_free.png" width="1873" height="783"
              loading="lazy" decoding="async"
-             alt="Left: the gauge spread drawn to scale beside the study spread and the tolerance. Right: a map of part spread against tolerance, shaded where the two AIAG gates give opposite verdicts for the same gauge.">
-        <figcaption><span class="fignum">Figure 6.2</span><span class="figtext">Same numerator, two denominators. The shaded region is where the two gates disagree &mdash; for one unchanged gauge.</span></figcaption>
+             alt="Left: percent agreement held flat at 90% while kappa falls from 0.80 to 0.10. Right: the agreement table for the gauge from Levels 2 to 5, with its agreement and kappa."></a>
+        <figcaption><span class="fignum">Figure 6.2</span><span class="figtext">Agreement held at 90% while kappa falls from 0.80 to 0.10, as the agreement piles into the pass cell. The gauge from Levels 2 to 5 agrees 99.55% of the time and scores a kappa of 0.341.</span></figcaption>
       </figure>
         </div>
       </div>
@@ -572,10 +597,10 @@
           <p class="lead">If the disagreements come from the instrument, their location is not a mystery. A part far inside the limit is never failed; a part far outside is never passed. Everything contested sits in a band around the limit whose width the gauge sets.</p>
           <p>Within one gauge sigma of a limit lies 0.56&nbsp;% of production and 48.9&nbsp;% of every disagreement. <span class="note data"><span class="k">where the contested parts are</span><span class="row txt"><span class="rk">within ±1σ of the limit</span><span class="rv">0.56 % of parts, 48.9 % of mistakes</span></span><span class="row txt"><span class="rk">within ±2σ of the limit</span><span class="rv">2.06 % of parts, 87.2 % of mistakes</span></span><span class="row txt"><span class="rk">within ±3σ of the limit</span><span class="rv">6.05 % of parts, 98.7 % of mistakes</span></span></span>Within three sigmas, 6.05&nbsp;% of production and 98.7&nbsp;%. Which is why retraining the appraiser does so little: he is being asked to resolve differences smaller than the tool can report.</p>
 <figure>
-        <img src="msa-lab/docs/l06_2_where_the_mistakes_are.png" width="1627" height="783"
+        <a class="zoom" href="msa-lab/docs/l06_2_where_the_mistakes_are.png"><img src="msa-lab/docs/l06_2_where_the_mistakes_are.png" width="1627" height="783"
              loading="lazy" decoding="async"
-             alt="Left: ndc plotted against %GRR, a single curve, with both printed gates marked 2.9 points apart. Right: gauge readings against true sizes with the limits drawn, and the accepted bad parts and rejected good parts picked out.">
-        <figcaption><span class="fignum">Figure 6.3</span><span class="figtext">ndc is a curve, not a cloud: given %GRR it is determined. And the two gates printed beside each other are 2.9 points apart.</span></figcaption>
+             alt="The production distribution against the specification limit, with bands at one, two and three gauge sigmas, and the share of parts and of misclassifications in each."></a>
+        <figcaption><span class="fignum">Figure 6.3</span><span class="figtext">Within 3σ of the limit lies 6.05% of production but 98.7% of the mistakes. Within 1σ: 0.56% of parts, 48.9% of mistakes, 87 times their share.</span></figcaption>
       </figure>
           <p>The standard response to an escape is to move the acceptance limit inward. <span class="note"><span class="k">why the price rises</span>The escapes live nearest the limit, so the first micron of guard band catches the cheapest ones. After that you are buying rarer mistakes with commoner good parts.</span>It works: a 3&nbsp;µm guard band takes the miss rate from 30.2&nbsp;% to 3.1. The price is paid entirely in good parts, and it rises: 11 good parts lost per escape saved at the first half-micron, 68 by four microns.</p>
           <p>And a count is dearer than a measurement. <span class="note data"><span class="k">the price of throwing the number away</span><span class="row num"><span class="rk">Level 2, a full variance</span><span class="rv">90 readings</span></span><span class="row num"><span class="rk">bound a 5 % miss rate to ±2 points</span><span class="rv">457 bad parts</span></span><span class="row num"><span class="rk">zero misses in 50 still allows</span><span class="rv">5.82 %</span></span><span class="row num"><span class="rk">zero misses in 300 still allows</span><span class="rv">0.99 %</span></span></span>Level 2 settled a whole variance with ninety readings; bounding a five percent miss rate to plus or minus two points needs 457 known-bad parts, and a plant that can find 457 bad parts has a different problem. Worse, the usual result &mdash; no escapes found &mdash; is weak: zero misses in fifty bad parts is still consistent with a miss rate of 5.82&nbsp;%.</p>
