@@ -19,6 +19,8 @@ import os
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+
+from msalab import figstyle
 import numpy as np
 
 from msalab.palette import (
@@ -33,12 +35,14 @@ from msalab.against_what import TOLERANCE
 from msalab.measurement import PART_SIGMA
 
 mpl.rcParams.update(rc())
+figstyle.apply()
 
 MUTED = PANEL_HIGH
 
 
 def _save(fig, name: str) -> None:
     os.makedirs("docs", exist_ok=True)
+    figstyle.finish(fig)
     fig.savefig(f"docs/{name}.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"wrote docs/{name}.png")
@@ -179,7 +183,8 @@ def sheet_l07_what_the_chart_cannot_see():
                  arrowprops=dict(arrowstyle="->", color=INK_DIM, lw=1.0))
     # the curves converge to the bottom-right, so everything above them there is
     # empty; a label under the axis line ran into the x-axis title
-    ax2.annotate("as charted", xy=(1.30, arl(1.30)["arl_as_charted"]),
+    # leader runs down-left to the curve; aimed at 1.30 it cut through the label below
+    ax2.annotate("as charted", xy=(1.00, arl(1.00)["arl_as_charted"]),
                  xytext=(0.62, 0.44), textcoords="axes fraction", fontsize=9.5,
                  color=SIGNAL_ALARM,
                  arrowprops=dict(arrowstyle="-", color=SIGNAL_ALARM, lw=1.0))

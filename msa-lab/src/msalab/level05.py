@@ -21,6 +21,8 @@ import os
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+
+from msalab import figstyle
 import numpy as np
 
 from msalab.palette import (
@@ -36,10 +38,12 @@ from msalab.against_what import TOLERANCE
 from msalab.measurement import PART_SIGMA
 
 mpl.rcParams.update(rc())
+figstyle.apply()
 
 
 def _save(fig, name: str) -> None:
     os.makedirs("docs", exist_ok=True)
+    figstyle.finish(fig)
     fig.savefig(f"docs/{name}.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"wrote docs/{name}.png")

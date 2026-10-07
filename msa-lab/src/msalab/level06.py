@@ -26,12 +26,15 @@ import os
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+from msalab import figstyle
+
 from msalab.palette import (
     ACCENT, DATA_GAUGE, DATA_OBSERVED, DATA_TRUTH, INK, INK_BRIGHT, INK_DIM,
     PANEL_HIGH, RULE, SIGNAL_ALARM, SIGNAL_OK, rc,
 )
 
 mpl.rcParams.update(rc())
+figstyle.apply()
 
 #: The "where the parts are" fill. PANEL_HIGH is the raised-surface token, which
 #: is what a background mass should read as against the ground.
@@ -40,6 +43,7 @@ MUTED = PANEL_HIGH
 
 def _save(fig, name: str) -> None:
     os.makedirs("docs", exist_ok=True)
+    figstyle.finish(fig)
     fig.savefig(f"docs/{name}.png", dpi=150, bbox_inches="tight")
     plt.close(fig)
     print(f"wrote docs/{name}.png")

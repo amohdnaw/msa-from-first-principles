@@ -58,6 +58,10 @@ Checkable after each level ships, and re-read from this file rather than from me
     what the check measures.*
 11. Sitewide there is **exactly one** outbound link to the SPC curriculum and **exactly
     one** to the MSA platform, and a check counts them.
+    *2026-10-07: a reader-engagement pass pointed Level 7's `next` link at SPC Level 8 and
+    added an SPC card to the index. The check went red (3 links, not 1) and both were
+    reverted: the prose link on Level 7 already hands the reader over. The SPC site has no
+    such cap, so its Level 12 now ends on MSA Level 1.*
 12. This site **never teaches control limits**, and the SPC site never teaches GR&R. Each
     stops at the boundary rather than summarising the other badly.
 
