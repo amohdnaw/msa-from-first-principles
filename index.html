@@ -86,8 +86,10 @@
   nav{border-bottom:1px solid var(--rule)}
   .nav-in{max-width:var(--max);margin:0 auto;padding:20px var(--gutter);
     display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
-  .wordmark{font-family:var(--doc);font-size:21px;color:var(--ink-bright);white-space:nowrap}
-  .wordmark i{font-style:italic;color:var(--accent)}
+  /* the same mono wordmark string as every level page (DESIGN.md, Identity) */
+  .wordmark{font-family:var(--inst);font-size:13px;font-weight:600;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-bright);white-space:nowrap;text-decoration:none}
+  .wordmark i,.wordmark span{font-style:normal;color:var(--accent)}
   .nav-links{display:flex;gap:24px;font-family:var(--inst);font-size:11px;font-weight:600;
     text-transform:uppercase;letter-spacing:.14em;color:var(--ink-dim);flex-wrap:wrap}
   /* 24px minimum tap target (WCAG 2.5.8). At 11px uppercase the text box is
@@ -240,8 +242,9 @@
     .phases{grid-template-columns:1fr}
     .phase{border-right:0;border-bottom:1px solid var(--rule)}
     .phase:last-child{border-bottom:0}
-    .nav-links{gap:12px;font-size:10px;letter-spacing:.06em}
-    .wordmark{font-size:18px}
+    /* 10px links 24px tall were too small to read or hit (SPC index fixed this first) */
+    .nav-links{gap:4px 16px;font-size:12px;letter-spacing:.06em;flex-wrap:wrap}
+    .nav-links a{min-height:44px}
     .tools{grid-template-columns:1fr}
     .readouts{gap:24px 32px}
     .ro dd{font-size:21px}
@@ -282,6 +285,7 @@
     <a class="wordmark" href="index.html">Ammar Nawawi <span>/ MSA</span></a>
     <div class="nav-links">
       <a class="on" href="index.html">curriculum</a>
+      <a href="glossary.html">glossary</a>
       <a href="https://msa.amohdnaw.xyz" target="_blank" rel="noopener">platform &#8599;</a>
     </div>
   </div>
@@ -411,6 +415,14 @@
         </div>
         <div class="lv-hook">open the lab &rarr;</div>
       </a>
+      <a class="lv" href="https://amohdnaw.github.io/spc-from-first-principles/">
+        <div class="lv-num num">SPC</div>
+        <div>
+          <div class="lv-title">Next course: the charts the gauge feeds</div>
+          <p class="lv-idea">Control limits and capability, built up in twelve levels. The gauge you just learned to judge is what every one of those charts stands on.</p>
+        </div>
+        <div class="lv-hook">SPC course &rarr;</div>
+      </a>
     </div>
 
     <div class="hair"></div>
@@ -418,7 +430,7 @@
     <aside class="sys">
       <span class="micro">SYS_MSG</span>
       <p>This site never teaches control limits, and the SPC curriculum never teaches
-      gauge acceptance. One link each way, at the seam.</p>
+      gauge acceptance. Each course ends by handing you to the other.</p>
     </aside>
 
   </div>

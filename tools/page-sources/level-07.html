@@ -78,7 +78,9 @@
   /* 24px minimum tap target (WCAG 2.5.8). These are 11-13px uppercase mono, so
      their text boxes are 17-23px and the min-height is what makes them tappable.
      Caught by the browser sweep on a 390px viewport, not by eye. */
-  .rail a,.wordmark,.foot-in a{display:inline-flex;align-items:center;min-height:24px}
+  .rail a,.foot-in a{display:inline-flex;align-items:center;min-height:24px}
+  /* not inline-flex: a flex container drops the space before the slash */
+  .wordmark{display:inline-block;line-height:24px}
   .rail a{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
     text-transform:uppercase;color:var(--ink-dim);text-decoration:none;
     display:flex;align-items:center;gap:7px;padding:3px 0;transition:color .18s}
@@ -411,9 +413,9 @@
 
     </div>
 
-    <a class="next" href="index.html">
-      <span class="m">Ammar / MSA</span>
-      <span>Back to the curriculum &rarr;</span>
+    <a class="next" href="https://amohdnaw.github.io/spc-from-first-principles/level-08.html">
+      <span class="m">Next course &middot; SPC Level 8</span>
+      <span>Capability is comparing two distributions &rarr;</span>
     </a>
   </main>
 </div>
