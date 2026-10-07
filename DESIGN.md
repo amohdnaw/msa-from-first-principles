@@ -28,41 +28,14 @@ therefore not a shortcut; it is the same answer arrived at twice.
 
 ---
 
-## Amendment 1 — the readout tile carries its own state
+## Amendment 1 — retired 2026-10-07
 
-SPC's Component 2 colours **only the value**. Here the whole tile carries the verdict,
-because MSA pages show strips of four tiles against AIAG thresholds and a failing gauge
-has to be legible at a glance rather than read digit by digit.
-
-```css
-.tile.fail  { border-color: var(--signal-alarm); }
-.tile.fail .hd {
-  background: rgba(222,106,93,.14);          /* 14% wash of --signal-alarm */
-  color: var(--signal-alarm);
-  border-bottom-color: var(--signal-alarm);
-}
-.tile.fail .v { color: var(--signal-alarm); }
-
-.tile.pass  { border-color: var(--signal-ok); }
-.tile.pass .hd {
-  background: rgba(101,204,175,.14);         /* 14% wash of --signal-ok */
-  color: var(--signal-ok);
-  border-bottom-color: var(--signal-ok);
-}
-.tile.pass .v { color: var(--signal-ok); }
-```
-
-The **mechanism** comes from gallery variant 06. Its **palette is rejected**, on two
-counts, and this matters enough to write down:
-
-1. Variant 06 used `#10b981` / `#f59e0b` / `#ef4444` — Tailwind defaults. The inherited
-   semantic pair (`--signal-ok #65ccaf`, `--signal-alarm #de6a5d`) is **sampled from the
-   Manim renders**, and `portfolio/DESIGN.md` says do not re-pick these by eye. A UI that
-   disagrees with its own figures makes the page contradict itself.
-2. Variant 06's attention hue was amber. Amber here is **wayfinding only and never encodes
-   data**. Borrowing it for a verdict would break the palette's one job.
-
-Washes are the semantic colours at 14 %, matching the existing `--accent-wash` convention.
+The tile used to carry its verdict as a coloured border plus a 14 % wash on its header.
+On the built pages the wash sat behind the label text alone and read as a highlight bug,
+and a strip of four tinted tiles fought the chart beside it. Tiles now follow SPC's
+Component 2: **only the value takes the colour** (`.tile.pass dd` → `--signal-ok`,
+`.tile.fail dd` → `--signal-alarm`). The palette rules below still hold: the pair is
+sampled from the Manim renders and never re-picked, and amber never encodes a verdict.
 
 ## Amendment 2 — the third verdict state is neutral, not a third hue
 
@@ -135,5 +108,5 @@ Per the knob-tool rule: if any single visual parameter survives **two** counted 
 rounds, stop prompt-iterating — build a throwaway slider panel wired to the live element,
 tune in the browser, read the values back, hardcode, delete the panel.
 
-Most likely candidate here: the **14 % wash**, which has to read as state on `--panel`
-without competing with the value it sits above.
+Most likely candidate here: the verdict colours on `--panel`, which must read as state
+without a wash behind them.

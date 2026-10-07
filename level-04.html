@@ -255,24 +255,14 @@
   }
 
 
-  /* ---------- DESIGN.md amendment 1: the stateful readout tile ----------
-     SPC's Component 2 colours only the value. MSA shows strips of tiles against
-     AIAG thresholds, so the tile itself carries the verdict: border, plus a 14 %
-     wash on the header. The washes are built from the sampled semantic pair -
-     never from a re-picked hue, and never from amber, which is wayfinding. */
-  .tile.pass{ border-color:var(--signal-ok) }
-  .tile.pass dt{ background:rgba(101,204,175,.14); color:var(--signal-ok);
-    border-bottom:1px solid var(--signal-ok) }
+  /* ---------- DESIGN.md amendment 1, revised 2026-10-07 ----------
+     The verdict lives in the value's colour only, as in SPC's Component 2. The
+     14 % header wash sat behind the label text alone and read as a highlight
+     bug. Never amber here: amber is wayfinding. */
   .tile.pass dd{ color:var(--signal-ok) }
-  .tile.fail{ border-color:var(--signal-alarm) }
-  .tile.fail dt{ background:rgba(222,106,93,.14); color:var(--signal-alarm);
-    border-bottom:1px solid var(--signal-alarm) }
   .tile.fail dd{ color:var(--signal-alarm) }
   /* amendment 2: the third state is neutral. No hue, because "conditional"
-     means no verdict yet, and a traffic light is the cliche this subject
-     invites. */
-  .tile.cond{ border-color:var(--rule-strong) }
-  .tile.cond dt{ background:var(--panel-high) }
+     means no verdict yet. */
   .tile.cond dd{ color:var(--ink-bright) }
 
   /* ---------- chapter grammar (DESIGN.md §3) ----------
