@@ -157,6 +157,13 @@
   .tile dd.alarm{color:var(--signal-alarm)}
   .tile dd.neutral{color:var(--ink-bright)}
   .lab-note{font-size:17px;line-height:1.5;color:var(--ink-dim);margin:0}
+  /* the note sits under the panel, so the sidebar is only controls and tiles and
+     the chart grows to their height instead of leaving dead panel under it.
+     flex-basis 0, not auto: auto sizes from the bitmap, which is drawn at 2x on
+     a phone, and the canvas would grow on every redraw. */
+  .lab-canvas{display:flex;flex-direction:column}
+  .lab-canvas canvas{flex:1 1 0;height:0;min-height:300px}
+  .lab > .lab-note{max-width:none;padding:16px 20px;border-top:1px solid var(--rule)}
 
   /* ---------- SYS note ---------- */
   /* component 7 is a pull-quote with an amber left border and NO fill — an amber
@@ -599,13 +606,13 @@
               <div class="tile" id="t-naive"><dt>operator spread <span class="nc">µm</span></dt><dd id="r-naive">—</dd></div>
               <div class="tile" id="t-corr"><dt>corrected <span class="nc">µm</span></dt><dd id="r-corr">—</dd></div>
             </dl>
-            <p class="lab-note">The verdict tile is the second one: it turns when
+          </div>
+        </div>
+        <p class="lab-note">The verdict tile is the second one: it turns when
             reproducibility is the term worth attacking. Drag repeatability up and the
             better fix swaps over. Then pull the study size down and watch the operator
             spread inflate away from the truth &mdash; at four readings it is mostly
             reporting the instrument, and the correction starts clamping at zero.</p>
-          </div>
-        </div>
       </div>
           <p>So the gauge is split, and the operator half is the half a standard study struggles to see. <span class="note"><span class="k">the seam ahead</span>An interaction: operators disagreeing about particular parts. It needs ANOVA, and it is often the reason a gauge fails.</span>Worse, everything in this level assumed the operator offsets are parallel - that A reads low by the same amount on every part. Suppose A reads low on the small parts and high on the large ones. Nothing here has a term for that, and <a class="gl" href="glossary.html#average-and-range" data-gl="average-and-range">average-and-range</a> never will.</p>
 <aside class="sys">
@@ -709,8 +716,8 @@
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const w = Math.round(cv.getBoundingClientRect().width);
-    const h = 300;
-    if (cv.width !== Math.round(w * dpr)) {
+    const h = cv.clientHeight || 300;
+    if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) {
       cv.width = Math.round(w * dpr);
       cv.height = Math.round(h * dpr);
     }
@@ -776,6 +783,8 @@
   window.__msalabCorrected = corrected;
   window.__msalabFix = fixValue;
 })();
+
+new ResizeObserver(() => dispatchEvent(new Event('resize'))).observe(document.querySelector('.lab-canvas canvas'));
 </script>
 
 <!--glossary-->

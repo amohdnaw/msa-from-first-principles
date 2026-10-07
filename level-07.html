@@ -157,6 +157,13 @@
   .tile dd.alarm{color:var(--signal-alarm)}
   .tile dd.neutral{color:var(--ink-bright)}
   .lab-note{font-size:17px;line-height:1.5;color:var(--ink-dim);margin:0}
+  /* the note sits under the panel, so the sidebar is only controls and tiles and
+     the chart grows to their height instead of leaving dead panel under it.
+     flex-basis 0, not auto: auto sizes from the bitmap, which is drawn at 2x on
+     a phone, and the canvas would grow on every redraw. */
+  .lab-canvas{display:flex;flex-direction:column}
+  .lab-canvas canvas{flex:1 1 0;height:0;min-height:300px}
+  .lab > .lab-note{max-width:none;padding:16px 20px;border-top:1px solid var(--rule)}
 
   /* ---------- SYS note ---------- */
   /* component 7 is a pull-quote with an amber left border and NO fill — an amber
@@ -570,7 +577,9 @@
               <div class="tile" id="t-true"><dt>Cpk if the gauge were perfect</dt><dd id="r-true">&mdash;</dd></div>
               <div class="tile" id="t-grr"><dt>%GRR of tolerance</dt><dd id="r-grr">&mdash;</dd></div>
             </dl>
-            <p class="lab-note">The three grey crosses are AIAG&rsquo;s gates &mdash; 10 %
+          </div>
+        </div>
+        <p class="lab-note">The three grey crosses are AIAG&rsquo;s gates &mdash; 10 %
             accept, 20 % marginal, 30 % reject &mdash; each with the capability it permits
             on the left. The dashed line is the highest capability this gauge can
             ever demonstrate, and it depends on nothing but the gauge. Perfect the process
@@ -578,8 +587,6 @@
             to that line and stops. Then improve the gauge and the whole ceiling moves. The
             two curricula are joined here, and the join is an identity rather than a
             guideline.</p>
-          </div>
-        </div>
       </div>
         </div>
       </div>
@@ -674,7 +681,7 @@
   const TRUTH = tok("--data-truth", "#d7dee4");
 
   function draw(part, gauge) {
-    const w = cv.clientWidth || 640, h = 300;
+    const w = cv.clientWidth || 640, h = cv.clientHeight || 300;
     const dpr = window.devicePixelRatio || 1;
     cv.width = w * dpr; cv.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -773,6 +780,8 @@
   window.addEventListener("resize", render);
   render();
 })();
+
+new ResizeObserver(() => dispatchEvent(new Event('resize'))).observe(document.querySelector('.lab-canvas canvas'));
 </script>
 
 <!--glossary-->

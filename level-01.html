@@ -157,6 +157,13 @@
   .tile dd.alarm{color:var(--signal-alarm)}
   .tile dd.neutral{color:var(--ink-bright)}
   .lab-note{font-size:17px;line-height:1.5;color:var(--ink-dim);margin:0}
+  /* the note sits under the panel, so the sidebar is only controls and tiles and
+     the chart grows to their height instead of leaving dead panel under it.
+     flex-basis 0, not auto: auto sizes from the bitmap, which is drawn at 2x on
+     a phone, and the canvas would grow on every redraw. */
+  .lab-canvas{display:flex;flex-direction:column}
+  .lab-canvas canvas{flex:1 1 0;height:0;min-height:300px}
+  .lab > .lab-note{max-width:none;padding:16px 20px;border-top:1px solid var(--rule)}
 
   /* ---------- SYS note ---------- */
   /* component 7 is a pull-quote with an amber left border and NO fill — an amber
@@ -602,14 +609,14 @@
               <div class="tile" id="t-ratio"><dt>gauge / parts %</dt><dd id="r-ratio">—</dd></div>
               <div class="tile" id="t-floor"><dt>above the floor %</dt><dd id="r-floor">—</dd></div>
             </dl>
-            <p class="lab-note">Drag the gauge to zero and the two curves coincide: what you
+          </div>
+        </div>
+        <p class="lab-note">Drag the gauge to zero and the two curves coincide: what you
             see is what the parts are. Then raise the repeats — the observed spread falls
             towards the parts while <em>one reading gives</em> stays exactly where it
             was, because averaging changes what you record and not what the gauge does.
             Only the last tile carries a verdict; the rest are quantities, and this level
             has nothing to fail yet.</p>
-          </div>
-        </div>
       </div>
           <p>Which leaves the question the next level has to answer. <span class="note"><span class="k">the seam ahead</span>Repeatability and reproducibility are two different questions that the plant calls one word.</span>A gauge has a size, and a size is only meaningful against something. This level has been quietly comparing it to the part spread — but the spread of the readings on one part was measured with one operator, on one afternoon. Hand the gauge to somebody else and it is not obvious that the number stays the same.</p>
 <aside class="sys">
@@ -697,8 +704,8 @@
     // allocate four times the pixels for no visible gain
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const w = Math.round(cv.getBoundingClientRect().width);
-    const h = 300;
-    if (cv.width !== Math.round(w * dpr)) {
+    const h = cv.clientHeight || 300;
+    if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) {
       cv.width = Math.round(w * dpr);
       cv.height = Math.round(h * dpr);
     }
@@ -759,6 +766,8 @@
   window.__msalabObserved = observedSigma;
   window.__msalabFloor = averagingFloor;
 })();
+
+new ResizeObserver(() => dispatchEvent(new Event('resize'))).observe(document.querySelector('.lab-canvas canvas'));
 </script>
 
 <!--glossary-->

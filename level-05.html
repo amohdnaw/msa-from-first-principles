@@ -157,6 +157,13 @@
   .tile dd.alarm{color:var(--signal-alarm)}
   .tile dd.neutral{color:var(--ink-bright)}
   .lab-note{font-size:17px;line-height:1.5;color:var(--ink-dim);margin:0}
+  /* the note sits under the panel, so the sidebar is only controls and tiles and
+     the chart grows to their height instead of leaving dead panel under it.
+     flex-basis 0, not auto: auto sizes from the bitmap, which is drawn at 2x on
+     a phone, and the canvas would grow on every redraw. */
+  .lab-canvas{display:flex;flex-direction:column}
+  .lab-canvas canvas{flex:1 1 0;height:0;min-height:300px}
+  .lab > .lab-note{max-width:none;padding:16px 20px;border-top:1px solid var(--rule)}
 
   /* ---------- SYS note ---------- */
   /* component 7 is a pull-quote with an amber left border and NO fill — an amber
@@ -555,13 +562,13 @@
               <div class="tile" id="t-scrap"><dt>good parts rejected %</dt><dd id="r-scrap">&mdash;</dd></div>
               <div class="tile" id="t-side"><dt>at the upper limit %</dt><dd id="r-side">&mdash;</dd></div>
             </dl>
-            <p class="lab-note">Drag the bias. The two ratios do not move, because neither
+          </div>
+        </div>
+        <p class="lab-note">Drag the bias. The two ratios do not move, because neither
             formula contains a term the bias could enter &mdash; while the scrap climbs and goes
             one-sided, which is the signature an operator sees. Then drag the linearity slope:
             the ratios finally move, and they get <em>better</em>, because the gauge&rsquo;s own
             error is being counted as part-to-part spread.</p>
-          </div>
-        </div>
       </div>
         </div>
       </div>
@@ -724,7 +731,7 @@
   const TRUTH = tok("--data-truth", "#d7dee4");
 
   function draw(bias, slope) {
-    const w = cv.clientWidth || 640, h = 300;
+    const w = cv.clientWidth || 640, h = cv.clientHeight || 300;
     const dpr = window.devicePixelRatio || 1;
     cv.width = w * dpr; cv.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -821,6 +828,8 @@
   window.addEventListener("resize", render);
   render();
 })();
+
+new ResizeObserver(() => dispatchEvent(new Event('resize'))).observe(document.querySelector('.lab-canvas canvas'));
 </script>
 
 <!--glossary-->

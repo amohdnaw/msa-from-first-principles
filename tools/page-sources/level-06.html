@@ -156,6 +156,13 @@
   .tile dd.alarm{color:var(--signal-alarm)}
   .tile dd.neutral{color:var(--ink-bright)}
   .lab-note{font-size:17px;line-height:1.5;color:var(--ink-dim);margin:0}
+  /* the note sits under the panel, so the sidebar is only controls and tiles and
+     the chart grows to their height instead of leaving dead panel under it.
+     flex-basis 0, not auto: auto sizes from the bitmap, which is drawn at 2x on
+     a phone, and the canvas would grow on every redraw. */
+  .lab-canvas{display:flex;flex-direction:column}
+  .lab-canvas canvas{flex:1 1 0;height:0;min-height:300px}
+  .lab > .lab-note{max-width:none;padding:16px 20px;border-top:1px solid var(--rule)}
 
   /* ---------- SYS note ---------- */
   /* component 7 is a pull-quote with an amber left border and NO fill — an amber
@@ -382,13 +389,13 @@
               <div class="tile" id="t-miss"><dt>bad parts passed %</dt><dd id="r-miss">&mdash;</dd></div>
               <div class="tile" id="t-fa"><dt>good parts failed %</dt><dd id="r-fa">&mdash;</dd></div>
             </dl>
-            <p class="lab-note">Nobody sets a kappa. Drag the gauge and every number an
+          </div>
+        </div>
+        <p class="lab-note">Nobody sets a kappa. Drag the gauge and every number an
             attribute study reports moves at once, because all of them are functions of
             one sigma. Percent agreement stays comfortable while kappa falls off a cliff
             &mdash; the two tiles disagree about the same instrument on the same day. Then
             add a guard band: escapes fall, and the price is paid entirely in good parts.</p>
-          </div>
-        </div>
       </div>
 
       <div class="rule"></div>
@@ -521,7 +528,7 @@
   const TRUTH = tok("--data-truth", "#d7dee4");
 
   function draw(gauge, guard) {
-    const w = cv.clientWidth || 640, h = 300;
+    const w = cv.clientWidth || 640, h = cv.clientHeight || 300;
     const dpr = window.devicePixelRatio || 1;
     cv.width = w * dpr; cv.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -618,6 +625,8 @@
   window.addEventListener("resize", render);
   render();
 })();
+
+new ResizeObserver(() => dispatchEvent(new Event('resize'))).observe(document.querySelector('.lab-canvas canvas'));
 </script>
 
 </body>

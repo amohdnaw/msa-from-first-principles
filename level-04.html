@@ -157,6 +157,13 @@
   .tile dd.alarm{color:var(--signal-alarm)}
   .tile dd.neutral{color:var(--ink-bright)}
   .lab-note{font-size:17px;line-height:1.5;color:var(--ink-dim);margin:0}
+  /* the note sits under the panel, so the sidebar is only controls and tiles and
+     the chart grows to their height instead of leaving dead panel under it.
+     flex-basis 0, not auto: auto sizes from the bitmap, which is drawn at 2x on
+     a phone, and the canvas would grow on every redraw. */
+  .lab-canvas{display:flex;flex-direction:column}
+  .lab-canvas canvas{flex:1 1 0;height:0;min-height:300px}
+  .lab > .lab-note{max-width:none;padding:16px 20px;border-top:1px solid var(--rule)}
 
   /* ---------- SYS note ---------- */
   /* component 7 is a pull-quote with an amber left border and NO fill — an amber
@@ -568,14 +575,14 @@
               <div class="tile" id="t-ndc"><dt><span class="nc">ndc</span></dt><dd id="r-ndc">&mdash;</dd></div>
               <div class="tile" id="t-agree"><dt>the two verdicts</dt><dd id="r-agree">&mdash;</dd></div>
             </dl>
-            <p class="lab-note">The gauge never changes. Drag the part spread down and the study
+          </div>
+        </div>
+        <p class="lab-note">The gauge never changes. Drag the part spread down and the study
             ratio climbs towards a hundred percent while the tolerance ratio does not move at
             all &mdash; a gauge measuring identical parts cannot sort them, and has no trouble
             deciding conformance. Then drag the tolerance and only the second one reacts. The
             last tile turns when the two gates give opposite answers, which they do over a large
             part of this space.</p>
-          </div>
-        </div>
       </div>
         </div>
       </div>
@@ -697,8 +704,8 @@
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const w = Math.round(cv.getBoundingClientRect().width);
-    const h = 300;
-    if (cv.width !== Math.round(w * dpr)) {
+    const h = cv.clientHeight || 300;
+    if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) {
       cv.width = Math.round(w * dpr);
       cv.height = Math.round(h * dpr);
     }
@@ -765,6 +772,8 @@
   window.__msalabToleranceRatio = toleranceRatio;
   window.__msalabNdcFromRatio = ndcFromStudyRatio;
 })();
+
+new ResizeObserver(() => dispatchEvent(new Event('resize'))).observe(document.querySelector('.lab-canvas canvas'));
 </script>
 
 <!--glossary-->
