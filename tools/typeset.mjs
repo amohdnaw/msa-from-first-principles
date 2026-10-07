@@ -25,7 +25,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 // report clean on level-05 while that page had an unrendered formula on it -
 // the check passed because it had nothing to check. Anything matching
 // level-NN.html is now typeset the moment the file exists.
-const PAGES = ["index.html", ...readdirSync(ROOT)
+const PAGES = ["index.html", "glossary.html", ...readdirSync(ROOT)
   .filter((f) => /^level-\d\d\.html$/.test(f))
   .sort()];
 
